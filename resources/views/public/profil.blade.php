@@ -74,7 +74,6 @@
                 </div>
             </div>
         </div>
-        </div>
         <!-- BG Elements -->
         <div
             class="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[120px] -mr-64 -mt-64">
