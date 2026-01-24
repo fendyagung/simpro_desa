@@ -1,0 +1,129 @@
+<x-layouts.public>
+    <div class="py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Breadcrumbs -->
+            <nav class="flex mb-8 text-sm font-medium text-slate-500">
+                <a href="{{ route('dashboard') }}" class="hover:text-emerald-600">Dashboard</a>
+                <span class="mx-2">/</span>
+                <span class="text-slate-800">Monitoring Desa</span>
+            </nav>
+
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Village Profile Card -->
+                <aside class="w-full lg:w-80 flex-shrink-0">
+                    <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 sticky top-28">
+                        <div class="h-32 bg-[#2b529a] relative">
+                            <div
+                                class="absolute -bottom-10 left-1/2 -translate-x-1/2 w-20 h-20 bg-white rounded-2xl shadow-lg flex items-center justify-center text-[#2b529a] border border-slate-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="pt-14 p-6 text-center">
+                            <h2 class="text-xl font-bold text-slate-800">{{ $desa->nama_desa }}</h2>
+                            <p class="text-slate-500 text-sm mb-6">{{ $desa->kecamatan }}</p>
+
+                            <div class="space-y-4 text-left border-t border-slate-50 pt-6">
+                                <div>
+                                    <span class="block text-slate-400 text-[10px] uppercase font-bold mb-1">Kepala
+                                        Desa</span>
+                                    <span class="font-bold text-slate-700">{{ $desa->kepala_desa ?? '-' }}</span>
+                                </div>
+                                <div>
+                                    <span class="block text-slate-400 text-[10px] uppercase font-bold mb-1">Kode
+                                        Desa</span>
+                                    <span class="font-bold text-slate-700">{{ $desa->kode_desa ?? '-' }}</span>
+                                </div>
+                                <div>
+                                    <span class="block text-slate-400 text-[10px] uppercase font-bold mb-1">Desa
+                                        Wisata</span>
+                                    @if($desa->is_desa_wisata)
+                                        <span
+                                            class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-100 text-green-700">YA</span>
+                                    @else
+                                        <span
+                                            class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-400">TIDAK</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Reports History -->
+                <div class="flex-1">
+                    <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100">
+                        <div class="p-8 border-b border-slate-50 flex items-center justify-between">
+                            <h3 class="font-bold text-xl text-slate-800">Riwayat Laporan</h3>
+                            <span
+                                class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold">{{ $desa->laporans->count() }}
+                                Laporan</span>
+                        </div>
+
+                        <div class="p-0">
+                            @if($desa->laporans->isEmpty())
+                                <div class="p-12 text-center">
+                                    <div
+                                        class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-400">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                        </svg>
+                                    </div>
+                                    <p class="text-slate-400 italic">Belum ada laporan yang dikirimkan oleh desa ini.</p>
+                                </div>
+                            @else
+                                <div class="divide-y divide-slate-50">
+                                    @foreach($desa->laporans as $laporan)
+                                        <a href="{{ route('dashboard.laporan.detail', $laporan->id) }}"
+                                            class="block p-6 hover:bg-slate-50 transition-all flex items-center justify-between group">
+                                            <div>
+                                                <div class="flex items-center gap-3 mb-1">
+                                                    <span
+                                                        class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider
+                                                                {{ $laporan->kategori === 'keuangan' ? 'bg-indigo-100 text-indigo-700' : '' }}
+                                                                {{ $laporan->kategori === 'penduduk' ? 'bg-teal-100 text-teal-700' : '' }}
+                                                                {{ $laporan->kategori === 'kejadian' ? 'bg-red-100 text-red-700' : '' }}
+                                                                {{ $laporan->kategori === 'lainnya' ? 'bg-slate-100 text-slate-700' : '' }}">
+                                                        {{ $laporan->kategori }}
+                                                    </span>
+                                                    <span class="text-xs text-slate-400">{{ $laporan->tanggal_laporan }}</span>
+                                                </div>
+                                                <h4
+                                                    class="font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
+                                                    {{ $laporan->judul }}</h4>
+                                                @if($laporan->file_path)
+                                                    <div class="flex items-center gap-1 mt-1 text-[10px] text-blue-500 font-medium">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none"
+                                                            viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                                d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                                                        </svg>
+                                                        Ada Lampiran
+                                                    </div>
+                                                @endif
+                                            </div>
+                                            <div class="text-right">
+                                                <span
+                                                    class="px-3 py-1 rounded-full text-xs font-bold 
+                                                            {{ $laporan->status === 'pending' ? 'bg-orange-100 text-orange-700' : '' }}
+                                                            {{ $laporan->status === 'diterima' ? 'bg-green-100 text-green-700' : '' }}
+                                                            {{ $laporan->status === 'ditolak' ? 'bg-red-100 text-red-700' : '' }}">
+                                                    {{ ucfirst($laporan->status) }}
+                                                </span>
+                                            </div>
+                                        </a>
+                                    @endforeach
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</x-layouts.public>
