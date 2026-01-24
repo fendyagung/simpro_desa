@@ -14,7 +14,7 @@ class RegulasiController extends Controller
      */
     public function index()
     {
-        $regulasis = Regulasi::latest()->get();
+        $regulasis = Regulasi::latest()->paginate(10);
         return view('dashboard.regulasi.index', compact('regulasis'));
     }
 
@@ -64,5 +64,25 @@ class RegulasiController extends Controller
     {
         $regulasis = Regulasi::latest()->get()->groupBy('kategori');
         return view('public.bank-data', compact('regulasis'));
+    }
+
+    /**
+     * Download the specified resource and mark as read.
+     */
+    public function download(Regulasi $regulasi)
+    {
+        // Record download if authenticated
+        if (Auth::check()) {
+            \App\Models\RegulasiDownload::firstOrCreate([
+                'regulasi_id' => $regulasi->id,
+                'user_id' => Auth::id(),
+            ]);
+        }
+
+        if (!$regulasi->file_path || !Storage::disk('public')->exists($regulasi->file_path)) {
+            return redirect()->back()->with('warning', 'File tidak ditemukan.');
+        }
+
+        return Storage::disk('public')->download($regulasi->file_path, $regulasi->judul . '.' . pathinfo($regulasi->file_path, PATHINFO_EXTENSION));
     }
 }

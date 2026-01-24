@@ -39,10 +39,11 @@ Route::delete('/dashboard/beritas/{id}/delete', [App\Http\Controllers\BeritaCont
 Route::get('/dashboard/profil-desa/edit', [App\Http\Controllers\DashboardController::class, 'editDesa'])->middleware(['auth'])->name('dashboard.desa.edit');
 Route::post('/dashboard/profil-desa/update', [App\Http\Controllers\DashboardController::class, 'updateDesa'])->middleware(['auth'])->name('dashboard.desa.update');
 
-Route::middleware(['auth'])->prefix('dashboard')->name('regulasi.')->group(function () {
+Route::middleware(['auth'])->prefix('dashboard')->name('dashboard.regulasi.')->group(function () {
     Route::get('/regulasi', [App\Http\Controllers\RegulasiController::class, 'index'])->name('index');
     Route::post('/regulasi', [App\Http\Controllers\RegulasiController::class, 'store'])->name('store');
     Route::delete('/regulasi/{regulasi}', [App\Http\Controllers\RegulasiController::class, 'destroy'])->name('destroy');
+    Route::get('/regulasi/{regulasi}/download', [App\Http\Controllers\RegulasiController::class, 'download'])->name('download');
 });
 
 Route::middleware(['auth'])->prefix('dashboard')->name('pengumuman.')->group(function () {

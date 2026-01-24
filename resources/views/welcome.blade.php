@@ -13,25 +13,23 @@
         </div>
 
         <!-- Hero Content -->
-        <div class="relative z-10 text-center px-4 max-w-5xl mx-auto mt-16 overflow-hidden">
-            <div class="marquee-wrapper mb-6">
-                <div class="marquee-content shadow-lg shadow-emerald-500/20">
-                    <span
-                        class="inline-block py-2 px-6 rounded-full bg-amber-400 text-slate-900 text-lg md:text-xl font-bold border-2 border-white/50 backdrop-blur-sm">
-                        Selamat Datang di Manggarai Timur • Permata Timur Flores • Surga Tersembunyi
-                    </span>
-                </div>
+        <div class="relative z-10 text-center px-4 max-w-5xl mx-auto overflow-hidden">
+            <div class="mb-8 animate-fade-in-up">
+                <span
+                    class="inline-block py-2 px-6 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-lg md:text-xl font-bold shadow-2xl">
+                    Selamat Datang di Manggarai Timur • Tanah Congka Sae • Harmoni Alam & Budaya
+                </span>
             </div>
             <h1
                 class="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight tracking-tight animate-fade-in-up delay-100">
-                Jelajahi Surga Tersembunyi <br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300">Manggarai
-                    Timur</span>
+                Sejuta Cerita, <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-yellow-500">Satu
+                    Rasa</span>
             </h1>
             <p
                 class="text-lg md:text-xl text-slate-200 mb-10 max-w-2xl mx-auto leading-relaxed animate-fade-in-up delay-200">
-                Temukan keindahan alam, kekayaan budaya, dan kearifan lokal desa-desa di Manggarai Timur.
-                Platform resmi promosi dan transparansi desa.
+                Dari dinginnya pegunungan hingga eksotisme pantai selatan. Rasakan denyut nadi kebudayaan yang hidup di
+                setiap desa. Manggarai Timur menunggu cerita petualangan Anda.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up delay-300">
                 <a href="{{ route('public.desa-wisata') }}"
@@ -60,34 +58,44 @@
         </div>
     </div>
 
-    <!-- Stats Section -->
     <div class="relative -mt-20 z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
-            class="bg-white rounded-2xl shadow-xl p-8 md:p-12 border border-slate-100 grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div class="text-center border-r border-slate-100 last:border-0">
-                <div class="text-4xl font-bold text-slate-800 mb-2">{{ $dpmdProfile->stat_total_desa ?? '159' }}</div>
-                <div class="text-sm text-slate-500 uppercase tracking-wider font-medium">Desa</div>
+            class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8 md:p-12 border border-slate-100 dark:border-slate-700 grid grid-cols-2 md:grid-cols-4 gap-8 transition-colors duration-300">
+            <div class="text-center border-r border-slate-100 dark:border-slate-700 last:border-0">
+                <div class="text-4xl font-bold text-slate-800 dark:text-white mb-2">
+                    {{ $dpmdProfile->stat_total_desa ?? '159' }}
+                </div>
+                <div class="text-sm text-slate-500 dark:text-slate-400 uppercase tracking-wider font-medium">Desa</div>
             </div>
-            <div class="text-center border-r border-slate-100 last:border-0">
-                <div class="text-4xl font-bold text-slate-800 mb-2">{{ $dpmdProfile->stat_desa_wisata ?? '45' }}</div>
-                <div class="text-sm text-slate-500 uppercase tracking-wider font-medium">Desa Wisata</div>
+            <div class="text-center border-r border-slate-100 dark:border-slate-700 last:border-0">
+                <div class="text-4xl font-bold text-slate-800 dark:text-white mb-2">
+                    {{ $dpmdProfile->stat_desa_wisata ?? '45' }}
+                </div>
+                <div class="text-sm text-slate-500 dark:text-slate-400 uppercase tracking-wider font-medium">Desa Wisata
+                </div>
             </div>
-            <div class="text-center border-r border-slate-100 last:border-0">
-                <div class="text-4xl font-bold text-slate-800 mb-2">{{ $dpmdProfile->stat_spot_wisata ?? '80' }}</div>
-                <div class="text-sm text-slate-500 uppercase tracking-wider font-medium">Spot Wisata</div>
+            <div class="text-center border-r border-slate-100 dark:border-slate-700 last:border-0">
+                <div class="text-4xl font-bold text-slate-800 dark:text-white mb-2">
+                    {{ $dpmdProfile->stat_spot_wisata ?? '80' }}
+                </div>
+                <div class="text-sm text-slate-500 dark:text-slate-400 uppercase tracking-wider font-medium">Spot Wisata
+                </div>
             </div>
             <div class="text-center">
-                <div class="text-4xl font-bold text-slate-800 mb-2">{{ $dpmdProfile->stat_wisatawan ?? '12rb' }}</div>
-                <div class="text-sm text-slate-500 uppercase tracking-wider font-medium">Wisatawan</div>
+                <div class="text-4xl font-bold text-slate-800 dark:text-white mb-2">
+                    {{ $dpmdProfile->stat_wisatawan ?? '12rb' }}
+                </div>
+                <div class="text-sm text-slate-500 dark:text-slate-400 uppercase tracking-wider font-medium">Wisatawan
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Featured Villages Section -->
-    <section id="jelajah" class="py-24 bg-slate-50">
+    <section id="jelajah" class="py-24 bg-slate-50 dark:bg-slate-900/50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mb-4">Destinasi Unggulan</h2>
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-800 dark:text-white mb-4">Destinasi Unggulan</h2>
                 <div class="w-24 h-1 bg-emerald-500 mx-auto rounded-full mb-6"></div>
                 <p class="text-slate-600 max-w-2xl mx-auto">
                     Kunjungi desa-desa yang menawarkan pengalaman tak terlupakan, mulai dari pegunungan berkabut hingga
@@ -102,7 +110,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 @forelse($featuredDesas as $desa)
                     <div
-                        class="group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        class="group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-transparent dark:border-slate-700">
                         <div class="relative h-64 overflow-hidden">
                             @if($desa->foto_profil)
                                 <img src="{{ asset('storage/' . $desa->foto_profil) }}" alt="{{ $desa->nama_desa }}"
@@ -128,10 +136,10 @@
                                 {{ $desa->kecamatan }}
                             </div>
                             <h3
-                                class="text-xl font-bold text-slate-800 mb-2 group-hover:text-emerald-600 transition-colors">
+                                class="text-xl font-bold text-slate-800 dark:text-white group-hover:text-emerald-600 transition-colors mb-2">
                                 {{ $desa->nama_desa }}
                             </h3>
-                            <p class="text-slate-600 text-sm line-clamp-2 mb-6">
+                            <p class="text-slate-600 dark:text-slate-400 text-sm line-clamp-2 mb-6">
                                 {{ $desa->deskripsi ?? 'Belum ada deskripsi profil untuk desa ini.' }}
                             </p>
                             <a href="{{ route('public.desa.profil', $desa->id) }}"
@@ -153,7 +161,7 @@
 
             <div class="mt-16 text-center">
                 <a href="{{ route('public.desa-wisata') }}"
-                    class="inline-flex items-center px-10 py-4 bg-white border border-slate-200 shadow-sm text-sm font-bold rounded-2xl text-slate-700 hover:bg-slate-50 hover:border-emerald-500 hover:text-emerald-600 transition-all">
+                    class="inline-flex items-center px-10 py-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm text-sm font-bold rounded-2xl text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-emerald-500 hover:text-emerald-600 transition-all">
                     Lihat Semua Desa
                 </a>
             </div>

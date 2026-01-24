@@ -22,4 +22,14 @@ class Regulasi extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function downloads()
+    {
+        return $this->hasMany(RegulasiDownload::class);
+    }
+
+    public function isDownloadedBy($userId)
+    {
+        return $this->downloads()->where('user_id', $userId)->exists();
+    }
 }

@@ -10,6 +10,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+    </script>
     <style>
         body {
             font-family: 'Outfit', sans-serif;
@@ -37,9 +45,11 @@
     $profile = \App\Models\DpmdProfile::first();
 @endphp
 
-<body class="bg-slate-50 text-slate-800 antialiased">
+<body
+    class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 antialiased transition-colors duration-300">
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 transition-all duration-300 bg-white border-b border-slate-200 shadow-sm" id="navbar">
+    <nav class="fixed w-full z-50 transition-all duration-300 bg-white dark:bg-slate-900/90 dark:backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm"
+        id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
                 <div class="flex items-center gap-3">
@@ -56,7 +66,7 @@
                         @endif
                         <div>
                             <span
-                                class="block font-bold text-lg tracking-tight text-slate-800 leading-none">SIMPRO</span>
+                                class="block font-bold text-lg tracking-tight text-slate-800 dark:text-white leading-none">SIMPRO</span>
                             <span class="block text-xs font-medium text-slate-500 tracking-wider">MANGGARAI TIMUR</span>
                         </div>
                     </a>
@@ -112,6 +122,7 @@
                             Login Desa
                         </a>
                     @endauth
+                    <x-theme-switcher />
                 </div>
             </div>
         </div>

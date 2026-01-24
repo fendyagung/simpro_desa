@@ -84,19 +84,19 @@
     </section>
 
     <!-- Vision & Mission Section -->
-    <section class="py-24 bg-white relative">
+    <section class="py-24 bg-white dark:bg-slate-900 relative transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-20">
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Visi & Misi</h2>
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">Visi & Misi</h2>
                 <div class="w-20 h-1.5 bg-emerald-500 mx-auto rounded-full"></div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
                 <!-- Visi Card -->
                 <div
-                    class="bg-slate-50 p-10 rounded-[3rem] border border-slate-100 flex flex-col justify-center text-center">
+                    class="bg-slate-50 dark:bg-slate-800 p-10 rounded-[3rem] border border-slate-100 dark:border-slate-700 flex flex-col justify-center text-center transition-colors">
                     <div
-                        class="mb-6 mx-auto w-16 h-16 bg-white rounded-2xl shadow-lg flex items-center justify-center text-emerald-600">
+                        class="mb-6 mx-auto w-16 h-16 bg-white dark:bg-slate-700 rounded-2xl shadow-lg flex items-center justify-center text-emerald-600 dark:text-emerald-400">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -105,8 +105,8 @@
                                 d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                         </svg>
                     </div>
-                    <h3 class="text-2xl font-bold text-slate-800 mb-6">Visi DPMD</h3>
-                    <p class="text-slate-600 text-xl leading-relaxed font-medium italic">
+                    <h3 class="text-2xl font-bold text-slate-800 dark:text-white mb-6">Visi DPMD</h3>
+                    <p class="text-slate-600 dark:text-slate-300 text-xl leading-relaxed font-medium italic">
                         "{{ $profile->visi ?? 'Terwujudnya Desa yang Mandiri dan Sejahtera.' }}"
                     </p>
                 </div>
@@ -119,16 +119,16 @@
                     @forelse($misiPoints as $index => $point)
                         @if(trim($point))
                             <div
-                                class="group flex items-start gap-6 p-6 bg-white rounded-[2rem] border border-slate-100 hover:border-emerald-200 transition-all shadow-sm hover:shadow-xl">
+                                class="group flex items-start gap-6 p-6 bg-white dark:bg-slate-800 rounded-[2rem] border border-slate-100 dark:border-slate-700 hover:border-emerald-200 dark:hover:border-emerald-500/50 transition-all shadow-sm hover:shadow-xl">
                                 <div
-                                    class="flex-shrink-0 w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center font-bold text-xl group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                                    class="flex-shrink-0 w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-xl flex items-center justify-center font-bold text-xl group-hover:bg-emerald-600 group-hover:text-white transition-colors">
                                     {{ $index + 1 }}
                                 </div>
                                 <div>
-                                    <h4 class="text-lg font-bold text-slate-800 mb-2">
+                                    <h4 class="text-lg font-bold text-slate-800 dark:text-white mb-2">
                                         {{ str_contains($point, ':') ? explode(':', $point)[0] : 'Misi' }}
                                     </h4>
-                                    <p class="text-slate-500">
+                                    <p class="text-slate-500 dark:text-slate-400">
                                         {{ str_contains($point, ':') ? trim(explode(':', $point)[1]) : $point }}
                                     </p>
                                 </div>
@@ -143,11 +143,12 @@
     </section>
 
     <!-- Organizational Structure Preview -->
-    <section class="py-24 bg-slate-50 overflow-hidden">
+    <section class="py-24 bg-slate-50 dark:bg-slate-900/50 overflow-hidden transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 px-4">
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Struktur Organisasi</h2>
-                <p class="text-slate-500 max-w-2xl mx-auto">Sinergi tim profesional untuk membangun desa yang lebih
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">Struktur Organisasi</h2>
+                <p class="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">Sinergi tim profesional untuk membangun
+                    desa yang lebih
                     baik.</p>
             </div>
 
@@ -164,10 +165,10 @@
                             </svg>
                         </div>
                     </div>
-                    <h4 class="font-bold text-slate-800 text-sm md:text-base">
+                    <h4 class="font-bold text-slate-800 dark:text-white text-sm md:text-base">
                         {{ $profile->nama_sekretaris ?? 'Sekretaris' }}
                     </h4>
-                    <p class="text-[10px] md:text-xs text-slate-500 uppercase font-bold tracking-widest">Sekretaris
+                    <p class="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-widest">Sekretaris
                         Dinas</p>
                 </div>
                 <div class="group">
@@ -181,10 +182,10 @@
                             </svg>
                         </div>
                     </div>
-                    <h4 class="font-bold text-slate-800 text-sm md:text-base">
+                    <h4 class="font-bold text-slate-800 dark:text-white text-sm md:text-base">
                         {{ $profile->nama_kabid_pemberdayaan ?? 'Kabid' }}
                     </h4>
-                    <p class="text-[10px] md:text-xs text-slate-500 uppercase font-bold tracking-widest">Bidang
+                    <p class="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-widest">Bidang
                         Pemberdayaan</p>
                 </div>
                 <div class="group">
@@ -198,10 +199,10 @@
                             </svg>
                         </div>
                     </div>
-                    <h4 class="font-bold text-slate-800 text-sm md:text-base">
+                    <h4 class="font-bold text-slate-800 dark:text-white text-sm md:text-base">
                         {{ $profile->nama_kabid_pemerintahan ?? 'Kabid' }}
                     </h4>
-                    <p class="text-[10px] md:text-xs text-slate-500 uppercase font-bold tracking-widest">Bidang
+                    <p class="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-widest">Bidang
                         Pemerintahan</p>
                 </div>
                 <div class="group">
@@ -215,10 +216,12 @@
                             </svg>
                         </div>
                     </div>
-                    <h4 class="font-bold text-slate-800 text-sm md:text-base">
+                    <h4 class="font-bold text-slate-800 dark:text-slate-200 text-sm md:text-base">
                         {{ $profile->nama_kabid_ekonomi ?? 'Kabid' }}
                     </h4>
-                    <p class="text-[10px] md:text-xs text-slate-500 uppercase font-bold tracking-widest">Bidang Ekonomi
+                    <p
+                        class="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-widest">
+                        Bidang Ekonomi
                     </p>
                 </div>
             </div>

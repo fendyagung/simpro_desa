@@ -1,16 +1,36 @@
+<script>
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark')
+    }
+</script>
 <x-layouts.public>
     <div class="py-24">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col lg:flex-row gap-8">
                 <!-- Sidebar -->
                 <aside class="w-full lg:w-64 flex-shrink-0">
-                    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden sticky top-28">
-                        <div class="p-6 border-b border-slate-50 bg-slate-50/50">
-                            <h2 class="font-bold text-slate-800">Menu Navigasi</h2>
+                    <div
+                        class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden sticky top-28 transition-colors duration-300">
+                        <div
+                            class="p-6 border-b border-slate-50 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50">
+                            <h2 class="font-bold text-slate-800 dark:text-slate-200">Menu Navigasi</h2>
                         </div>
                         <nav class="p-2">
+                            @php
+                                $unreadCount = \App\Models\Pesan::where('is_read', false)->count();
+                                $userId = Auth::id();
+                                $newRegulasiCount = cache()->remember('regulasi_count_' . $userId, 600, function () use ($userId) {
+                                    return \App\Models\Regulasi::where('created_at', '>=', now()->subDays(7))
+                                        ->whereDoesntHave('downloads', function ($query) use ($userId) {
+                                            $query->where('user_id', $userId);
+                                        })
+                                        ->count();
+                                });
+                            @endphp
                             <a href="{{ route('dashboard') }}"
-                                class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ Request::is('dashboard') ? 'bg-emerald-50 text-emerald-700 font-semibold' : 'text-slate-600 hover:bg-slate-50' }}">
+                                class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ Request::is('dashboard') ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 font-semibold' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50' }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -21,7 +41,7 @@
 
                             @if(Auth::user()->role === 'admin_dpmd')
                                 <a href="{{ route('dashboard.dpmd.edit-profil') }}"
-                                    class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ Request::is('dashboard/dpmd/edit-profil') ? 'bg-emerald-50 text-emerald-700 font-semibold' : 'text-slate-600 hover:bg-slate-50' }}">
+                                    class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ Request::is('dashboard/dpmd/edit-profil') ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 font-semibold' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50' }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                                         stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -30,11 +50,9 @@
                                     <span>Kelola Profil DPMD</span>
                                 </a>
 
-                                @php
-                                    $unreadCount = \App\Models\Pesan::where('is_read', false)->count();
-                                @endphp
+                                <!-- Variables moved to top -->
                                 <a href="{{ route('dashboard.pesans') }}"
-                                    class="flex items-center justify-between px-4 py-3 rounded-xl transition-all {{ Request::is('dashboard/pesans*') ? 'bg-emerald-50 text-emerald-700 font-semibold' : 'text-slate-600 hover:bg-slate-50' }}">
+                                    class="flex items-center justify-between px-4 py-3 rounded-xl transition-all {{ Request::is('dashboard/pesans*') ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 font-semibold' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50' }}">
                                     <div class="flex items-center gap-3">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                             viewBox="0 0 24 24" stroke="currentColor">
@@ -50,7 +68,7 @@
                                 </a>
 
                                 <a href="{{ route('dashboard.beritas.index') }}"
-                                    class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ Request::is('dashboard/beritas*') ? 'bg-emerald-50 text-emerald-700 font-semibold' : 'text-slate-600 hover:bg-slate-50' }}">
+                                    class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ Request::is('dashboard/beritas*') ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 font-semibold' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50' }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                                         stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -59,8 +77,8 @@
                                     <span>Kelola Berita</span>
                                 </a>
 
-                                <a href="{{ route('regulasi.index') }}"
-                                    class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ Request::is('dashboard/regulasi*') ? 'bg-emerald-50 text-emerald-700 font-semibold' : 'text-slate-600 hover:bg-slate-50' }}">
+                                <a href="{{ route('dashboard.regulasi.index') }}"
+                                    class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ Request::is('dashboard/regulasi*') ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 font-semibold' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50' }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                                         stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -70,7 +88,7 @@
                                 </a>
 
                                 <a href="{{ route('pengumuman.index') }}"
-                                    class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ Request::is('dashboard/pengumuman*') ? 'bg-emerald-50 text-emerald-700 font-semibold' : 'text-slate-600 hover:bg-slate-50' }}">
+                                    class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ Request::is('dashboard/pengumuman*') ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 font-semibold' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50' }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                                         stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -82,7 +100,7 @@
 
                             @if(Auth::user()->role === 'admin_desa')
                                 <a href="{{ route('dashboard.desa.edit') }}"
-                                    class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ Request::is('dashboard/profil-desa/edit') ? 'bg-emerald-50 text-emerald-700 font-semibold' : 'text-slate-600 hover:bg-slate-50' }}">
+                                    class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ Request::is('dashboard/profil-desa/edit') ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 font-semibold' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50' }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                                         stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -92,7 +110,7 @@
                                 </a>
 
                                 <a href="{{ route('dashboard.beritas.index') }}"
-                                    class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ Request::is('dashboard/beritas*') ? 'bg-emerald-50 text-emerald-700 font-semibold' : 'text-slate-600 hover:bg-slate-50' }}">
+                                    class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ Request::is('dashboard/beritas*') ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 font-semibold' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50' }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                                         stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -101,8 +119,24 @@
                                     <span>Kelola Berita</span>
                                 </a>
 
+                                <a href="{{ route('dashboard.regulasi.index') }}"
+                                    class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ Request::is('dashboard/regulasi*') ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 font-semibold' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50' }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
+                                    </svg>
+                                    <div class="flex justify-between items-center w-full">
+                                        <span>Surat & Regulasi</span>
+                                        @if($newRegulasiCount > 0)
+                                            <span
+                                                class="bg-red-500 text-white text-[10px] px-2 py-0.5 rounded-full">{{ $newRegulasiCount }}</span>
+                                        @endif
+                                    </div>
+                                </a>
+
                                 <a href="{{ route('dashboard.laporan.buat') }}"
-                                    class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ Request::is('dashboard/laporan/buat') ? 'bg-emerald-50 text-emerald-700 font-semibold' : 'text-slate-600 hover:bg-slate-50' }}">
+                                    class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ Request::is('dashboard/laporan/buat') ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 font-semibold' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50' }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                                         stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -115,7 +149,7 @@
                             <div class="my-2 border-t border-slate-50"></div>
 
                             <a href="{{ route('public.video-gallery') }}"
-                                class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ Request::is('layanan/galeri-video') ? 'bg-emerald-50 text-emerald-700 font-semibold' : 'text-slate-600 hover:bg-slate-50' }}">
+                                class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ Request::is('layanan/galeri-video') ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 font-semibold' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50' }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -127,7 +161,7 @@
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit"
-                                    class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-all text-left">
+                                    class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-all text-left">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
