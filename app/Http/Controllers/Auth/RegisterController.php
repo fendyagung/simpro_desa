@@ -16,7 +16,10 @@ class RegisterController extends Controller
      */
     public function create()
     {
-        return view('auth.register');
+        $dpmdAdminExists = User::where('role', 'admin_dpmd')->exists();
+        $availableDesas = \App\Models\Desa::whereNull('user_id')->get();
+
+        return view('auth.register', compact('dpmdAdminExists', 'availableDesas'));
     }
 
     /**
@@ -30,13 +33,36 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'role' => ['required', 'in:admin_dpmd,admin_desa'],
+            'desa_id' => ['required_if:role,admin_desa', 'nullable', 'exists:desas,id'],
         ]);
+
+        // Double check for DPMD Admin restriction
+        if ($request->role === 'admin_dpmd') {
+            if (User::where('role', 'admin_dpmd')->exists()) {
+                return back()->withErrors(['role' => 'Admin Dinas PMD sudah terdaftar di sistem.']);
+            }
+        }
+
+        // Double check for Desa Admin restriction
+        if ($request->role === 'admin_desa') {
+            $desa = \App\Models\Desa::find($request->desa_id);
+            if ($desa->user_id) {
+                return back()->withErrors(['desa_id' => 'Desa ini sudah memiliki admin.']);
+            }
+        }
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => $request->role,
         ]);
+
+        // Link the user to the Desa if role is admin_desa
+        if ($request->role === 'admin_desa' && $request->desa_id) {
+            \App\Models\Desa::where('id', $request->desa_id)->update(['user_id' => $user->id]);
+        }
 
         Auth::login($user);
 

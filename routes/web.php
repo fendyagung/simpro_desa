@@ -16,6 +16,11 @@ Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logou
 Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'create'])->name('register');
 Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'store']);
 
+Route::get('/forgot-password', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'create'])->name('password.request');
+Route::post('/forgot-password', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'store'])->name('password.email');
+Route::get('/reset-password/{token}', [App\Http\Controllers\Auth\ResetPasswordController::class, 'create'])->name('password.reset');
+Route::post('/reset-password', [App\Http\Controllers\Auth\ResetPasswordController::class, 'store'])->name('password.store');
+
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard');
 Route::get('/dashboard/laporan/buat', [App\Http\Controllers\DashboardController::class, 'createReport'])->middleware(['auth'])->name('dashboard.laporan.buat');
 Route::post('/dashboard/laporan/simpan', [App\Http\Controllers\DashboardController::class, 'storeReport'])->middleware(['auth'])->name('dashboard.laporan.simpan');
@@ -51,6 +56,16 @@ Route::middleware(['auth'])->prefix('dashboard')->name('pengumuman.')->group(fun
     Route::post('/pengumuman', [App\Http\Controllers\PengumumanController::class, 'store'])->name('store');
     Route::delete('/pengumuman/{pengumuman}', [App\Http\Controllers\PengumumanController::class, 'destroy'])->name('destroy');
     Route::post('/pengumuman/{pengumuman}/toggle', [App\Http\Controllers\PengumumanController::class, 'toggle'])->name('toggle');
+});
+
+// Village Management for DPMD
+Route::middleware(['auth'])->prefix('dashboard/dpmd/desa')->name('dashboard.dpmd.desa.')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Dashboard\DesaManagementController::class, 'index'])->name('index');
+    Route::get('/create', [\App\Http\Controllers\Dashboard\DesaManagementController::class, 'create'])->name('create');
+    Route::post('/store', [\App\Http\Controllers\Dashboard\DesaManagementController::class, 'store'])->name('store');
+    Route::get('/{id}/edit', [\App\Http\Controllers\Dashboard\DesaManagementController::class, 'edit'])->name('edit');
+    Route::post('/{id}/update', [\App\Http\Controllers\Dashboard\DesaManagementController::class, 'update'])->name('update');
+    Route::delete('/{id}', [\App\Http\Controllers\Dashboard\DesaManagementController::class, 'destroy'])->name('destroy');
 });
 
 // Public Pages Routes

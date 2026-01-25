@@ -57,7 +57,8 @@
                     </div>
 
                     <div class="text-sm">
-                        <a href="#" class="font-medium text-indigo-500 hover:text-indigo-400">
+                        <a href="{{ route('password.request') }}"
+                            class="font-medium text-indigo-500 hover:text-indigo-400">
                             Lupa Password?
                         </a>
                     </div>

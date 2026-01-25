@@ -50,6 +50,16 @@
                                     <span>Kelola Profil DPMD</span>
                                 </a>
 
+                                <a href="{{ route('dashboard.dpmd.desa.index') }}"
+                                    class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ Request::is('dashboard/dpmd/desa*') ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 font-semibold' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50' }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                    </svg>
+                                    <span>Master Data Desa</span>
+                                </a>
+
                                 <!-- Variables moved to top -->
                                 <a href="{{ route('dashboard.pesans') }}"
                                     class="flex items-center justify-between px-4 py-3 rounded-xl transition-all {{ Request::is('dashboard/pesans*') ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 font-semibold' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50' }}">
