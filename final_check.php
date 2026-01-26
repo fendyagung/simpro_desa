@@ -1,19 +1,15 @@
 <?php
 require __DIR__ . '/vendor/autoload.php';
 $app = require_once __DIR__ . '/bootstrap/app.php';
-$app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+$kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
+$kernel->bootstrap();
 
-$profile = \App\Models\DpmdProfile::first();
-if ($profile) {
-    if (str_contains($profile->sambutan_teks, 'Nusa Bunga')) {
-        echo "RESULT: STILL_FOUND\n";
-        // Final attempt to fix it if found
-        $profile->sambutan_teks = str_replace('bumi Nusa Bunga', 'Kabupaten Manggarai Timur', $profile->sambutan_teks);
-        $profile->save();
-        echo "FIX_APPLIED: " . $profile->sambutan_teks;
-    } else {
-        echo "RESULT: CLEAN\n";
-    }
-} else {
-    echo "No profile found.";
+use App\Models\Desa;
+use App\Models\Laporan;
+
+echo "Final Verification of Reports:\n";
+foreach (Laporan::with('desa')->get() as $l) {
+    echo "Laporan ID: {$l->id}, Title: {$l->judul}, Linked Desa: " . ($l->desa ? $l->desa->nama_desa : "MISSING (Desa ID: {$l->desa_id})") . "\n";
 }
+
+echo "\nVillage Count: " . Desa::count() . "\n";

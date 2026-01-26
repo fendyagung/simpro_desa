@@ -44,6 +44,50 @@ class RegulasiController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Regulasi $regulasi)
+    {
+        if (Auth::user()->role !== 'admin_dpmd') {
+            abort(403);
+        }
+
+        return view('dashboard.regulasi.edit', compact('regulasi'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Regulasi $regulasi)
+    {
+        if (Auth::user()->role !== 'admin_dpmd') {
+            abort(403);
+        }
+
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'kategori' => 'required|string|in:Format Laporan,Peraturan Daerah,Template Surat,Materi Sosialisasi,Lainnya',
+            'deskripsi' => 'nullable|string',
+            'file' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,zip,rar|max:10240',
+        ]);
+
+        $data = $request->only(['judul', 'kategori', 'deskripsi']);
+
+        if ($request->hasFile('file')) {
+            // Delete old file
+            if ($regulasi->file_path && Storage::disk('public')->exists($regulasi->file_path)) {
+                Storage::disk('public')->delete($regulasi->file_path);
+            }
+            $data['file_path'] = $request->file('file')->store('regulasi', 'public');
+        }
+
+        $regulasi->update($data);
+
+        return redirect()->route('dashboard.regulasi.index')->with('success', 'Dokumen berhasil diperbarui!');
+    }
+
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(Regulasi $regulasi)

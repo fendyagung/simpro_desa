@@ -54,8 +54,57 @@
                 </aside>
 
                 <!-- Reports History -->
-                <div class="flex-1">
+                <div class="flex-1 space-y-8">
+                    <!-- Gallery Photos -->
+                    @if($desa->galleries->where('type', 'foto')->count() > 0)
+                        <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 p-8">
+                            <h3 class="font-bold text-xl text-slate-800 mb-6 flex items-center gap-2">
+                                <span class="w-2 h-6 bg-emerald-500 rounded-full"></span>
+                                Galeri Foto Desa
+                            </h3>
+                            <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                                @foreach($desa->galleries->where('type', 'foto') as $photo)
+                                    <div
+                                        class="aspect-square rounded-2xl overflow-hidden border border-slate-50 transition-transform hover:scale-[1.02] duration-300">
+                                        <img src="{{ asset('storage/' . $photo->url_or_path) }}"
+                                            class="w-full h-full object-cover" alt="Galeri {{ $desa->nama_desa }}">
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+
+                    <!-- Gallery Videos -->
+                    @if($desa->galleries->where('type', 'video')->count() > 0)
+                        <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 p-8">
+                            <h3 class="font-bold text-xl text-slate-800 mb-6 flex items-center gap-2">
+                                <span class="w-2 h-6 bg-red-500 rounded-full"></span>
+                                Video Terkait
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                @foreach($desa->galleries->where('type', 'video') as $video)
+                                    @php
+                                        $videoId = '';
+                                        if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $video->url_or_path, $match)) {
+                                            $videoId = $match[1];
+                                        }
+                                    @endphp
+                                    @if($videoId)
+                                        <div class="rounded-2xl overflow-hidden aspect-video border border-slate-50 shadow-sm">
+                                            <iframe class="w-full h-full" src="https://www.youtube.com/embed/{{ $videoId }}"
+                                                frameborder="0"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                allowfullscreen></iframe>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+
+                    <!-- Reports History -->
                     <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100">
+
                         <div class="p-8 border-b border-slate-50 flex items-center justify-between">
                             <h3 class="font-bold text-xl text-slate-800">Riwayat Laporan</h3>
                             <span
@@ -85,17 +134,18 @@
                                                 <div class="flex items-center gap-3 mb-1">
                                                     <span
                                                         class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider
-                                                                {{ $laporan->kategori === 'keuangan' ? 'bg-indigo-100 text-indigo-700' : '' }}
-                                                                {{ $laporan->kategori === 'penduduk' ? 'bg-teal-100 text-teal-700' : '' }}
-                                                                {{ $laporan->kategori === 'kejadian' ? 'bg-red-100 text-red-700' : '' }}
-                                                                {{ $laporan->kategori === 'lainnya' ? 'bg-slate-100 text-slate-700' : '' }}">
+                                                                        {{ $laporan->kategori === 'keuangan' ? 'bg-indigo-100 text-indigo-700' : '' }}
+                                                                        {{ $laporan->kategori === 'penduduk' ? 'bg-teal-100 text-teal-700' : '' }}
+                                                                        {{ $laporan->kategori === 'kejadian' ? 'bg-red-100 text-red-700' : '' }}
+                                                                        {{ $laporan->kategori === 'lainnya' ? 'bg-slate-100 text-slate-700' : '' }}">
                                                         {{ $laporan->kategori }}
                                                     </span>
                                                     <span class="text-xs text-slate-400">{{ $laporan->tanggal_laporan }}</span>
                                                 </div>
                                                 <h4
                                                     class="font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
-                                                    {{ $laporan->judul }}</h4>
+                                                    {{ $laporan->judul }}
+                                                </h4>
                                                 @if($laporan->file_path)
                                                     <div class="flex items-center gap-1 mt-1 text-[10px] text-blue-500 font-medium">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none"
@@ -110,9 +160,9 @@
                                             <div class="text-right">
                                                 <span
                                                     class="px-3 py-1 rounded-full text-xs font-bold 
-                                                            {{ $laporan->status === 'pending' ? 'bg-orange-100 text-orange-700' : '' }}
-                                                            {{ $laporan->status === 'diterima' ? 'bg-green-100 text-green-700' : '' }}
-                                                            {{ $laporan->status === 'ditolak' ? 'bg-red-100 text-red-700' : '' }}">
+                                                                    {{ $laporan->status === 'pending' ? 'bg-orange-100 text-orange-700' : '' }}
+                                                                    {{ $laporan->status === 'diterima' ? 'bg-green-100 text-green-700' : '' }}
+                                                                    {{ $laporan->status === 'ditolak' ? 'bg-red-100 text-red-700' : '' }}">
                                                     {{ ucfirst($laporan->status) }}
                                                 </span>
                                             </div>

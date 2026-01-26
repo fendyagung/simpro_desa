@@ -21,13 +21,11 @@
                             @php
                                 $unreadCount = \App\Models\Pesan::where('is_read', false)->count();
                                 $userId = Auth::id();
-                                $newRegulasiCount = cache()->remember('regulasi_count_' . $userId, 600, function () use ($userId) {
-                                    return \App\Models\Regulasi::where('created_at', '>=', now()->subDays(7))
-                                        ->whereDoesntHave('downloads', function ($query) use ($userId) {
-                                            $query->where('user_id', $userId);
-                                        })
-                                        ->count();
-                                });
+                                $newRegulasiCount = \App\Models\Regulasi::where('created_at', '>=', now()->subDays(7))
+                                    ->whereDoesntHave('downloads', function ($query) use ($userId) {
+                                        $query->where('user_id', $userId);
+                                    })
+                                    ->count();
                             @endphp
                             <a href="{{ route('dashboard') }}"
                                 class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ Request::is('dashboard') ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 font-semibold' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50' }}">
@@ -143,6 +141,39 @@
                                                 class="bg-red-500 text-white text-[10px] px-2 py-0.5 rounded-full">{{ $newRegulasiCount }}</span>
                                         @endif
                                     </div>
+                                </a>
+
+                                <a href="{{ route('dashboard.pesans') }}"
+                                    class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ Request::is('dashboard/pesans*') ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 font-semibold' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50' }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                                    </svg>
+                                    <div class="flex justify-between items-center w-full">
+                                        <span>Pesan</span>
+                                        @php
+                                            if (Auth::user()->role === 'admin_dpmd') {
+                                                $unreadCount = \App\Models\Pesan::where('is_read', false)->count();
+                                            } else {
+                                                $unreadCount = \App\Models\Pesan::where('user_id', Auth::id())->where('is_read_desa', false)->count();
+                                            }
+                                        @endphp
+                                        @if($unreadCount > 0)
+                                            <span
+                                                class="bg-red-500 text-white text-[10px] px-2 py-0.5 rounded-full">{{ $unreadCount }}</span>
+                                        @endif
+                                    </div>
+                                </a>
+
+                                <a href="{{ route('dashboard.dokumen.index') }}"
+                                    class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all {{ Request::is('dashboard/dokumen*') ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 font-semibold' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50' }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                                    </svg>
+                                    <span>Kotak Berkas</span>
                                 </a>
 
                                 <a href="{{ route('dashboard.laporan.buat') }}"

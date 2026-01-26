@@ -9,7 +9,8 @@
                 </svg>
                 Kembali ke Inbox
             </a>
-            <div class="text-sm font-medium">{{ $pesan->created_at->format('d F Y • H:i') }}</div>
+            <div class="text-sm font-medium">{{ \Carbon\Carbon::parse($pesan->created_at)->format('d F Y • H:i') }}
+            </div>
         </div>
 
         <div class="p-8 md:p-12">
@@ -26,8 +27,7 @@
 
             <div class="space-y-6">
                 <div>
-                    <label
-                        class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-2">Perihal
+                    <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-2">Perihal
                         / Subjek</label>
                     <h3 class="text-xl font-bold text-slate-800">{{ $pesan->subjek ?? 'Tanpa Subjek' }}</h3>
                 </div>
@@ -43,7 +43,8 @@
 
                 @if($pesan->lampiran)
                     <div class="pt-6">
-                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-4">Lampiran</label>
+                        <label
+                            class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-4">Lampiran</label>
                         <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-center gap-4">
                             @php
                                 $extension = pathinfo($pesan->lampiran, PATHINFO_EXTENSION);
@@ -55,15 +56,19 @@
                                     <img src="{{ asset('storage/' . $pesan->lampiran) }}" class="w-full h-full object-cover">
                                 </div>
                             @else
-                                <div class="w-20 h-20 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-400">
+                                <div
+                                    class="w-20 h-20 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-400">
                                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z">
+                                        </path>
                                     </svg>
                                 </div>
                             @endif
 
                             <div>
-                                <p class="text-sm font-bold text-slate-700 mb-1">File Lampiran ({{ strtoupper($extension) }})</p>
+                                <p class="text-sm font-bold text-slate-700 mb-1">File Lampiran
+                                    ({{ strtoupper($extension) }})</p>
                                 <a href="{{ asset('storage/' . $pesan->lampiran) }}" target="_blank"
                                     class="text-blue-600 hover:text-blue-700 text-sm font-bold underline">
                                     Lihat / Download File →
@@ -72,26 +77,82 @@
                         </div>
                     </div>
                 @endif
+                @if($pesan->balasan)
+                    <div class="pt-8 mt-8 border-t border-slate-100">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div
+                                class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                        d="M3 10h10a8 8 0 018 8v2M3 10l5 5m-5-5l5-5" />
+                                </svg>
+                            </div>
+                            <label class="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">Balasan dari
+                                Admin DPMD</label>
+                            <span
+                                class="text-[10px] text-slate-400 font-medium ml-auto">{{ $pesan->balasan_at ? \Carbon\Carbon::parse($pesan->balasan_at)->format('d M Y • H:i') : '' }}</span>
+                        </div>
+                        <div
+                            class="text-lg text-emerald-900 leading-relaxed bg-emerald-50/50 p-8 rounded-3xl border border-emerald-100">
+                            {!! nl2br(e($pesan->balasan)) !!}
+                        </div>
+                    </div>
+                @endif
             </div>
 
-            <div class="mt-12 flex flex-wrap items-center gap-4">
-                <a href="mailto:{{ $pesan->email }}?subject=Tanggapan: {{ $pesan->subjek ?? 'Pesan dari SIMPRO Matim' }}&body=%0A%0A--- Pesan Asli ---%0A{{ urlencode($pesan->pesan) }}"
-                    class="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl shadow-xl shadow-blue-500/20 transition-all transform hover:-translate-y-1">
-                    Balas Melalui Email
-                </a>
-                <button onclick="copyEmail('{{ $pesan->email }}')"
-                    class="px-8 py-4 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-bold rounded-2xl transition-all flex items-center gap-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
-                    </svg>
-                    Salin Alamat Email
-                </button>
-                <button onclick="window.print()"
-                    class="px-8 py-4 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-2xl transition-all">
-                    Cetak Pesan
-                </button>
-            </div>
+            @if(Auth::user()->role === 'admin_dpmd')
+                <div class="mt-12 flex flex-wrap items-center gap-4">
+                    <a href="#reply-section"
+                        class="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl shadow-xl shadow-blue-500/20 transition-all transform hover:-translate-y-1">
+                        Tulis Balasan
+                    </a>
+                    <button onclick="copyEmail('{{ $pesan->email }}')"
+                        class="px-8 py-4 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-bold rounded-2xl transition-all flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                        </svg>
+                        Salin Alamat Email
+                    </button>
+                    <button onclick="window.print()"
+                        class="px-8 py-4 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-2xl transition-all">
+                        Cetak Pesan
+                    </button>
+                    <form action="{{ route('dashboard.pesans.destroy', $pesan->id) }}" method="POST"
+                        onsubmit="return confirm('Apakah Anda yakin ingin menghapus pesan ini?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"
+                            class="px-8 py-4 bg-red-50 text-red-600 hover:bg-red-100 font-bold rounded-2xl transition-all">
+                            Hapus Pesan
+                        </button>
+                    </form>
+                </div>
+
+                <div id="reply-section" class="mt-12 pt-12 border-t border-slate-100">
+                    <h3 class="text-xl font-bold text-slate-900 mb-6">Tulis Balasan</h3>
+                    <form action="{{ route('dashboard.pesans.reply', $pesan->id) }}" method="POST" class="space-y-6">
+                        @csrf
+                        <div>
+                            <textarea name="balasan" rows="6" required
+                                class="w-full p-6 text-lg bg-slate-50 border border-slate-200 rounded-3xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all outline-none"
+                                placeholder="Ketik balasan Anda di sini..."></textarea>
+                        </div>
+                        <div>
+                            <button type="submit"
+                                class="px-10 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl shadow-xl shadow-blue-500/20 transition-all transform hover:-translate-y-1 flex items-center gap-3">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                                </svg>
+                                Kirim Balasan & Simpan di Database
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            @endif
+
 
             <script>
                 function copyEmail(email) {

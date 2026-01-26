@@ -31,8 +31,13 @@ Route::get('/dashboard/desa/{id}', [App\Http\Controllers\DashboardController::cl
 Route::post('/dashboard/desa/{id}/toggle-wisata', [App\Http\Controllers\DashboardController::class, 'toggleWisata'])->middleware(['auth'])->name('dashboard.desa.toggle-wisata');
 Route::get('/dashboard/dpmd/edit-profil', [App\Http\Controllers\DashboardController::class, 'editDpmdProfile'])->middleware(['auth'])->name('dashboard.dpmd.edit-profil');
 Route::post('/dashboard/dpmd/update-profil', [App\Http\Controllers\DashboardController::class, 'updateDpmdProfile'])->middleware(['auth'])->name('dashboard.dpmd.update-profil');
+Route::delete('/dashboard/dpmd/gallery/{id}', [App\Http\Controllers\DashboardController::class, 'destroyDpmdGallery'])->middleware(['auth'])->name('dashboard.dpmd.gallery.destroy');
+
 Route::get('/dashboard/pesans', [App\Http\Controllers\DashboardController::class, 'indexPesans'])->middleware(['auth'])->name('dashboard.pesans');
 Route::get('/dashboard/pesans/{id}', [App\Http\Controllers\DashboardController::class, 'showPesan'])->middleware(['auth'])->name('dashboard.pesans.detail');
+Route::post('/dashboard/pesans/{id}/reply', [App\Http\Controllers\DashboardController::class, 'replyPesan'])->middleware(['auth'])->name('dashboard.pesans.reply');
+Route::delete('/dashboard/pesans/{id}', [App\Http\Controllers\DashboardController::class, 'destroyPesan'])->middleware(['auth'])->name('dashboard.pesans.destroy');
+
 
 Route::get('/dashboard/beritas', [App\Http\Controllers\BeritaController::class, 'index'])->middleware(['auth'])->name('dashboard.beritas.index');
 Route::get('/dashboard/beritas/create', [App\Http\Controllers\BeritaController::class, 'create'])->middleware(['auth'])->name('dashboard.beritas.create');
@@ -43,10 +48,13 @@ Route::delete('/dashboard/beritas/{id}/delete', [App\Http\Controllers\BeritaCont
 
 Route::get('/dashboard/profil-desa/edit', [App\Http\Controllers\DashboardController::class, 'editDesa'])->middleware(['auth'])->name('dashboard.desa.edit');
 Route::post('/dashboard/profil-desa/update', [App\Http\Controllers\DashboardController::class, 'updateDesa'])->middleware(['auth'])->name('dashboard.desa.update');
+Route::delete('/dashboard/profil-desa/gallery/{id}', [App\Http\Controllers\DashboardController::class, 'destroyGallery'])->middleware(['auth'])->name('dashboard.desa.gallery.destroy');
 
 Route::middleware(['auth'])->prefix('dashboard')->name('dashboard.regulasi.')->group(function () {
     Route::get('/regulasi', [App\Http\Controllers\RegulasiController::class, 'index'])->name('index');
     Route::post('/regulasi', [App\Http\Controllers\RegulasiController::class, 'store'])->name('store');
+    Route::get('/regulasi/{regulasi}/edit', [App\Http\Controllers\RegulasiController::class, 'edit'])->name('edit');
+    Route::patch('/regulasi/{regulasi}', [App\Http\Controllers\RegulasiController::class, 'update'])->name('update');
     Route::delete('/regulasi/{regulasi}', [App\Http\Controllers\RegulasiController::class, 'destroy'])->name('destroy');
     Route::get('/regulasi/{regulasi}/download', [App\Http\Controllers\RegulasiController::class, 'download'])->name('download');
 });
@@ -90,5 +98,13 @@ Route::prefix('layanan')->group(function () {
     Route::get('/kontak', [App\Http\Controllers\Public\DesaController::class, 'kontak'])->name('public.kontak');
     Route::get('/galeri-video', [App\Http\Controllers\Public\DesaController::class, 'videoGallery'])->name('public.video-gallery');
     Route::get('/bank-data', [App\Http\Controllers\RegulasiController::class, 'publicIndex'])->name('public.bank-data');
+});
+
+Route::middleware(['auth'])->prefix('dashboard/dokumen')->name('dashboard.dokumen.')->group(function () {
+    Route::get('/', [App\Http\Controllers\Dashboard\DokumenController::class, 'index'])->name('index');
+    Route::get('/create', [App\Http\Controllers\Dashboard\DokumenController::class, 'create'])->name('create');
+    Route::post('/store', [App\Http\Controllers\Dashboard\DokumenController::class, 'store'])->name('store');
+    Route::get('/{id}/download', [App\Http\Controllers\Dashboard\DokumenController::class, 'download'])->name('download');
+    Route::delete('/{id}', [App\Http\Controllers\Dashboard\DokumenController::class, 'destroy'])->name('destroy');
 });
 

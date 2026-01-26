@@ -40,8 +40,19 @@ class Desa extends Model
     /**
      * Get the laporans for the desa.
      */
+    /**
+     * Get the laporans for the desa.
+     */
     public function laporans(): HasMany
     {
         return $this->hasMany(Laporan::class);
+    }
+
+    /**
+     * Get the galleries for the desa.
+     */
+    public function galleries(): HasMany
+    {
+        return $this->hasMany(DesaGallery::class);
     }
 }

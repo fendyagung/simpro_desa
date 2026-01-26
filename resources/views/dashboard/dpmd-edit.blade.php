@@ -38,16 +38,119 @@
                         <p class="text-[10px] text-slate-500 mt-2">Format: PNG/JPG. Disarankan logo dengan latar
                             belakang transparan.</p>
                     </div>
-                    <div class="md:col-span-2">
-                        <label for="video_promo_url" class="block text-sm font-semibold text-slate-700 mb-2">Link Video
-                            Promosi (YouTube URL)</label>
-                        <input type="url" name="video_promo_url" id="video_promo_url"
-                            value="{{ old('video_promo_url', $profile->video_promo_url) }}"
-                            class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none"
-                            placeholder="Contoh: https://www.youtube.com/watch?v=...">
-                        <p class="text-[10px] text-slate-500 mt-2">Link ini akan digunakan untuk tombol "Tonton Video"
-                            di halaman Beranda.</p>
+
+                    <!-- MULTI-GALLERY DPMD (Photos & Videos) -->
+                    <div class="md:col-span-2 pt-10 border-t-2 border-dashed border-slate-100">
+                        <div class="flex items-center gap-3 mb-8">
+                            <div
+                                class="w-12 h-12 bg-rose-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-rose-200">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-black text-slate-800 uppercase tracking-tight">Galeri Digital
+                                    DPMD</h3>
+                                <p class="text-xs text-rose-500 font-bold uppercase tracking-widest">Unggah Foto & Video
+                                    Kegiatan</p>
+                            </div>
+                        </div>
+
+                        <!-- 1. MULTI-PHOTO UPLOAD AREA -->
+                        <div class="mb-12">
+                            <label class="block text-sm font-bold text-slate-700 mb-4">📸 UNGGAH FOTO BARU (PILIH BANYAK
+                                SEKALIGUS)</label>
+                            <div class="relative group">
+                                <div
+                                    class="absolute -inset-1 bg-gradient-to-r from-rose-500 to-orange-500 rounded-[2rem] blur opacity-10 group-hover:opacity-20 transition duration-1000">
+                                </div>
+                                <div
+                                    class="relative p-10 border-2 border-dotted border-slate-300 rounded-[2rem] bg-white hover:border-rose-400 transition-all text-center">
+                                    <input type="file" name="gallery_photos[]" id="gallery_photos" multiple
+                                        class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                                    <div class="space-y-2">
+                                        <svg class="w-12 h-12 mx-auto text-slate-300 group-hover:text-rose-500 transition-colors"
+                                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        <p class="text-slate-500 font-bold">Ketuk atau seret foto ke sini</p>
+                                        <p class="text-[10px] text-slate-400 px-10">Dapat memilih lebih dari 1 file foto
+                                            (Format: JPG, PNG, JPEG. Max 5MB per file)</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Photo Grid Preview (Existing) -->
+                            @if($profile->galleries->where('type', 'foto')->count() > 0)
+                                <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mt-8">
+                                    @foreach($profile->galleries->where('type', 'foto') as $photo)
+                                        <div
+                                            class="relative group aspect-square rounded-2xl overflow-hidden border-2 border-white shadow-md ring-1 ring-slate-100">
+                                            <img src="{{ asset('storage/' . $photo->url_or_path) }}"
+                                                class="w-full h-full object-cover">
+                                            <div
+                                                class="absolute inset-0 bg-rose-600/60 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center backdrop-blur-[2px]">
+                                                <button type="button" onclick="deleteGalleryItem('{{ $photo->id }}')"
+                                                    class="p-3 bg-white text-rose-600 rounded-full hover:scale-110 transition-transform shadow-xl">
+                                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
+                        </div>
+
+                        <!-- 2. DYNAMIC VIDEO LINKS -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-bold text-slate-700 mb-4">🎥 VIDEO YOUTUBE DPMD (TAMBAH
+                                BANYAK VIDEO)</label>
+
+                            @if($profile->galleries->where('type', 'video')->count() > 0)
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+                                    @foreach($profile->galleries->where('type', 'video') as $video)
+                                        <div
+                                            class="flex items-center gap-3 p-4 bg-slate-50 border border-slate-200 rounded-2xl">
+                                            <div
+                                                class="w-10 h-10 rounded-xl bg-rose-100 flex items-center justify-center text-rose-600">
+                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path
+                                                        d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 4-8 4z" />
+                                                </svg>
+                                            </div>
+                                            <span
+                                                class="text-[11px] font-bold text-slate-600 flex-1 truncate">{{ $video->url_or_path }}</span>
+                                            <button type="button" onclick="deleteGalleryItem('{{ $video->id }}')"
+                                                class="text-rose-500 hover:text-red-700 font-black text-[10px] uppercase p-2 hover:bg-rose-50 rounded-lg transition-all">Hapus</button>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
+
+                            <div id="video-inputs-container" class="space-y-4">
+                                <div class="flex gap-3">
+                                    <input type="url" name="gallery_videos[]"
+                                        class="flex-1 px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:ring-4 focus:ring-rose-100 focus:border-rose-400 outline-none transition-all font-medium text-sm"
+                                        placeholder="Tempel link video YouTube ke sini...">
+                                    <button type="button" onclick="addVideoInput()"
+                                        class="px-6 py-4 bg-slate-900 text-white hover:bg-black rounded-2xl font-bold shadow-xl shadow-slate-200 transition-all flex items-center gap-2 whitespace-nowrap">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 4v16m8-8H4" />
+                                        </svg>
+                                        Tambah Link
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
+
                 </div>
                 <div class="space-y-6">
                     <div>
@@ -169,16 +272,71 @@
                 </div>
             </div>
 
-            <div class="flex items-center gap-4 pt-6">
+
+
+            <div class="flex items-center gap-4 pt-10 border-t border-slate-100">
                 <button type="submit"
-                    class="px-10 py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-2xl shadow-xl shadow-emerald-500/30 transition-all transform hover:-translate-y-1">
-                    Simpan Profil DPMD
+                    class="px-12 py-5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-2xl shadow-xl shadow-emerald-500/30 transition-all transform hover:-translate-y-1 flex items-center gap-3">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    Simpan Seluruh Perubahan
                 </button>
                 <a href="{{ route('dashboard') }}"
-                    class="px-10 py-4 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-2xl transition-all">
+                    class="px-10 py-5 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-2xl transition-all">
                     Batal
                 </a>
             </div>
         </form>
     </div>
+
+    <!-- Delete Form (Hidden) -->
+    <form id="delete-gallery-form" method="POST" class="hidden">
+        @csrf
+        @method('DELETE')
+    </form>
+
+    <script>
+        function addVideoInput() {
+            const container = document.getElementById('video-inputs-container');
+            const wrapper = document.createElement('div');
+            wrapper.className = 'flex gap-2 animate-fadeIn';
+            wrapper.innerHTML = `
+                <input type="url" name="gallery_videos[]" 
+                    class="flex-1 px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none"
+                    placeholder="Masukkan URL YouTube lainnya...">
+                <button type="button" onclick="this.parentElement.remove()" 
+                    class="px-4 py-3 bg-red-50 text-red-500 hover:bg-red-100 rounded-xl font-bold transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            `;
+            container.appendChild(wrapper);
+        }
+
+        function deleteGalleryItem(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus item galeri ini?')) {
+                const form = document.getElementById('delete-gallery-form');
+                form.action = `/dashboard/dpmd/gallery/${id}`;
+                form.submit();
+            }
+        }
+    </script>
+
+    <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+    </style>
 </x-layouts.admin>

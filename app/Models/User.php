@@ -45,4 +45,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Get the desa associated with the user.
+     */
+    public function desa()
+    {
+        return $this->hasOne(Desa::class, 'user_id');
+    }
 }

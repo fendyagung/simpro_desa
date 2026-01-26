@@ -53,6 +53,106 @@
                     menarik.</p>
             </div>
 
+            <!-- Multi Gallery Section -->
+            <div class="border-t border-slate-100 pt-8 space-y-8">
+                <div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
+                        <span class="w-2 h-6 bg-emerald-500 rounded-full"></span>
+                        Galeri Foto Tambahan
+                    </h3>
+
+                    @if($desa->galleries->where('type', 'foto')->count() > 0)
+                        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-6">
+                            @foreach($desa->galleries->where('type', 'foto') as $item)
+                                <div class="relative group aspect-square rounded-2xl overflow-hidden border border-slate-200">
+                                    <img src="{{ asset('storage/' . $item->url_or_path) }}" class="w-full h-full object-cover">
+                                    <div
+                                        class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center">
+                                        <button type="button" onclick="deleteGallery({{ $item->id }})"
+                                            class="p-2 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-all">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+
+                    <div id="photo-inputs" class="space-y-4">
+                        <div class="flex items-center gap-4">
+                            <input type="file" name="gallery_photos[]"
+                                class="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                            <button type="button" onclick="addPhotoInput()"
+                                class="p-3 bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-100 transition-all"
+                                title="Tambah Foto">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4v16m8-8H4" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
+                        <span class="w-2 h-6 bg-red-500 rounded-full"></span>
+                        Galeri Video YouTube Tambahan
+                    </h3>
+
+                    @if($desa->galleries->where('type', 'video')->count() > 0)
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            @foreach($desa->galleries->where('type', 'video') as $item)
+                                <div
+                                    class="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-between gap-4">
+                                    <div class="flex items-center gap-3 overflow-hidden">
+                                        <div class="p-2 bg-red-100 text-red-600 rounded-lg">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path
+                                                    d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.377.505 9.377.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.930-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                                            </svg>
+                                        </div>
+                                        <span
+                                            class="text-xs text-slate-600 font-medium truncate">{{ $item->url_or_path }}</span>
+                                    </div>
+                                    <button type="button" onclick="deleteGallery({{ $item->id }})"
+                                        class="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-all">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                            stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+
+                    <div id="video-inputs" class="space-y-4">
+                        <div class="flex items-center gap-4">
+                            <input type="url" name="gallery_videos[]"
+                                class="flex-1 px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none transition-all placeholder:text-slate-400"
+                                placeholder="https://www.youtube.com/watch?v=...">
+                            <button type="button" onclick="addVideoInput()"
+                                class="p-3 bg-red-50 text-red-600 rounded-xl hover:bg-red-100 transition-all"
+                                title="Tambah Video">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 4v16m8-8H4" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Detailed Statistics -->
             <div class="border-t border-slate-100 pt-8">
                 <h3 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
@@ -143,4 +243,68 @@
             </div>
         </form>
     </div>
+
+    <!-- Hidden form for deletion -->
+    <form id="delete-gallery-form" method="POST" class="hidden">
+        @csrf
+        @method('DELETE')
+    </form>
+
+    <script>
+        function addPhotoInput() {
+            const container = document.getElementById('photo-inputs');
+            const div = document.createElement('div');
+            div.className = 'flex items-center gap-4 animate-fadeIn';
+            div.innerHTML = `
+                <input type="file" name="gallery_photos[]" class="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                <button type="button" onclick="this.parentElement.remove()" class="p-3 bg-rose-50 text-rose-600 rounded-xl hover:bg-emerald-100/50 transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            `;
+            container.appendChild(div);
+        }
+
+        function addVideoInput() {
+            const container = document.getElementById('video-inputs');
+            const div = document.createElement('div');
+            div.className = 'flex items-center gap-4 animate-fadeIn';
+            div.innerHTML = `
+                <input type="url" name="gallery_videos[]" class="flex-1 px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none transition-all placeholder:text-slate-400" placeholder="https://www.youtube.com/watch?v=...">
+                <button type="button" onclick="this.parentElement.remove()" class="p-3 bg-rose-50 text-rose-600 rounded-xl hover:bg-emerald-100/50 transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            `;
+            container.appendChild(div);
+        }
+
+        function deleteGallery(id) {
+            if (confirm('Hapus item galeri ini permanen?')) {
+                const form = document.getElementById('delete-gallery-form');
+                form.action = `/dashboard/profil-desa/gallery/${id}`;
+                form.submit();
+            }
+        }
+    </script>
+
+    <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+    </style>
 </x-layouts.admin>

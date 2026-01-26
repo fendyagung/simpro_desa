@@ -21,16 +21,18 @@
                         <div class="text-xs text-emerald-400 uppercase font-bold tracking-widest">Desa Terkoneksi</div>
                     </div>
                     <div class="bg-white/5 border border-white/10 p-6 rounded-2xl backdrop-blur-sm">
-                        <div class="text-3xl font-bold text-white mb-1">3.2rb</div>
+                        <div class="text-3xl font-bold text-white mb-1">
+                            {{ $totalReports >= 1000 ? number_format($totalReports / 1000, 1) . 'rb' : $totalReports }}
+                        </div>
                         <div class="text-xs text-emerald-400 uppercase font-bold tracking-widest">Laporan Masuk</div>
                     </div>
                     <div class="bg-white/5 border border-white/10 p-6 rounded-2xl backdrop-blur-sm">
-                        <div class="text-3xl font-bold text-white mb-1">98%</div>
+                        <div class="text-3xl font-bold text-white mb-1">{{ $validityRate }}%</div>
                         <div class="text-xs text-emerald-400 uppercase font-bold tracking-widest">Tingkat Validitas
                         </div>
                     </div>
                     <div class="bg-white/5 border border-white/10 p-6 rounded-2xl backdrop-blur-sm">
-                        <div class="text-3xl font-bold text-white mb-1">24/7</div>
+                        <div class="text-3xl font-bold text-white mb-1">{{ $lastUpdate }}</div>
                         <div class="text-xs text-emerald-400 uppercase font-bold tracking-widest">Online Monitoring
                         </div>
                     </div>

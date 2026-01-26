@@ -168,7 +168,9 @@
                     <h4 class="font-bold text-slate-800 dark:text-white text-sm md:text-base">
                         {{ $profile->nama_sekretaris ?? 'Sekretaris' }}
                     </h4>
-                    <p class="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-widest">Sekretaris
+                    <p
+                        class="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-widest">
+                        Sekretaris
                         Dinas</p>
                 </div>
                 <div class="group">
@@ -185,7 +187,9 @@
                     <h4 class="font-bold text-slate-800 dark:text-white text-sm md:text-base">
                         {{ $profile->nama_kabid_pemberdayaan ?? 'Kabid' }}
                     </h4>
-                    <p class="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-widest">Bidang
+                    <p
+                        class="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-widest">
+                        Bidang
                         Pemberdayaan</p>
                 </div>
                 <div class="group">
@@ -202,7 +206,9 @@
                     <h4 class="font-bold text-slate-800 dark:text-white text-sm md:text-base">
                         {{ $profile->nama_kabid_pemerintahan ?? 'Kabid' }}
                     </h4>
-                    <p class="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-widest">Bidang
+                    <p
+                        class="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 uppercase font-bold tracking-widest">
+                        Bidang
                         Pemerintahan</p>
                 </div>
                 <div class="group">
@@ -228,7 +234,73 @@
         </div>
     </section>
 
+    <!-- DPMD Photo Gallery Section -->
+    @if($profile->galleries->where('type', 'foto')->count() > 0)
+        <section class="py-24 bg-white dark:bg-slate-900 transition-colors duration-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 px-4">
+                    <span class="text-emerald-500 font-bold uppercase tracking-widest text-xs">Dokumentasi</span>
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mt-2">Galeri Foto Kegiatan</h2>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    @foreach($profile->galleries->where('type', 'foto') as $photo)
+                        <div
+                            class="group relative aspect-[4/3] rounded-[2rem] overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500">
+                            <img src="{{ asset('storage/' . $photo->url_or_path) }}"
+                                class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8">
+                                <p class="text-white font-medium italic">DPMD Manggarai Timur</p>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
+
+    <!-- DPMD Video Gallery Section -->
+    @if($profile->galleries->where('type', 'video')->count() > 0)
+        <section class="py-24 bg-slate-50 dark:bg-slate-950/50 transition-colors duration-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 px-4">
+                    <span class="text-rose-500 font-bold uppercase tracking-widest text-xs">Video Edukasi & Info</span>
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mt-2">Galeri Video DPMD</h2>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    @foreach($profile->galleries->where('type', 'video') as $video)
+                        @php
+                            $videoId = '';
+                            if (str_contains($video->url_or_path, 'v=')) {
+                                parse_str(parse_url($video->url_or_path, PHP_URL_QUERY), $vars);
+                                $videoId = $vars['v'] ?? '';
+                            } elseif (str_contains($video->url_or_path, 'youtu.be/')) {
+                                $videoId = explode('youtu.be/', $video->url_or_path)[1] ?? '';
+                                if (str_contains($videoId, '?'))
+                                    $videoId = explode('?', $videoId)[0];
+                            }
+                        @endphp
+                        @if($videoId)
+                            <div
+                                class="bg-white dark:bg-slate-800 p-4 rounded-[2.5rem] shadow-xl border border-slate-100 dark:border-slate-700">
+                                <div class="aspect-video rounded-2xl overflow-hidden shadow-inner">
+                                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/{{ $videoId }}"
+                                        title="YouTube video player" frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        allowfullscreen></iframe>
+                                </div>
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
+
     <!-- Feedback CTA -->
+
     <section class="py-20 bg-[#2b529a] relative overflow-hidden">
         <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
             <h2 class="text-3xl font-bold text-white mb-6">Hubungi Kami</h2>

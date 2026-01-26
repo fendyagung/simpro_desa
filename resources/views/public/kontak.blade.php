@@ -121,17 +121,14 @@
                         </div>
                     </div>
 
-                    <!-- Map Placeholder -->
-                    <div class="relative h-64 bg-slate-100 rounded-[2.5rem] overflow-hidden border border-slate-200">
-                        <img src="https://images.unsplash.com/photo-1526772662000-3f88f10405ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
-                            class="w-full h-full object-cover grayscale opacity-50">
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <div
-                                class="bg-white px-6 py-3 rounded-2xl shadow-xl font-bold text-slate-800 flex items-center gap-3">
-                                <div class="w-3 h-3 bg-red-500 rounded-full animate-ping"></div>
-                                Borong, Manggarai Timur
-                            </div>
-                        </div>
+                    <!-- Interactive Map -->
+                    <div
+                        class="relative h-[650px] bg-slate-100 rounded-[2.5rem] overflow-hidden border border-slate-200 shadow-inner">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31555.265898516016!2d120.6080554!3d-8.831597!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2db4965ef259074b%3A0x633d26279f6e61f!2sBorong%2C%20Kabupaten%20Manggarai%20Timur!5e0!3m2!1sid!2sid!4v1706322300000!5m2!1sid!2sid"
+                            class="w-full h-full border-0" allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
                     </div>
                 </div>
             </div>

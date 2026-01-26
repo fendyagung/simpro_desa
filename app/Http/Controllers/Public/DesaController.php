@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DesaController extends Controller
 {
@@ -77,6 +78,7 @@ class DesaController extends Controller
         ]);
 
         $data = $request->all();
+        $data['user_id'] = Auth::id();
 
         if ($request->hasFile('lampiran')) {
             $data['lampiran'] = $request->file('lampiran')->store('pesans-lampiran', 'public');
@@ -103,8 +105,19 @@ class DesaController extends Controller
             ->pluck('count', 'kategori')
             ->toArray();
 
-        return view('public.laporan', compact('dpmdProfile', 'reportsByStatus', 'reportsByCategory'));
+        // New Real-time Stats
+        $totalReports = \App\Models\Laporan::count();
+        $totalAccepted = \App\Models\Laporan::where('status', 'diterima')->count();
+        $validityRate = $totalReports > 0 ? round(($totalAccepted / $totalReports) * 100) : 0;
+
+        // Last Update Tracking
+        $latestReport = \App\Models\Laporan::latest()->first();
+        $lastUpdate = $latestReport ? $latestReport->created_at->diffForHumans() : 'Belum ada data';
+
+        return view('public.laporan', compact('dpmdProfile', 'reportsByStatus', 'reportsByCategory', 'totalReports', 'validityRate', 'lastUpdate'));
     }
+
+
 
     public function videoGallery()
     {
