@@ -183,13 +183,13 @@
                 administrasi ke Dinas PMD.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#"
+                <a href="{{ route('login') }}"
                     class="px-8 py-4 bg-white text-emerald-800 font-bold rounded-full shadow-lg hover:bg-emerald-50 transition-all transform hover:-translate-y-1">
                     Login Sistem
                 </a>
-                <a href="#"
+                <a href="{{ route('public.kontak') }}"
                     class="px-8 py-4 bg-transparent border-2 border-emerald-400 text-white font-bold rounded-full hover:bg-emerald-600 transition-all">
-                    Hubungi Admin
+                    Hubungi Kami
                 </a>
             </div>
         </div>

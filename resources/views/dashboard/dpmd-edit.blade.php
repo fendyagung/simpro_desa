@@ -30,7 +30,50 @@
                         <input type="file" name="foto_kadis" id="foto_kadis"
                             class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
                     </div>
-                    <div class="md:col-span-2">
+
+                    <div class="md:col-span-2 space-y-6 pt-6 border-t border-slate-100">
+                        <div class="space-y-6">
+                            <h4
+                                class="text-sm font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2">
+                                Kata Sambutan Pimpinan
+                            </h4>
+                            <div>
+                                <label for="sambutan_judul"
+                                    class="block text-sm font-semibold text-slate-700 mb-2">Judul
+                                    Sambutan (Slogan)</label>
+                                <input type="text" name="sambutan_judul" id="sambutan_judul"
+                                    value="{{ old('sambutan_judul', $profile->sambutan_judul) }}"
+                                    class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none"
+                                    placeholder="Contoh: Membangun Desa, Sejahterakan Rakyat">
+                            </div>
+                            <div>
+                                <label for="sambutan_teks" class="block text-sm font-semibold text-slate-700 mb-2">Teks
+                                    Sambutan</label>
+                                <textarea name="sambutan_teks" id="sambutan_teks" rows="5"
+                                    class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none">{{ old('sambutan_teks', $profile->sambutan_teks) }}</textarea>
+                            </div>
+                        </div>
+
+                        <div class="pt-6 border-t border-slate-100 space-y-6">
+                            <h4
+                                class="text-sm font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2">
+                                Visi & Misi Instansi
+                            </h4>
+                            <div>
+                                <label for="visi" class="block text-sm font-semibold text-slate-700 mb-2">Visi</label>
+                                <textarea name="visi" id="visi" rows="3"
+                                    class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none">{{ old('visi', $profile->visi) }}</textarea>
+                            </div>
+                            <div>
+                                <label for="misi" class="block text-sm font-semibold text-slate-700 mb-2">Misi (Gunakan
+                                    baris baru untuk setiap poin)</label>
+                                <textarea name="misi" id="misi" rows="6"
+                                    class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none">{{ old('misi', $profile->misi) }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-2 pt-6 border-t border-slate-100">
                         <label for="logo_website" class="block text-sm font-semibold text-slate-700 mb-2">Logo
                             Website (Logo Manggarai Timur)</label>
                         <input type="file" name="logo_website" id="logo_website"
@@ -152,23 +195,6 @@
 
 
                 </div>
-                <div class="space-y-6">
-                    <div>
-                        <label for="sambutan_judul" class="block text-sm font-semibold text-slate-700 mb-2">Judul
-                            Sambutan
-                            (Slogan)</label>
-                        <input type="text" name="sambutan_judul" id="sambutan_judul"
-                            value="{{ old('sambutan_judul', $profile->sambutan_judul) }}"
-                            class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none"
-                            placeholder="Contoh: Membangun Desa, Sejahterakan Rakyat">
-                    </div>
-                    <div>
-                        <label for="sambutan_teks" class="block text-sm font-semibold text-slate-700 mb-2">Teks
-                            Sambutan</label>
-                        <textarea name="sambutan_teks" id="sambutan_teks" rows="5"
-                            class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none">{{ old('sambutan_teks', $profile->sambutan_teks) }}</textarea>
-                    </div>
-                </div>
             </div>
 
             <!-- Statistics Section -->
@@ -241,26 +267,6 @@
                 </div>
             </div>
 
-            <!-- Visi Misi Section -->
-            <div class="pt-8 border-t border-slate-100">
-                <h3 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
-                    <span class="w-2 h-6 bg-teal-500 rounded-full"></span>
-                    Visi & Misi Instansi
-                </h3>
-                <div class="space-y-6">
-                    <div>
-                        <label for="visi" class="block text-sm font-semibold text-slate-700 mb-2">Visi</label>
-                        <textarea name="visi" id="visi" rows="3"
-                            class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none">{{ old('visi', $profile->visi) }}</textarea>
-                    </div>
-                    <div>
-                        <label for="misi" class="block text-sm font-semibold text-slate-700 mb-2">Misi (Gunakan
-                            baris baru untuk setiap poin)</label>
-                        <textarea name="misi" id="misi" rows="6"
-                            class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none">{{ old('misi', $profile->misi) }}</textarea>
-                    </div>
-                </div>
-            </div>
 
             <!-- Team Section -->
             <div class="pt-8 border-t border-slate-100">

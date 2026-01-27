@@ -2,8 +2,25 @@
     @php
         $profile = $profile ?? new \App\Models\DpmdProfile();
     @endphp
-    <!-- Hero / Kadis Greeting Section -->
-    <section class="relative pt-32 pb-20 bg-slate-950 overflow-hidden">
+    <!-- Hero Section (Simple) -->
+    <section class="relative pt-32 pb-20 bg-slate-950 overflow-hidden text-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-4">Profil Instansi DPMD</h1>
+            <p class="text-emerald-400 text-lg md:text-xl font-medium uppercase tracking-widest">Kabupaten Manggarai
+                Timur</p>
+        </div>
+        <!-- BG Elements -->
+        <div
+            class="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[120px] -mr-64 -mt-64">
+        </div>
+        <div
+            class="absolute bottom-0 left-0 w-[300px] h-[300px] bg-blue-500/10 rounded-full blur-[100px] -ml-32 -mb-32">
+        </div>
+    </section>
+
+
+    <!-- Kadis Greeting Section -->
+    <section class="py-24 bg-white dark:bg-slate-900 overflow-hidden relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="flex flex-col lg:flex-row items-center gap-16">
                 <!-- Photo Card -->
@@ -11,7 +28,7 @@
                     <div class="relative">
                         <div class="absolute -inset-4 bg-emerald-500/20 rounded-[3rem] blur-2xl"></div>
                         <div
-                            class="relative w-72 h-96 md:w-80 md:h-[30rem] rounded-[2.5rem] overflow-hidden border-4 border-white/10 shadow-2xl">
+                            class="relative w-72 h-96 md:w-80 md:h-[30rem] rounded-[2.5rem] overflow-hidden border-4 border-white dark:border-slate-800 shadow-2xl">
                             @if($profile->foto_kadis)
                                 <img src="{{ asset('storage/' . $profile->foto_kadis) }}" alt="Kepala Dinas PMD"
                                     class="w-full h-full object-cover">
@@ -35,22 +52,22 @@
                 </div>
 
                 <!-- Text Content -->
-                <div class="w-full lg:w-1/2 text-white">
+                <div class="w-full lg:w-1/2">
                     <span
-                        class="inline-block py-1 px-3 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-400 text-xs font-bold uppercase tracking-widest mb-6">
+                        class="inline-block py-1 px-3 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-widest mb-6">
                         Kata Sambutan
                     </span>
-                    <h1 class="text-4xl md:text-5xl font-bold mb-8 leading-tight">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-8 leading-tight text-slate-900 dark:text-white">
                         @if($profile->sambutan_judul)
                             {{ $profile->sambutan_judul }}
                         @else
                             Membangun Desa, <br>
                             <span
-                                class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300">Sejahterakan
+                                class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500 dark:from-emerald-400 dark:to-teal-300">Sejahterakan
                                 Rakyat</span>
                         @endif
                     </h1>
-                    <div class="space-y-6 text-slate-300 text-lg leading-relaxed italic">
+                    <div class="space-y-6 text-slate-600 dark:text-slate-300 text-lg leading-relaxed italic">
                         @if($profile->sambutan_teks)
                             {!! nl2br(e($profile->sambutan_teks)) !!}
                         @else
@@ -60,34 +77,30 @@
                                 laporan desa, demi menciptakan pemerintahan desa yang mandiri dan berdaya saing."</p>
                         @endif
                     </div>
-                </div>
-                <div class="mt-10 flex flex-wrap gap-4">
-                    <div class="flex items-center gap-3 bg-white/5 border border-white/10 rounded-2xl p-4">
+                    <div class="mt-10 flex flex-wrap gap-4">
                         <div
-                            class="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center font-bold text-white">
-                            1</div>
-                        <span class="text-sm font-medium">Inovasi Digital</span>
-                    </div>
-                    <div class="flex items-center gap-3 bg-white/5 border border-white/10 rounded-2xl p-4">
+                            class="flex items-center gap-3 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm rounded-2xl p-4">
+                            <div
+                                class="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center font-bold text-white">
+                                1</div>
+                            <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Inovasi Digital</span>
+                        </div>
                         <div
-                            class="w-10 h-10 bg-teal-500 rounded-full flex items-center justify-center font-bold text-white">
-                            2</div>
-                        <span class="text-sm font-medium">Transparansi Publik</span>
+                            class="flex items-center gap-3 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm rounded-2xl p-4">
+                            <div
+                                class="w-10 h-10 bg-teal-500 rounded-full flex items-center justify-center font-bold text-white">
+                                2</div>
+                            <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Transparansi
+                                Publik</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- BG Elements -->
-        <div
-            class="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[120px] -mr-64 -mt-64">
-        </div>
-        <div
-            class="absolute bottom-0 left-0 w-[300px] h-[300px] bg-blue-500/10 rounded-full blur-[100px] -ml-32 -mb-32">
-        </div>
     </section>
 
     <!-- Vision & Mission Section -->
-    <section class="py-24 bg-white dark:bg-slate-900 relative transition-colors duration-300">
+    <section class="py-24 bg-slate-50 dark:bg-slate-950 relative transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-20">
                 <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">Visi & Misi</h2>
@@ -97,9 +110,9 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
                 <!-- Visi Card -->
                 <div
-                    class="bg-slate-50 dark:bg-slate-800 p-10 rounded-[3rem] border border-slate-100 dark:border-slate-700 flex flex-col justify-center text-center transition-colors">
+                    class="bg-white dark:bg-slate-800 p-10 rounded-[3rem] border border-slate-100 dark:border-slate-700 flex flex-col justify-center text-center transition-colors shadow-sm">
                     <div
-                        class="mb-6 mx-auto w-16 h-16 bg-white dark:bg-slate-700 rounded-2xl shadow-lg flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                        class="mb-6 mx-auto w-16 h-16 bg-slate-50 dark:bg-slate-700 rounded-2xl shadow-lg flex items-center justify-center text-emerald-600 dark:text-emerald-400">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
