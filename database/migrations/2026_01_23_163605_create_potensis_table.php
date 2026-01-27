@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('desa_id')->constrained('desas')->onDelete('cascade');
             $table->string('nama_potensi');
-            $table->enum('kategori', ['alam', 'budaya', 'kuliner', 'buatan', 'lainnya']);
+            $table->enum('kategori', ['kuliner', 'kerajinan', 'event', 'alam', 'budaya', 'lainnya']);
             $table->text('deskripsi');
             $table->string('foto_utama')->nullable();
             $table->string('lokasi')->nullable();

@@ -55,4 +55,9 @@ class Desa extends Model
     {
         return $this->hasMany(DesaGallery::class);
     }
+
+    public function potensis(): HasMany
+    {
+        return $this->hasMany(Potensi::class);
+    }
 }

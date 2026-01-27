@@ -128,24 +128,27 @@
                             @else
                                 <div class="divide-y divide-slate-50">
                                     @foreach($desa->laporans as $laporan)
-                                        <a href="{{ route('dashboard.laporan.detail', $laporan->id) }}"
-                                            class="block p-6 hover:bg-slate-50 transition-all flex items-center justify-between group">
-                                            <div>
-                                                <div class="flex items-center gap-3 mb-1">
-                                                    <span
-                                                        class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider
-                                                                        {{ $laporan->kategori === 'keuangan' ? 'bg-indigo-100 text-indigo-700' : '' }}
-                                                                        {{ $laporan->kategori === 'penduduk' ? 'bg-teal-100 text-teal-700' : '' }}
-                                                                        {{ $laporan->kategori === 'kejadian' ? 'bg-red-100 text-red-700' : '' }}
-                                                                        {{ $laporan->kategori === 'lainnya' ? 'bg-slate-100 text-slate-700' : '' }}">
-                                                        {{ $laporan->kategori }}
-                                                    </span>
-                                                    <span class="text-xs text-slate-400">{{ $laporan->tanggal_laporan }}</span>
-                                                </div>
-                                                <h4
-                                                    class="font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
-                                                    {{ $laporan->judul }}
-                                                </h4>
+                                        <div
+                                            class="p-6 hover:bg-slate-50 transition-all flex items-center justify-between group relative">
+                                            <div class="flex-1">
+                                                <a href="{{ route('dashboard.laporan.detail', $laporan->id) }}" class="block">
+                                                    <div class="flex items-center gap-3 mb-1">
+                                                        <span
+                                                            class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider
+                                                                                    {{ $laporan->kategori === 'keuangan' ? 'bg-indigo-100 text-indigo-700' : '' }}
+                                                                                    {{ $laporan->kategori === 'penduduk' ? 'bg-teal-100 text-teal-700' : '' }}
+                                                                                    {{ $laporan->kategori === 'kejadian' ? 'bg-red-100 text-red-700' : '' }}
+                                                                                    {{ $laporan->kategori === 'lainnya' ? 'bg-slate-100 text-slate-700' : '' }}">
+                                                            {{ $laporan->kategori }}
+                                                        </span>
+                                                        <span
+                                                            class="text-xs text-slate-400">{{ $laporan->tanggal_laporan }}</span>
+                                                    </div>
+                                                    <h4
+                                                        class="font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
+                                                        {{ $laporan->judul }}
+                                                    </h4>
+                                                </a>
                                                 @if($laporan->file_path)
                                                     <div class="flex items-center gap-1 mt-1 text-[10px] text-blue-500 font-medium">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none"
@@ -157,16 +160,33 @@
                                                     </div>
                                                 @endif
                                             </div>
-                                            <div class="text-right">
+                                            <div class="flex items-center gap-4">
                                                 <span
                                                     class="px-3 py-1 rounded-full text-xs font-bold 
-                                                                    {{ $laporan->status === 'pending' ? 'bg-orange-100 text-orange-700' : '' }}
-                                                                    {{ $laporan->status === 'diterima' ? 'bg-green-100 text-green-700' : '' }}
-                                                                    {{ $laporan->status === 'ditolak' ? 'bg-red-100 text-red-700' : '' }}">
+                                                                            {{ $laporan->status === 'pending' ? 'bg-orange-100 text-orange-700' : '' }}
+                                                                            {{ $laporan->status === 'diterima' ? 'bg-green-100 text-green-700' : '' }}
+                                                                            {{ $laporan->status === 'ditolak' ? 'bg-red-100 text-red-700' : '' }}">
                                                     {{ ucfirst($laporan->status) }}
                                                 </span>
+                                                <form action="{{ route('dashboard.laporan.destroy', $laporan->id) }}"
+                                                    method="POST"
+                                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus laporan ini? Tindakan ini tidak dapat dibatalkan.');"
+                                                    class="inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        class="p-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-xl transition-all shadow-sm flex items-center justify-center"
+                                                        title="Hapus Laporan">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                                            viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                        </svg>
+                                                    </button>
+                                                </form>
                                             </div>
-                                        </a>
+                                        </div>
                                     @endforeach
                                 </div>
                             @endif

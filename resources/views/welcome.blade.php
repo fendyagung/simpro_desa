@@ -65,7 +65,8 @@
                 <div class="text-4xl font-bold text-slate-800 dark:text-white mb-2">
                     {{ $dpmdProfile->stat_total_desa ?? '159' }}
                 </div>
-                <div class="text-sm text-slate-500 dark:text-slate-400 uppercase tracking-wider font-medium">Desa</div>
+                <div class="text-sm text-slate-500 dark:text-slate-400 uppercase tracking-wider font-medium">
+                    Desa/Kelurahan</div>
             </div>
             <div class="text-center border-r border-slate-100 dark:border-slate-700 last:border-0">
                 <div class="text-4xl font-bold text-slate-800 dark:text-white mb-2">

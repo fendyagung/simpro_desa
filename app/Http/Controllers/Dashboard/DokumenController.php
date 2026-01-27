@@ -19,12 +19,12 @@ class DokumenController extends Controller
         if ($user->role === 'admin_dpmd') {
             // Inbox: All documents sent from villages to any DPMD admin
             $inbox = Dokumen::with('sender.desa')
-                ->whereHas('receiverUser', function ($q) {
-                    $q->where('role', 'admin_dpmd');
+                ->where(function ($q) use ($user) {
+                    $q->whereHas('receiverUser', function ($inner) {
+                        $inner->where('role', 'admin_dpmd');
+                    })->orWhere('receiver_user_id', $user->id);
                 })
-                ->orWhere(function ($q) use ($user) {
-                    $q->where('receiver_user_id', $user->id); // Fallback for specific sends
-                })
+                ->where('sender_id', '!=', $user->id)
                 ->latest()->get();
 
             // Outbox: Documents sent by THE CURRENT DPMD user to villages

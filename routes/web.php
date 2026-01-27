@@ -23,6 +23,7 @@ Route::post('/reset-password', [App\Http\Controllers\Auth\ResetPasswordControlle
 
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard');
 Route::get('/dashboard/laporan/buat', [App\Http\Controllers\DashboardController::class, 'createReport'])->middleware(['auth'])->name('dashboard.laporan.buat');
+Route::delete('/dashboard/laporan/{id}', [App\Http\Controllers\DashboardController::class, 'destroyLaporan'])->middleware(['auth'])->name('dashboard.laporan.destroy');
 Route::post('/dashboard/laporan/simpan', [App\Http\Controllers\DashboardController::class, 'storeReport'])->middleware(['auth'])->name('dashboard.laporan.simpan');
 Route::post('/dashboard/laporan/{id}/setujui', [App\Http\Controllers\DashboardController::class, 'approveLaporan'])->middleware(['auth'])->name('dashboard.laporan.approve');
 Route::post('/dashboard/laporan/{id}/tolak', [App\Http\Controllers\DashboardController::class, 'rejectLaporan'])->middleware(['auth'])->name('dashboard.laporan.reject');
@@ -106,5 +107,15 @@ Route::middleware(['auth'])->prefix('dashboard/dokumen')->name('dashboard.dokume
     Route::post('/store', [App\Http\Controllers\Dashboard\DokumenController::class, 'store'])->name('store');
     Route::get('/{id}/download', [App\Http\Controllers\Dashboard\DokumenController::class, 'download'])->name('download');
     Route::delete('/{id}', [App\Http\Controllers\Dashboard\DokumenController::class, 'destroy'])->name('destroy');
+});
+
+Route::middleware(['auth'])->prefix('dashboard/potensi')->name('dashboard.potensi.')->group(function () {
+    Route::get('/', [App\Http\Controllers\Dashboard\PotensiController::class, 'index'])->name('index');
+    Route::get('/create', [App\Http\Controllers\Dashboard\PotensiController::class, 'create'])->name('create');
+    Route::post('/store', [App\Http\Controllers\Dashboard\PotensiController::class, 'store'])->name('store');
+    Route::get('/{id}/edit', [App\Http\Controllers\Dashboard\PotensiController::class, 'edit'])->name('edit');
+    Route::post('/{id}/update', [App\Http\Controllers\Dashboard\PotensiController::class, 'update'])->name('update');
+    Route::delete('/{id}', [App\Http\Controllers\Dashboard\PotensiController::class, 'destroy'])->name('destroy');
+    Route::delete('/gallery/{id}', [App\Http\Controllers\Dashboard\PotensiController::class, 'destroyGallery'])->name('gallery.destroy');
 });
 

@@ -7,6 +7,7 @@ use App\Models\Laporan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use App\Mail\PesanReplyMail;
 
 class DashboardController extends Controller
@@ -316,6 +317,9 @@ class DashboardController extends Controller
             'nama_kabid_ekonomi' => 'nullable|string|max:255',
             'stat_wisatawan' => 'nullable|string|max:50',
             'video_promo_url' => 'nullable|url|max:255',
+            'alamat' => 'nullable|string|max:500',
+            'telepon' => 'nullable|string|max:50',
+            'email' => 'nullable|email|max:100',
             'gallery_photos.*' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
             'gallery_videos.*' => 'nullable|url|max:255',
         ]);
@@ -454,5 +458,21 @@ class DashboardController extends Controller
         return redirect()->route('dashboard.pesans')->with('success', 'Pesan berhasil dihapus.');
     }
 
+    public function destroyLaporan($id)
+    {
+        if (Auth::user()->role !== 'admin_dpmd') {
+            abort(403);
+        }
 
+        $laporan = Laporan::findOrFail($id);
+
+        // Delete associated file if exists
+        if ($laporan->file_path && Storage::disk('public')->exists($laporan->file_path)) {
+            Storage::disk('public')->delete($laporan->file_path);
+        }
+
+        $laporan->delete();
+
+        return redirect()->back()->with('success', 'Laporan berhasil dihapus.');
+    }
 }

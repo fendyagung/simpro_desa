@@ -55,7 +55,7 @@
                             <p class="text-sm text-slate-500 mt-1">Dari:
                                 <span class="text-blue-600 font-bold">
                                     @if($doc->sender?->role === 'admin_dpmd')
-                                        Admin DPMD Pusat
+                                        Admin (DPMD) Manggarai Timur
                                     @else
                                         {{ $doc->sender?->desa?->nama_desa ?? ($doc->sender?->name ?? 'Pengirim') }}
                                     @endif
@@ -116,7 +116,7 @@
                                     @if(Auth::user()->role === 'admin_dpmd')
                                         {{ $doc->receiverDesa?->nama_desa ?? 'Penerima' }}
                                     @else
-                                        Admin DPMD Pusat
+                                        Admin (DPMD) Manggarai Timur
                                     @endif
                                 </span>
                             </p>
@@ -154,3 +154,31 @@
         </div>
     </div>
 </x-layouts.admin>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('a[href*="/dashboard/dokumen/download/"]').forEach(link => {
+            link.addEventListener('click', function () {
+                // Find the "BARU" badge in the same item
+                const item = this.closest('div.p-6');
+                if (item) {
+                    const badge = item.querySelector('span.bg-red-100');
+                    if (badge) {
+                        badge.style.display = 'none';
+
+                        // Also update the sidebar count
+                        const sidebarBadge = document.querySelector('a[href*="/dashboard/dokumen"] span.bg-blue-500');
+                        if (sidebarBadge) {
+                            let count = parseInt(sidebarBadge.innerText);
+                            if (count > 1) {
+                                sidebarBadge.innerText = count - 1;
+                            } else {
+                                sidebarBadge.style.display = 'none';
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    });
+</script>

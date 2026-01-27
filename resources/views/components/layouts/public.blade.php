@@ -1,3 +1,6 @@
+@php
+    $dpmdProfile = \App\Models\DpmdProfile::first();
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -184,7 +187,10 @@
                 <div>
                     <h3 class="font-bold text-lg mb-4">DPMD Manggarai Timur</h3>
                     <p class="text-slate-400 text-sm leading-relaxed mb-4">
-                        Jl. Trans Flores, Borong, Kabupaten Manggarai Timur, Nusa Tenggara Timur.
+                        {{ $dpmdProfile->alamat ?? 'Jl. Trans Flores, Borong, Kabupaten Manggarai Timur, Nusa Tenggara Timur.' }}
+                        <br>
+                        {{ $dpmdProfile->telepon ?? '(0385) 123456' }} • {{ $dpmdProfile->email ??
+                        'info@dpmdmatim.go.id' }}
                     </p>
                     <div class="flex space-x-4">
                         <a href="#"
@@ -236,6 +242,7 @@
             }
         });
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fslightbox/3.0.9/index.js"></script>
 </body>
 
 </html>

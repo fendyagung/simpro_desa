@@ -42,7 +42,7 @@
                                 @endforeach
                             @else
                                 @foreach($dpmdAdmins as $admin)
-                                    <option value="{{ $admin->id }}" selected>Admin Pusat DPMD ({{ $admin->name }})</option>
+                                    <option value="{{ $admin->id }}" selected>Admin (DPMD) Manggarai Timur ({{ $admin->name }})</option>
                                 @endforeach
                             @endif
                         </select>
@@ -56,7 +56,7 @@
                     </div>
                     @if(Auth::user()->role === 'admin_desa')
                         <p class="mt-2 text-xs text-blue-500 font-medium">✨ Berkas ini akan dikirimkan langsung ke Dashboard
-                            Admin DPMD Pusat.</p>
+                            Admin (DPMD) Manggarai Timur.</p>
                     @endif
                 </div>
 

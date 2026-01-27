@@ -73,7 +73,8 @@
             <!-- DPMD Stats -->
             <a href="#monitoring-desa"
                 class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg hover:border-blue-200 transition-all group">
-                <h3 class="text-slate-500 text-sm font-medium group-hover:text-blue-600 transition-colors">Total Desa</h3>
+                <h3 class="text-slate-500 text-sm font-medium group-hover:text-blue-600 transition-colors">Total
+                    Desa/Kelurahan</h3>
                 <p class="text-2xl font-bold text-slate-800 mt-1 flex items-center justify-between">
                     <span>{{ $data['total_desa'] }} Desa</span>
                     <svg xmlns="http://www.w3.org/2000/svg"
@@ -177,7 +178,7 @@
                                         @csrf
                                         <button type="submit"
                                             class="px-3 py-1 rounded-full text-[10px] font-bold transition-all shadow-sm
-                                                                                                                                                        {{ $desa->is_desa_wisata ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200' : 'bg-slate-100 text-slate-500 hover:bg-slate-200' }}">
+                                                                                                                                                                        {{ $desa->is_desa_wisata ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200' : 'bg-slate-100 text-slate-500 hover:bg-slate-200' }}">
                                             {{ $desa->is_desa_wisata ? 'WISATA: AKTIF' : 'BUKAN WISATA' }}
                                         </button>
                                     </form>
@@ -240,6 +241,21 @@
                                         </svg>
                                         Profil Desa
                                     </a>
+                                    <form action="{{ route('dashboard.laporan.destroy', $laporan->id) }}" method="POST"
+                                        onsubmit="return confirm('Apakah Anda yakin ingin menghapus laporan ini? Tindakan ini tidak dapat dibatalkan.');"
+                                        class="inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="p-1.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg transition-colors shadow-sm group-has-hover:scale-110"
+                                            title="Hapus Laporan">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                        </button>
+                                    </form>
                                 @endif
                             </div>
                         </div>

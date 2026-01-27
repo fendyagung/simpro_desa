@@ -180,7 +180,7 @@
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
                     <div>
                         <label for="stat_total_desa" class="block text-sm font-semibold text-slate-700 mb-2">Total
-                            Desa</label>
+                            Desa/Kelurahan</label>
                         <input type="number" name="stat_total_desa" id="stat_total_desa"
                             value="{{ old('stat_total_desa', $profile->stat_total_desa) }}"
                             class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none">
@@ -206,6 +206,37 @@
                             value="{{ old('stat_wisatawan', $profile->stat_wisatawan) }}"
                             class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none"
                             placeholder="Contoh: 12rb">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Section -->
+            <div class="pt-8 border-t border-slate-100">
+                <h3 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
+                    <span class="w-2 h-6 bg-blue-600 rounded-full"></span>
+                    Informasi Kontak Kantor
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="md:col-span-3">
+                        <label for="alamat" class="block text-sm font-semibold text-slate-700 mb-2">Alamat Kantor
+                            Lengkap</label>
+                        <textarea name="alamat" id="alamat" rows="2"
+                            class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none"
+                            placeholder="Contoh: Jl. Trans Flores, Borong, Kabupaten Manggarai Timur, Nusa Tenggara Timur.">{{ old('alamat', $profile->alamat) }}</textarea>
+                    </div>
+                    <div>
+                        <label for="telepon" class="block text-sm font-semibold text-slate-700 mb-2">Nomor Telepon
+                            Kantor</label>
+                        <input type="text" name="telepon" id="telepon" value="{{ old('telepon', $profile->telepon) }}"
+                            class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none"
+                            placeholder="Contoh: (0385) 123456">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label for="email" class="block text-sm font-semibold text-slate-700 mb-2">Email Resmi
+                            Kantor</label>
+                        <input type="email" name="email" id="email" value="{{ old('email', $profile->email) }}"
+                            class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none"
+                            placeholder="Contoh: info@dpmdmatim.go.id">
                     </div>
                 </div>
             </div>

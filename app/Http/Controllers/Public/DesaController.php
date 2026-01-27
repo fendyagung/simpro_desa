@@ -22,17 +22,20 @@ class DesaController extends Controller
 
     public function kuliner()
     {
-        return view('public.kuliner');
+        $potensis = \App\Models\Potensi::with('desa')->where('kategori', 'kuliner')->latest()->get();
+        return view('public.kuliner', compact('potensis'));
     }
 
     public function kerajinan()
     {
-        return view('public.kerajinan');
+        $potensis = \App\Models\Potensi::with('desa')->where('kategori', 'kerajinan')->latest()->get();
+        return view('public.kerajinan', compact('potensis'));
     }
 
     public function event()
     {
-        return view('public.event');
+        $potensis = \App\Models\Potensi::with('desa')->where('kategori', 'event')->latest()->get();
+        return view('public.event', compact('potensis'));
     }
 
     public function panduan()
@@ -42,7 +45,8 @@ class DesaController extends Controller
 
     public function kontak()
     {
-        return view('public.kontak');
+        $profile = \App\Models\DpmdProfile::first();
+        return view('public.kontak', compact('profile'));
     }
 
     public function potensiWisata()
