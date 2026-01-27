@@ -34,9 +34,12 @@
                             <tr class="hover:bg-slate-50/50 transition-colors">
                                 <td class="px-8 py-4">
                                     <div class="w-16 h-12 rounded-lg bg-slate-100 overflow-hidden border border-slate-200">
-                                        @if($berita->thumbnail)
-                                            <img src="{{ asset('storage/' . $berita->thumbnail) }}"
-                                                class="w-full h-full object-cover">
+                                        @if($berita->foto)
+                                            <a href="{{ asset('storage/' . $berita->foto) }}" data-fslightbox="gallery"
+                                                class="block w-full h-full group/img">
+                                                <img src="{{ asset('storage/' . $berita->foto) }}"
+                                                    class="w-full h-full object-cover transition-transform group-hover/img:scale-110">
+                                            </a>
                                         @else
                                             <div class="w-full h-full flex items-center justify-center text-slate-300">
                                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -119,5 +122,6 @@
                 {{ $beritas->links() }}
             </div>
         @endif
+    </div>
     </div>
 </x-layouts.admin>

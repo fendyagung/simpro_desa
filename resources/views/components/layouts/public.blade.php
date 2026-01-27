@@ -119,7 +119,7 @@
                     @else
                         <a href="{{ route('login') }}"
                             class="hidden md:inline-flex items-center justify-center px-6 py-2 border border-transparent text-sm font-medium rounded-full text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 shadow-lg shadow-emerald-500/30 transition-all transform hover:-translate-y-0.5">
-                            Login Desa
+                            Login Admin
                         </a>
                     @endauth
                     <x-theme-switcher />

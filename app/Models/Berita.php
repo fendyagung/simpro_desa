@@ -39,6 +39,14 @@ class Berita extends Model
     }
 
     /**
+     * Get the author name.
+     */
+    public function getPenulisAttribute(): string
+    {
+        return $this->user ? $this->user->name : 'Admin';
+    }
+
+    /**
      * Boot function to automatically generate slug.
      */
     protected static function boot()

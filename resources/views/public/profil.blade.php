@@ -1,4 +1,7 @@
 <x-layouts.public>
+    @php
+        $profile = $profile ?? new \App\Models\DpmdProfile();
+    @endphp
     <!-- Hero / Kadis Greeting Section -->
     <section class="relative pt-32 pb-20 bg-slate-950 overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -235,7 +238,7 @@
     </section>
 
     <!-- DPMD Photo Gallery Section -->
-    @if($profile->galleries->where('type', 'foto')->count() > 0)
+    @if($profile && $profile->exists && $profile->galleries->where('type', 'foto')->count() > 0)
         <section class="py-24 bg-white dark:bg-slate-900 transition-colors duration-300">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-16 px-4">
@@ -261,7 +264,7 @@
     @endif
 
     <!-- DPMD Video Gallery Section -->
-    @if($profile->galleries->where('type', 'video')->count() > 0)
+    @if($profile && $profile->exists && $profile->galleries->where('type', 'video')->count() > 0)
         <section class="py-24 bg-slate-50 dark:bg-slate-950/50 transition-colors duration-300">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-16 px-4">

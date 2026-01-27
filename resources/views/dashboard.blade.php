@@ -4,7 +4,7 @@
         @php
             $hasAccepted = \App\Models\Laporan::whereHas('desa', function ($q) {
                 $q->where('user_id', Auth::id());
-            })->where('status', 'diterima')->where('updated_at', '>', now()->subDays(1))->exists();
+            })->where('status', 'diterima')->where('updated_at', '>', now()->subMinutes(30))->exists();
         @endphp
 
         @if($hasAccepted)
@@ -177,7 +177,7 @@
                                         @csrf
                                         <button type="submit"
                                             class="px-3 py-1 rounded-full text-[10px] font-bold transition-all shadow-sm
-                                                                                                                                {{ $desa->is_desa_wisata ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200' : 'bg-slate-100 text-slate-500 hover:bg-slate-200' }}">
+                                                                                                                                                        {{ $desa->is_desa_wisata ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200' : 'bg-slate-100 text-slate-500 hover:bg-slate-200' }}">
                                             {{ $desa->is_desa_wisata ? 'WISATA: AKTIF' : 'BUKAN WISATA' }}
                                         </button>
                                     </form>

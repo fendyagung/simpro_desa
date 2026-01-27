@@ -321,7 +321,7 @@ class DashboardController extends Controller
         ]);
 
 
-        $data = $request->all();
+        $data = $request->except(['gallery_photos', 'gallery_videos']);
 
         if ($request->hasFile('foto_kadis')) {
             $data['foto_kadis'] = $request->file('foto_kadis')->store('dpmd-profile', 'public');
