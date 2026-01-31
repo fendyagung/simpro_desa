@@ -76,19 +76,33 @@
                 </div>
                 <div class="hidden md:flex h-20">
                     <a href="{{ url('/') }}"
-                        class="px-5 flex items-center font-medium transition-colors {{ Request::is('/') ? 'bg-[#2b529a] text-white' : 'text-slate-700 hover:bg-slate-50' }}">Beranda</a>
+                        class="px-3 flex items-center font-bold text-sm whitespace-nowrap transition-all duration-300 {{ Request::is('/') ? 'bg-[#2b529a] text-white shadow-inner' : 'text-slate-600 hover:text-[#2b529a] hover:bg-blue-50' }}">
+                        BERANDA
+                    </a>
                     <a href="{{ route('public.profil') }}"
-                        class="px-5 flex items-center font-medium transition-colors {{ Request::is('profil') ? 'bg-[#2b529a] text-white' : 'text-slate-700 hover:bg-slate-50' }}">Profil</a>
+                        class="px-3 flex items-center font-bold text-sm whitespace-nowrap transition-all duration-300 {{ Request::is('profil') ? 'bg-[#2b529a] text-white shadow-inner' : 'text-slate-600 hover:text-[#2b529a] hover:bg-blue-50' }}">
+                        PROFIL
+                    </a>
                     <a href="{{ route('public.desa-wisata') }}"
-                        class="px-5 flex items-center font-medium transition-colors {{ Request::is('jelajah/desa-wisata') ? 'bg-[#2b529a] text-white' : 'text-slate-700 hover:bg-slate-50' }}">Desa
-                        Wisata</a>
+                        class="px-3 flex items-center font-bold text-sm whitespace-nowrap transition-all duration-300 {{ Request::is('jelajah/desa-wisata') ? 'bg-[#2b529a] text-white shadow-inner' : 'text-slate-600 hover:text-[#2b529a] hover:bg-blue-50' }}">
+                        DESA WISATA
+                    </a>
+                    <a href="{{ route('public.komoditi') }}"
+                        class="px-3 flex items-center font-bold text-sm whitespace-nowrap transition-all duration-300 {{ Request::is('jelajah/komoditi') ? 'bg-[#2b529a] text-white shadow-inner' : 'text-slate-600 hover:text-[#2b529a] hover:bg-blue-50' }}">
+                        KOMODITI
+                    </a>
                     <a href="{{ route('public.laporan-desa') }}"
-                        class="px-5 flex items-center font-medium transition-colors {{ Request::is('laporan-desa') ? 'bg-[#2b529a] text-white' : 'text-slate-700 hover:bg-slate-50' }}">Laporan
-                        Desa</a>
+                        class="px-3 flex items-center font-bold text-sm whitespace-nowrap transition-all duration-300 {{ Request::is('laporan-desa') ? 'bg-[#2b529a] text-white shadow-inner' : 'text-slate-600 hover:text-[#2b529a] hover:bg-blue-50' }}">
+                        LAPORAN DESA
+                    </a>
                     <a href="{{ route('public.berita') }}"
-                        class="px-5 flex items-center font-medium transition-colors {{ Request::is('berita') ? 'bg-[#2b529a] text-white' : 'text-slate-700 hover:bg-slate-50' }}">Berita</a>
+                        class="px-3 flex items-center font-bold text-sm whitespace-nowrap transition-all duration-300 {{ Request::is('berita') ? 'bg-[#2b529a] text-white shadow-inner' : 'text-slate-600 hover:text-[#2b529a] hover:bg-blue-50' }}">
+                        BERITA
+                    </a>
                     <a href="{{ route('public.kontak') }}"
-                        class="px-5 flex items-center font-medium transition-colors {{ Request::is('layanan/kontak') ? 'bg-[#2b529a] text-white' : 'text-slate-700 hover:bg-slate-50' }}">Kontak</a>
+                        class="px-3 flex items-center font-bold text-sm whitespace-nowrap transition-all duration-300 {{ Request::is('layanan/kontak') ? 'bg-[#2b529a] text-white shadow-inner' : 'text-slate-600 hover:text-[#2b529a] hover:bg-blue-50' }}">
+                        KONTAK
+                    </a>
                 </div>
                 <div class="flex items-center space-x-4">
                     @auth
@@ -163,6 +177,8 @@
                     <ul class="space-y-3 text-slate-400 text-sm">
                         <li><a href="{{ route('public.desa-wisata') }}"
                                 class="hover:text-emerald-400 transition-colors">Desa Wisata</a></li>
+                        <li><a href="{{ route('public.komoditi') }}"
+                                class="hover:text-emerald-400 transition-colors">Komoditi Unggulan</a></li>
                         <li><a href="{{ route('public.kuliner') }}"
                                 class="hover:text-emerald-400 transition-colors">Kuliner Khas</a></li>
                         <li><a href="{{ route('public.kerajinan') }}"

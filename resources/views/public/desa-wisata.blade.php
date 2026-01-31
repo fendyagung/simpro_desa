@@ -1,13 +1,32 @@
 <x-layouts.public>
     <div class="py-24 bg-slate-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h1 class="text-4xl md:text-5xl font-bold text-slate-800 mb-4">Eksplorasi Desa Wisata</h1>
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-bold text-slate-800 mb-4">Eksplorasi Desa & Kelurahan Wisata</h1>
                 <div class="w-24 h-1.5 bg-emerald-500 mx-auto rounded-full mb-6"></div>
                 <p class="text-slate-600 max-w-2xl mx-auto text-lg leading-relaxed">
-                    Temukan pesona autentik Manggarai Timur melalui desa-desa wisata yang menawarkan keindahan alam,
+                    Temukan pesona autentik Manggarai Timur melalui desa dan kelurahan wisata yang menawarkan keindahan
+                    alam,
                     budaya, dan kearifan lokal yang unik.
                 </p>
+            </div>
+
+            <!-- Tabs -->
+            <div class="flex justify-center mb-12">
+                <div class="bg-white p-1.5 rounded-2xl shadow-sm border border-slate-100 inline-flex">
+                    <a href="{{ route('public.desa-wisata') }}"
+                        class="px-6 py-2.5 rounded-xl text-sm font-bold transition-all {{ !request('jenis') ? 'bg-emerald-500 text-white shadow-md' : 'text-slate-600 hover:bg-slate-50' }}">
+                        Semua
+                    </a>
+                    <a href="{{ route('public.desa-wisata', ['jenis' => 'desa']) }}"
+                        class="px-6 py-2.5 rounded-xl text-sm font-bold transition-all {{ request('jenis') == 'desa' ? 'bg-emerald-500 text-white shadow-md' : 'text-slate-600 hover:bg-slate-50' }}">
+                        Desa
+                    </a>
+                    <a href="{{ route('public.desa-wisata', ['jenis' => 'kelurahan']) }}"
+                        class="px-6 py-2.5 rounded-xl text-sm font-bold transition-all {{ request('jenis') == 'kelurahan' ? 'bg-emerald-500 text-white shadow-md' : 'text-slate-600 hover:bg-slate-50' }}">
+                        Kelurahan
+                    </a>
+                </div>
             </div>
 
             @if($desas->isEmpty())
@@ -83,6 +102,10 @@
                             </div>
                         </div>
                     @endforeach
+                </div>
+
+                <div class="mt-12">
+                    {{ $desas->links() }}
                 </div>
             @endif
         </div>

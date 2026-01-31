@@ -33,10 +33,8 @@
                         class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
                         onchange="toggleDesaSelector()">
                         <option value="">-- Pilih Tingkatan --</option>
-                        @if(!$dpmdAdminExists)
-                            <option value="admin_dpmd" {{ old('role') == 'admin_dpmd' ? 'selected' : '' }}>Admin Dinas PMD
-                            </option>
-                        @endif
+                        <option value="admin_dpmd" {{ old('role') == 'admin_dpmd' ? 'selected' : '' }}>Admin Dinas PMD
+                        </option>
                         <option value="admin_desa" {{ old('role') == 'admin_desa' ? 'selected' : '' }}>Admin Desa</option>
                     </select>
                     <x-input-error :messages="$errors->get('role')" class="mt-1" />
@@ -50,7 +48,8 @@
                         <option value="">-- Pilih Desa Anda --</option>
                         @foreach($availableDesas as $desa)
                             <option value="{{ $desa->id }}" {{ old('desa_id') == $desa->id ? 'selected' : '' }}>
-                                {{ $desa->nama_desa }}</option>
+                                {{ $desa->nama_desa }}
+                            </option>
                         @endforeach
                     </select>
                     <x-input-error :messages="$errors->get('desa_id')" class="mt-1" />

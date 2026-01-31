@@ -37,12 +37,7 @@ class RegisterController extends Controller
             'desa_id' => ['required_if:role,admin_desa', 'nullable', 'exists:desas,id'],
         ]);
 
-        // Double check for DPMD Admin restriction
-        if ($request->role === 'admin_dpmd') {
-            if (User::where('role', 'admin_dpmd')->exists()) {
-                return back()->withErrors(['role' => 'Admin Dinas PMD sudah terdaftar di sistem.']);
-            }
-        }
+
 
         // Double check for Desa Admin restriction
         if ($request->role === 'admin_desa') {

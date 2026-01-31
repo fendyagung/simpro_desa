@@ -44,23 +44,23 @@ class DesaSeeder extends Seeder
 
         // 4. Create Desa Colol
         $desaColol = Desa::create([
-            'nama_desa' => 'Desa Wisata Colol',
+            'nama_desa' => 'Desa Colol',
             'kode_desa' => '5319012001',
             'kecamatan' => 'Lamba Leda Timur',
             'kepala_desa' => 'Paulus Namas',
             'deskripsi' => 'Colol merupakan pusat penghasil kopi terbaik di Flores.',
-            'is_desa_wisata' => true,
+            'is_desa_wisata' => false,
             'user_id' => $adminColol->id,
         ]);
 
         // 5. Create Desa Golo Loni
         $desaGoloLoni = Desa::create([
-            'nama_desa' => 'Desa Wisata Golo Loni',
+            'nama_desa' => 'Desa Golo Loni',
             'kode_desa' => '5319012002',
             'kecamatan' => 'Rana Mese',
             'kepala_desa' => 'Yohanes Bosco',
             'deskripsi' => 'Golo Loni menawarkan keindahan sawah terasering dan agrowisata.',
-            'is_desa_wisata' => true,
+            'is_desa_wisata' => false,
             'user_id' => $adminGoloLoni->id,
         ]);
 

@@ -82,6 +82,7 @@ Route::prefix('jelajah')->group(function () {
     Route::get('/desa-wisata', [App\Http\Controllers\Public\DesaController::class, 'desaWisata'])->name('public.desa-wisata');
     Route::get('/desa/{id}', [App\Http\Controllers\Public\DesaController::class, 'showProfil'])->name('public.desa.profil');
     Route::get('/kuliner', [App\Http\Controllers\Public\DesaController::class, 'kuliner'])->name('public.kuliner');
+    Route::get('/komoditi', [App\Http\Controllers\Public\DesaController::class, 'komoditi'])->name('public.komoditi');
     Route::get('/kerajinan', [App\Http\Controllers\Public\DesaController::class, 'kerajinan'])->name('public.kerajinan');
     Route::get('/event', [App\Http\Controllers\Public\DesaController::class, 'event'])->name('public.event');
 });

@@ -27,6 +27,16 @@
             </div>
 
             <div>
+                <label for="jenis" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Jenis
+                    Wilayah</label>
+                <select name="jenis" id="jenis" required
+                    class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-indigo-500 transition-all">
+                    <option value="desa" selected>Desa</option>
+                    <option value="kelurahan">Kelurahan</option>
+                </select>
+            </div>
+
+            <div>
                 <label for="kode_desa" class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Kode Desa
                     (Opsional)</label>
                 <input type="text" name="kode_desa" id="kode_desa" value="{{ old('kode_desa') }}"
@@ -38,9 +48,15 @@
             <div>
                 <label for="kecamatan"
                     class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Kecamatan</label>
-                <input type="text" name="kecamatan" id="kecamatan" required value="{{ old('kecamatan') }}"
-                    class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-indigo-500 transition-all"
-                    placeholder="Contoh: Rana Mese">
+                <select name="kecamatan" id="kecamatan" required
+                    class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-indigo-500 transition-all">
+                    <option value="" disabled selected>-- Pilih Kecamatan --</option>
+                    @foreach($kecamatans as $k)
+                        <option value="{{ $k->nama }}" {{ old('kecamatan') == $k->nama ? 'selected' : '' }}>
+                            {{ $k->nama }}
+                        </option>
+                    @endforeach
+                </select>
                 <x-input-error :messages="$errors->get('kecamatan')" class="mt-2" />
             </div>
 

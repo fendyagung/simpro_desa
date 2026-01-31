@@ -22,6 +22,19 @@
                 <div
                     class="bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-sm border border-slate-100 dark:border-slate-700 space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        @if(Auth::user()->role === 'admin_dpmd')
+                            <div class="space-y-2 col-span-2">
+                                <label class="block text-sm font-bold text-slate-700 dark:text-slate-300">Pilih Desa Sumber
+                                    Potensi</label>
+                                <select name="desa_id" required
+                                    class="w-full px-5 py-3 rounded-2xl border border-slate-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all outline-none appearance-none">
+                                    <option value="" disabled selected>-- Pilih Desa --</option>
+                                    @foreach($desas as $desa)
+                                        <option value="{{ $desa->id }}">{{ $desa->nama_desa }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @endif
                         <div class="space-y-2">
                             <label class="block text-sm font-bold text-slate-700 dark:text-slate-300">Nama Potensi /
                                 Produk</label>
@@ -39,6 +52,7 @@
                                 <option value="event">Event Budaya</option>
                                 <option value="alam">Wisata Alam</option>
                                 <option value="budaya">Seni Budaya</option>
+                                <option value="komoditi">Komoditi Unggulan</option>
                                 <option value="lainnya">Lainnya</option>
                             </select>
                             @error('kategori') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror

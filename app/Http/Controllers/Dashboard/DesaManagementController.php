@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Desa;
+use App\Models\Kecamatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,7 +27,8 @@ class DesaManagementController extends Controller
     public function create()
     {
         $this->checkAdmin();
-        return view('dashboard.dpmd.desa.create');
+        $kecamatans = Kecamatan::orderBy('nama')->get();
+        return view('dashboard.dpmd.desa.create', compact('kecamatans'));
     }
 
     public function store(Request $request)
@@ -34,12 +36,14 @@ class DesaManagementController extends Controller
         $this->checkAdmin();
         $request->validate([
             'nama_desa' => 'required|string|max:255',
+            'jenis' => 'required|in:desa,kelurahan',
             'kode_desa' => 'nullable|string|max:20|unique:desas,kode_desa',
             'kecamatan' => 'required|string|max:255',
         ]);
 
         Desa::create([
             'nama_desa' => $request->nama_desa,
+            'jenis' => $request->jenis ?? 'desa',
             'kode_desa' => $request->kode_desa,
             'kecamatan' => $request->kecamatan,
         ]);
@@ -51,7 +55,8 @@ class DesaManagementController extends Controller
     {
         $this->checkAdmin();
         $desa = Desa::findOrFail($id);
-        return view('dashboard.dpmd.desa.edit', compact('desa'));
+        $kecamatans = Kecamatan::orderBy('nama')->get();
+        return view('dashboard.dpmd.desa.edit', compact('desa', 'kecamatans'));
     }
 
     public function update(Request $request, $id)
@@ -61,12 +66,14 @@ class DesaManagementController extends Controller
 
         $request->validate([
             'nama_desa' => 'required|string|max:255',
+            'jenis' => 'required|in:desa,kelurahan',
             'kode_desa' => 'nullable|string|max:20|unique:desas,kode_desa,' . $id,
             'kecamatan' => 'required|string|max:255',
         ]);
 
         $desa->update([
             'nama_desa' => $request->nama_desa,
+            'jenis' => $request->jenis ?? 'desa',
             'kode_desa' => $request->kode_desa,
             'kecamatan' => $request->kecamatan,
         ]);

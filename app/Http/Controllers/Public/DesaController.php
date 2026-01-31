@@ -8,9 +8,15 @@ use Illuminate\Support\Facades\Auth;
 
 class DesaController extends Controller
 {
-    public function desaWisata()
+    public function desaWisata(Request $request)
     {
-        $desas = \App\Models\Desa::where('is_desa_wisata', true)->get();
+        $query = \App\Models\Desa::where('is_desa_wisata', true);
+
+        if ($request->has('jenis') && in_array($request->jenis, ['desa', 'kelurahan'])) {
+            $query->where('jenis', $request->jenis);
+        }
+
+        $desas = $query->latest()->paginate(9);
         return view('public.desa-wisata', compact('desas'));
     }
 
@@ -24,6 +30,12 @@ class DesaController extends Controller
     {
         $potensis = \App\Models\Potensi::with('desa')->where('kategori', 'kuliner')->latest()->get();
         return view('public.kuliner', compact('potensis'));
+    }
+
+    public function komoditi()
+    {
+        $potensis = \App\Models\Potensi::with('desa')->where('kategori', 'komoditi')->latest()->get();
+        return view('public.komoditi', compact('potensis'));
     }
 
     public function kerajinan()

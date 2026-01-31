@@ -60,33 +60,50 @@
 
     <div class="relative -mt-20 z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
-            class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8 md:p-12 border border-slate-100 dark:border-slate-700 grid grid-cols-2 md:grid-cols-4 gap-8 transition-colors duration-300">
-            <div class="text-center border-r border-slate-100 dark:border-slate-700 last:border-0">
-                <div class="text-4xl font-bold text-slate-800 dark:text-white mb-2">
-                    {{ $dpmdProfile->stat_total_desa ?? '159' }}
+            class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl py-4 px-8 border border-slate-100 dark:border-slate-700 flex items-center justify-between gap-8 transition-colors duration-300">
+            <div class="flex flex-col items-center gap-1 border-r border-slate-100 dark:border-slate-700 pr-8">
+                <div class="text-sm text-slate-600 dark:text-slate-300 uppercase tracking-wider font-extrabold">
+                    Kecamatan</div>
+                <div class="text-3xl md:text-4xl font-bold text-slate-800 dark:text-white">
+                    12
                 </div>
-                <div class="text-sm text-slate-500 dark:text-slate-400 uppercase tracking-wider font-medium">
-                    Desa/Kelurahan</div>
             </div>
-            <div class="text-center border-r border-slate-100 dark:border-slate-700 last:border-0">
-                <div class="text-4xl font-bold text-slate-800 dark:text-white mb-2">
+            <div class="flex flex-col items-center gap-1 border-r border-slate-100 dark:border-slate-700 pr-8">
+                <div class="text-sm text-slate-600 dark:text-slate-300 uppercase tracking-wider font-extrabold">
+                    Desa</div>
+                <div class="text-3xl md:text-4xl font-bold text-slate-800 dark:text-white">
+                    {{ \App\Models\Desa::where('jenis', 'desa')->count() ?: 159 }}
+                </div>
+            </div>
+            <div class="flex flex-col items-center gap-1 border-r border-slate-100 dark:border-slate-700 pr-8">
+                <div class="text-sm text-slate-600 dark:text-slate-300 uppercase tracking-wider font-extrabold">
+                    Kelurahan</div>
+                <div class="text-3xl md:text-4xl font-bold text-slate-800 dark:text-white">
+                    {{ \App\Models\Desa::where('jenis', 'kelurahan')->count() ?: 17 }}
+                </div>
+            </div>
+            <div class="flex flex-col items-center gap-1 border-r border-slate-100 dark:border-slate-700 pr-8">
+                <div class="text-sm text-slate-600 dark:text-slate-300 uppercase tracking-wider font-extrabold">
+                    Desa Wisata
+                </div>
+                <div class="text-3xl md:text-4xl font-bold text-slate-800 dark:text-white">
                     {{ $dpmdProfile->stat_desa_wisata ?? '45' }}
                 </div>
-                <div class="text-sm text-slate-500 dark:text-slate-400 uppercase tracking-wider font-medium">Desa Wisata
-                </div>
             </div>
-            <div class="text-center border-r border-slate-100 dark:border-slate-700 last:border-0">
-                <div class="text-4xl font-bold text-slate-800 dark:text-white mb-2">
+            <div class="flex flex-col items-center gap-1 border-r border-slate-100 dark:border-slate-700 pr-8">
+                <div class="text-sm text-slate-600 dark:text-slate-300 uppercase tracking-wider font-extrabold">
+                    Spot Wisata
+                </div>
+                <div class="text-3xl md:text-4xl font-bold text-slate-800 dark:text-white">
                     {{ $dpmdProfile->stat_spot_wisata ?? '80' }}
                 </div>
-                <div class="text-sm text-slate-500 dark:text-slate-400 uppercase tracking-wider font-medium">Spot Wisata
-                </div>
             </div>
-            <div class="text-center">
-                <div class="text-4xl font-bold text-slate-800 dark:text-white mb-2">
-                    {{ $dpmdProfile->stat_wisatawan ?? '12rb' }}
+            <div class="flex flex-col items-center gap-1">
+                <div class="text-sm text-slate-600 dark:text-slate-300 uppercase tracking-wider font-extrabold">
+                    Wisatawan
                 </div>
-                <div class="text-sm text-slate-500 dark:text-slate-400 uppercase tracking-wider font-medium">Wisatawan
+                <div class="text-3xl md:text-4xl font-bold text-slate-800 dark:text-white">
+                    {{ $dpmdProfile->stat_wisatawan ?? '12rb' }}
                 </div>
             </div>
         </div>
@@ -164,6 +181,71 @@
                 <a href="{{ route('public.desa-wisata') }}"
                     class="inline-flex items-center px-10 py-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm text-sm font-bold rounded-2xl text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-emerald-500 hover:text-emerald-600 transition-all">
                     Lihat Semua Desa
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Commodities Section -->
+    <section id="komoditi" class="py-24 bg-white relative overflow-hidden">
+        <!-- Decorative Background -->
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-yellow-50 rounded-full blur-3xl opacity-50"></div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 bg-emerald-50 rounded-full blur-3xl opacity-50">
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mb-4">Komoditi Unggulan</h2>
+                <div class="w-24 h-1 bg-yellow-400 mx-auto rounded-full mb-6"></div>
+                <p class="text-slate-600 max-w-2xl mx-auto">
+                    Kekayaan alam Manggarai Timur yang mendunia. Temukan produk berkualitas langsung dari petani lokal.
+                </p>
+            </div>
+
+            @php
+                $topCommodities = \App\Models\Potensi::with('desa')->where('kategori', 'komoditi')->take(3)->latest()->get();
+            @endphp
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                @forelse($topCommodities as $item)
+                    <div class="group relative rounded-2xl overflow-hidden cursor-pointer">
+                        <div class="absolute inset-0 bg-slate-900/40 group-hover:bg-slate-900/30 transition-colors z-10">
+                        </div>
+                        <img src="{{ $item->foto_utama ? asset('storage/' . $item->foto_utama) : 'https://images.unsplash.com/photo-1597075687490-8f673c6c17f6?auto=format&fit=crop&w=800&q=80' }}"
+                            alt="{{ $item->nama_potensi }}"
+                            class="w-full h-80 object-cover transform group-hover:scale-110 transition-transform duration-700">
+                        <div
+                            class="absolute bottom-0 left-0 p-8 z-20 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                            <span
+                                class="inline-block px-3 py-1 bg-yellow-400 text-yellow-900 text-xs font-bold rounded-full mb-3">
+                                {{ $item->desa->nama_desa }}
+                            </span>
+                            <h3 class="text-2xl font-bold text-white mb-2">{{ $item->nama_potensi }}</h3>
+                            <a href="{{ route('public.desa.profil', $item->desa_id) }}"
+                                class="text-white/80 hover:text-white inline-flex items-center text-sm font-medium transition-colors">
+                                Lihat Detail <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-span-full py-20 text-center bg-white rounded-3xl border border-dashed border-slate-200">
+                        <p class="text-slate-400">Belum ada Komoditi Unggulan yang diumumkan.</p>
+                    </div>
+                @endforelse
+            </div>
+
+            <div class="text-center">
+                <a href="{{ route('public.komoditi') }}"
+                    class="inline-flex items-center px-8 py-3 bg-yellow-400 hover:bg-yellow-500 text-yellow-900 font-bold rounded-full shadow-lg shadow-yellow-400/30 transition-all transform hover:-translate-y-1">
+                    Lihat Semua Komoditi
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
                 </a>
             </div>
         </div>

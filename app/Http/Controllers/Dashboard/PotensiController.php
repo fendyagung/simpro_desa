@@ -27,14 +27,18 @@ class PotensiController extends Controller
 
     public function create()
     {
-        return view('dashboard.potensi.create');
+        $desas = [];
+        if (Auth::user()->role === 'admin_dpmd') {
+            $desas = Desa::select('id', 'nama_desa')->orderBy('nama_desa')->get();
+        }
+        return view('dashboard.potensi.create', compact('desas'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'nama_potensi' => 'required|string|max:255',
-            'kategori' => 'required|in:kuliner,kerajinan,event,alam,budaya,lainnya',
+            'kategori' => 'required|in:kuliner,kerajinan,event,alam,budaya,komoditi,lainnya',
             'deskripsi' => 'required|string',
             'foto_utama' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
             'gallery_photos.*' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
@@ -44,12 +48,19 @@ class PotensiController extends Controller
         $user = Auth::user();
         $desa = Desa::where('user_id', $user->id)->first();
 
-        if (!$desa && $user->role !== 'admin_dpmd') {
-            return redirect()->back()->with('error', 'Desa belum terdaftar.');
-        }
-
         $potensi = new Potensi($request->only(['nama_potensi', 'kategori', 'deskripsi', 'lokasi']));
-        $potensi->desa_id = $desa->id ?? null;
+
+        if ($user->role === 'admin_dpmd') {
+            $request->validate([
+                'desa_id' => 'required|exists:desas,id',
+            ]);
+            $potensi->desa_id = $request->desa_id;
+        } else {
+            if (!$desa) {
+                return redirect()->back()->with('error', 'Desa belum terdaftar.');
+            }
+            $potensi->desa_id = $desa->id;
+        }
 
         if ($request->hasFile('foto_utama')) {
             $potensi->foto_utama = $request->file('foto_utama')->store('potensi-foto', 'public');
@@ -83,7 +94,12 @@ class PotensiController extends Controller
             }
         }
 
-        return view('dashboard.potensi.edit', compact('potensi'));
+        $desas = [];
+        if ($user->role === 'admin_dpmd') {
+            $desas = Desa::select('id', 'nama_desa')->orderBy('nama_desa')->get();
+        }
+
+        return view('dashboard.potensi.edit', compact('potensi', 'desas'));
     }
 
     public function update(Request $request, $id)
@@ -100,7 +116,7 @@ class PotensiController extends Controller
 
         $request->validate([
             'nama_potensi' => 'required|string|max:255',
-            'kategori' => 'required|in:kuliner,kerajinan,event,alam,budaya,lainnya',
+            'kategori' => 'required|in:kuliner,kerajinan,event,alam,budaya,komoditi,lainnya',
             'deskripsi' => 'required|string',
             'foto_utama' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
             'gallery_photos.*' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
@@ -108,6 +124,10 @@ class PotensiController extends Controller
         ]);
 
         $potensi->fill($request->only(['nama_potensi', 'kategori', 'deskripsi', 'lokasi']));
+
+        if ($user->role === 'admin_dpmd' && $request->has('desa_id')) {
+            $potensi->desa_id = $request->desa_id;
+        }
 
         if ($request->hasFile('foto_utama')) {
             if ($potensi->foto_utama) {

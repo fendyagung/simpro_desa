@@ -21,6 +21,19 @@
                 <div
                     class="bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-sm border border-slate-100 dark:border-slate-700 space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        @if(Auth::user()->role === 'admin_dpmd')
+                            <div class="space-y-2 col-span-2">
+                                <label class="block text-sm font-bold text-slate-700 dark:text-slate-300">Pilih Desa Sumber
+                                    Potensi</label>
+                                <select name="desa_id" required
+                                    class="w-full px-5 py-3 rounded-2xl border border-slate-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all outline-none appearance-none">
+                                    @foreach($desas as $desa)
+                                        <option value="{{ $desa->id }}" {{ $potensi->desa_id == $desa->id ? 'selected' : '' }}>
+                                            {{ $desa->nama_desa }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @endif
                         <div class="space-y-2">
                             <label class="block text-sm font-bold text-slate-700 dark:text-slate-300">Nama Potensi /
                                 Produk</label>
@@ -42,6 +55,9 @@
                                 <option value="alam" {{ $potensi->kategori === 'alam' ? 'selected' : '' }}>Wisata Alam
                                 </option>
                                 <option value="budaya" {{ $potensi->kategori === 'budaya' ? 'selected' : '' }}>Seni Budaya
+                                </option>
+                                <option value="komoditi" {{ $potensi->kategori === 'komoditi' ? 'selected' : '' }}>
+                                    Komoditi Unggulan
                                 </option>
                                 <option value="lainnya" {{ $potensi->kategori === 'lainnya' ? 'selected' : '' }}>Lainnya
                                 </option>
