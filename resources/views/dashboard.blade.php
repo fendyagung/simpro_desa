@@ -72,61 +72,153 @@
         @if(Auth::user()->role === 'admin_dpmd')
             <!-- DPMD Stats -->
             <a href="#monitoring-desa"
-                class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg hover:border-blue-200 transition-all group">
+                class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg hover:border-blue-200 transition-all group relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-blue-600" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    </svg>
+                </div>
                 <h3 class="text-slate-500 text-sm font-medium group-hover:text-blue-600 transition-colors">Total
                     Desa/Kelurahan</h3>
-                <p class="text-2xl font-bold text-slate-800 mt-1 flex items-center justify-between">
-                    <span>{{ $data['total_desa'] }} Desa</span>
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        class="h-5 w-5 text-slate-300 group-hover:text-blue-500 transition-colors" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
+                <p class="text-3xl font-bold text-slate-800 mt-2 flex items-center justify-between">
+                    <span>{{ $data['total_desa'] }}</span>
+                    <span class="text-xs font-normal text-slate-400">Unit Kerja</span>
                 </p>
             </a>
             <a href="#laporan-terbaru"
-                class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg hover:border-blue-200 transition-all group">
-                <h3 class="text-slate-500 text-sm font-medium group-hover:text-blue-600 transition-colors">Laporan Masuk
-                </h3>
-                <p class="text-2xl font-bold text-slate-800 mt-1 flex items-center justify-between">
-                    <span>{{ $data['total_laporan'] }} Laporan</span>
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        class="h-5 w-5 text-slate-300 group-hover:text-blue-500 transition-colors" fill="none"
+                class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg hover:border-emerald-200 transition-all group relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-emerald-600" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
+                </div>
+                <h3 class="text-slate-500 text-sm font-medium group-hover:text-emerald-600 transition-colors">Total Laporan
+                    Masuk</h3>
+                <p class="text-3xl font-bold text-slate-800 mt-2">
+                    {{ $data['total_laporan'] }}
                 </p>
             </a>
             <a href="#laporan-terbaru"
-                class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg hover:border-orange-200 transition-all group">
-                <h3 class="text-slate-500 text-sm font-medium group-hover:text-orange-600 transition-colors">Perlu Review
-                </h3>
-                <p class="text-2xl font-bold text-orange-600 mt-1 flex items-center justify-between">
-                    <span>{{ $data['laporan_pending'] }} Pending</span>
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        class="h-5 w-5 text-orange-200 group-hover:text-orange-500 transition-colors" fill="none"
+                class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg hover:border-orange-200 transition-all group relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-orange-600" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
+                </div>
+                <h3 class="text-slate-500 text-sm font-medium group-hover:text-orange-600 transition-colors">Menunggu Review
+                </h3>
+                <p class="text-3xl font-bold text-orange-600 mt-2">
+                    {{ $data['laporan_pending'] }}
                 </p>
             </a>
-
         @else
             <!-- Desa Stats -->
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
-                <h3 class="text-slate-500 text-sm font-medium">Total Laporan</h3>
-                <p class="text-2xl font-bold text-slate-800 mt-1">{{ $data['total_laporan'] }}</p>
+            <div
+                class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-4 opacity-5">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                </div>
+                <h3 class="text-slate-500 text-sm font-medium">Laporan Dikirim</h3>
+                <p class="text-3xl font-bold text-slate-800 mt-2">{{ $data['total_laporan'] }}</p>
+                <p class="text-[10px] text-slate-400 mt-1 italic">*Total semua kategori</p>
             </div>
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+            <div
+                class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-4 opacity-5">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-emerald-600" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
                 <h3 class="text-slate-500 text-sm font-medium">Laporan Diterima</h3>
-                <p class="text-2xl font-bold text-emerald-600 mt-1">{{ $data['laporan_diterima'] }}</p>
+                <p class="text-3xl font-bold text-emerald-600 mt-2">{{ $data['laporan_diterima'] }}</p>
+                <p class="text-[10px] text-emerald-500 mt-1 italic">*Telah disetujui DPMD</p>
             </div>
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+            <div
+                class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-4 opacity-5 text-blue-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                </div>
                 <h3 class="text-slate-500 text-sm font-medium">Status Akun</h3>
-                <p class="text-lg font-bold text-green-600 mt-1">Terverifikasi</p>
+                <div class="mt-2 flex items-center gap-2">
+                    <div class="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
+                    <span class="text-lg font-bold text-slate-800">Sistem Aktif</span>
+                </div>
+                <p class="text-[10px] text-slate-400 mt-1 italic">*Terhubung ke Server Pusat</p>
             </div>
         @endif
     </div>
+
+    @if(Auth::user()->role === 'admin_desa')
+        <!-- Admin Desa Quick Actions -->
+        <div class="mb-8">
+            <h3 class="font-bold text-slate-800 mb-4 px-1">Akses Cepat Layanan</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <a href="{{ route('dashboard.laporan.buat') }}"
+                    class="flex flex-col items-center justify-center p-6 bg-white border border-slate-100 rounded-3xl hover:border-blue-500 hover:shadow-xl hover:-translate-y-1 transition-all group">
+                    <div
+                        class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 mb-3 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                    </div>
+                    <span class="text-sm font-bold text-slate-700">Buat Laporan</span>
+                </a>
+                <a href="{{ route('dashboard.beritas.index') }}"
+                    class="flex flex-col items-center justify-center p-6 bg-white border border-slate-100 rounded-3xl hover:border-emerald-500 hover:shadow-xl hover:-translate-y-1 transition-all group">
+                    <div
+                        class="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 mb-3 group-hover:bg-emerald-600 group-hover:text-white transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                        </svg>
+                    </div>
+                    <span class="text-sm font-bold text-slate-700">Kelola Berita</span>
+                </a>
+                <a href="{{ route('dashboard.desa.edit') }}"
+                    class="flex flex-col items-center justify-center p-6 bg-white border border-slate-100 rounded-3xl hover:border-indigo-500 hover:shadow-xl hover:-translate-y-1 transition-all group">
+                    <div
+                        class="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 mb-3 group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                    </div>
+                    <span class="text-sm font-bold text-slate-700">Edit Profil</span>
+                </a>
+                <a href="{{ route('dashboard.dokumen.index') }}"
+                    class="flex flex-col items-center justify-center p-6 bg-white border border-slate-100 rounded-3xl hover:border-blue-500 hover:shadow-xl hover:-translate-y-1 transition-all group">
+                    <div
+                        class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 mb-3 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                        </svg>
+                    </div>
+                    <span class="text-sm font-bold text-slate-700">Kotak Berkas</span>
+                </a>
+            </div>
+        </div>
+    @endif
 
     @if(Auth::user()->role === 'admin_dpmd')
         <!-- DPMD MONITORING: List of Villages -->
@@ -178,7 +270,7 @@
                                         @csrf
                                         <button type="submit"
                                             class="px-3 py-1 rounded-full text-[10px] font-bold transition-all shadow-sm
-                                                                                                                                                                        {{ $desa->is_desa_wisata ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200' : 'bg-slate-100 text-slate-500 hover:bg-slate-200' }}">
+                                                                                                                                                                                {{ $desa->is_desa_wisata ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200' : 'bg-slate-100 text-slate-500 hover:bg-slate-200' }}">
                                             {{ $desa->is_desa_wisata ? 'WISATA: AKTIF' : 'BUKAN WISATA' }}
                                         </button>
                                     </form>
