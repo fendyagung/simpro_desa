@@ -71,7 +71,7 @@
                         @if($profile->sambutan_teks)
                             {!! nl2br(e($profile->sambutan_teks)) !!}
                         @else
-                            <p>"Selamat datang di Portal SIMPRO DESA Kabupaten Manggarai Timur. Kami berkomitmen untuk terus
+                            <p>"Selamat datang di Portal SID Manggarai Timur. Kami berkomitmen untuk terus
                                 mendorong transparansi dan inovasi di setiap desa di Kabupaten Manggarai Timur."</p>
                             <p>"Melalui platform ini, kami mengintegrasikan keindahan pariwisata dengan akuntabilitas
                                 laporan desa, demi menciptakan pemerintahan desa yang mandiri dan berdaya saing."</p>

@@ -1,11 +1,12 @@
 <x-layouts.admin>
     <div class="mb-8 flex items-center justify-between">
         <div>
-            <h1 class="text-3xl font-bold text-slate-800">Kotak Berkas</h1>
-            <p class="text-slate-500 mt-1">Pusat pertukaran dokumen internal antara Desa dan DPMD.</p>
+            <h1 class="text-3xl font-bold text-slate-800 dark:text-white transition-colors">Kotak Berkas</h1>
+            <p class="text-slate-500 dark:text-slate-400 mt-1 transition-colors">Pusat pertukaran dokumen internal
+                antara Desa dan DPMD.</p>
         </div>
         <a href="{{ route('dashboard.dokumen.create') }}"
-            class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl shadow-lg shadow-blue-500/20 transition-all transform hover:-translate-y-1 flex items-center gap-2">
+            class="px-6 py-3 bg-[#166534] hover:bg-[#15803d] text-white font-bold rounded-2xl shadow-lg shadow-emerald-500/20 transition-all transform hover:-translate-y-1 flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -28,22 +29,24 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <!-- Inbox -->
         <div class="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden">
-            <div class="p-6 bg-blue-50/50 border-b border-slate-100 flex items-center gap-3">
-                <div class="p-2 bg-blue-100 rounded-xl text-blue-600">
+            <div class="p-6 bg-emerald-50/50 border-b border-slate-100 flex items-center gap-3">
+                <div class="p-2 bg-emerald-100 rounded-xl text-emerald-600">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M8 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-2m-2-2v4m0 0h4m-4 0H8m4 0l-4 4m4-4l4 4" />
                     </svg>
                 </div>
-                <h2 class="text-xl font-bold text-slate-800">Berkas Masuk</h2>
+                <h2 class="text-xl font-bold text-slate-800 dark:text-white transition-colors">Berkas Masuk</h2>
             </div>
             <div class="divide-y divide-slate-50">
                 @forelse($inbox as $doc)
-                    <div class="p-6 hover:bg-slate-50 transition-all flex items-center justify-between gap-4">
+                    <div
+                        class="p-6 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all flex items-center justify-between gap-4">
                         <div class="flex-1">
                             <div class="flex items-center gap-2 mb-1">
-                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                <span
+                                    class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest transition-colors">
                                     Diterima: {{ $doc->created_at->format('d/m/y H:i') }}
                                 </span>
                                 @if(!$doc->is_read)
@@ -51,9 +54,11 @@
                                         class="px-2 py-0.5 bg-red-100 text-red-600 text-[10px] font-bold rounded-full">BARU</span>
                                 @endif
                             </div>
-                            <h3 class="font-bold text-slate-800 text-lg leading-tight">{{ $doc->judul }}</h3>
+                            <h3
+                                class="font-bold text-slate-800 dark:text-slate-100 text-lg leading-tight transition-colors">
+                                {{ $doc->judul }}</h3>
                             <p class="text-sm text-slate-500 mt-1">Dari:
-                                <span class="text-blue-600 font-bold">
+                                <span class="text-[#064e3b] dark:text-emerald-400 font-bold transition-colors">
                                     @if($doc->sender?->role === 'admin_dpmd')
                                         Admin (DPMD) Manggarai Timur
                                     @else
@@ -63,7 +68,7 @@
                             </p>
                         </div>
                         <a href="{{ route('dashboard.dokumen.download', $doc->id) }}"
-                            class="p-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl shadow-lg shadow-blue-500/20 transition-all transform hover:-translate-y-1">
+                            class="p-4 bg-[#166534] hover:bg-[#15803d] text-white rounded-2xl shadow-lg shadow-emerald-500/20 transition-all transform hover:-translate-y-1">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -89,11 +94,12 @@
                             d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                     </svg>
                 </div>
-                <h2 class="text-xl font-bold text-slate-800">Berkas Terkirim</h2>
+                <h2 class="text-xl font-bold text-slate-800 dark:text-white transition-colors">Berkas Terkirim</h2>
             </div>
             <div class="divide-y divide-slate-50">
                 @forelse($outbox as $doc)
-                    <div class="p-6 hover:bg-slate-50 transition-all flex items-center justify-between gap-4">
+                    <div
+                        class="p-6 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all flex items-center justify-between gap-4">
                         <div class="flex-1 opacity-80">
                             <div class="flex items-center gap-2 mb-1">
                                 <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
@@ -110,9 +116,10 @@
                                     </span>
                                 @endif
                             </div>
-                            <h3 class="font-bold text-slate-800 leading-tight">{{ $doc->judul }}</h3>
+                            <h3 class="font-bold text-slate-800 dark:text-slate-100 leading-tight transition-colors">
+                                {{ $doc->judul }}</h3>
                             <p class="text-sm text-slate-500 mt-1">Ke:
-                                <span class="font-bold italic">
+                                <span class="font-bold italic dark:text-slate-300 transition-colors">
                                     @if(Auth::user()->role === 'admin_dpmd')
                                         {{ $doc->receiverDesa?->nama_desa ?? 'Penerima' }}
                                     @else
@@ -167,7 +174,7 @@
                         badge.style.display = 'none';
 
                         // Also update the sidebar count
-                        const sidebarBadge = document.querySelector('a[href*="/dashboard/dokumen"] span.bg-blue-500');
+                        const sidebarBadge = document.querySelector('a[href*="/dashboard/dokumen"] span.ni-badge');
                         if (sidebarBadge) {
                             let count = parseInt(sidebarBadge.innerText);
                             if (count > 1) {

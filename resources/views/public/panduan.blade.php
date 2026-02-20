@@ -7,9 +7,9 @@
                     class="inline-block px-4 py-1.5 rounded-full bg-blue-500/20 text-blue-300 text-sm font-bold tracking-wider mb-6 border border-blue-500/30">
                     BANTUAN & PANDUAN
                 </span>
-                <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">Pusat Panduan SIMPRO Manggarai Timur</h1>
+                <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">Pusat Panduan SID Manggarai Timur</h1>
                 <p class="text-slate-300 text-lg md:text-xl leading-relaxed">
-                    Panduan lengkap penggunaan Sistem Informasi Monitoring & Promosi (SIMPRO) untuk Admin Desa dan Admin
+                    Panduan lengkap penggunaan Sistem Informasi Desa (SID) untuk Admin Desa dan Admin
                     DPMD.
                 </p>
             </div>

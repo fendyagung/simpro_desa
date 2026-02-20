@@ -1,8 +1,8 @@
 <x-layouts.admin>
     <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100">
-        <div class="p-8 bg-[#2b529a] text-white">
-            <h1 class="text-2xl font-bold">Tulis Berita & Kegiatan</h1>
-            <p class="text-blue-100/80">Bagikan informasi terbaru mengenai kegiatan atau perkembangan di wilayah Anda.
+        <div class="p-8 bg-[#064e3b] text-white">
+            <h1 class="text-2xl font-bold">Tulis Berita Baru</h1>
+            <p class="text-emerald-100/80">Publikasikan informasi kegiatan atau pengumuman desa kepada publik.
             </p>
         </div>
 

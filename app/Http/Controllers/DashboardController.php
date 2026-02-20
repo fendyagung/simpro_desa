@@ -22,7 +22,20 @@ class DashboardController extends Controller
             $data['total_desa'] = Desa::count();
             $data['total_laporan'] = Laporan::count();
             $data['laporan_pending'] = Laporan::where('status', 'pending')->count();
+            $data['laporan_diterima'] = Laporan::where('status', 'diterima')->count();
+            $data['laporan_ditolak'] = Laporan::where('status', 'ditolak')->count();
+
+            // Desa yang melapor vs belum melapor (dalam bulan ini)
+            $desaSudahLaporCount = Laporan::whereYear('tanggal_laporan', now()->year)
+                ->whereMonth('tanggal_laporan', now()->month)
+                ->distinct('desa_id')
+                ->count();
+            $data['desa_belum_lapor'] = max(0, $data['total_desa'] - $desaSudahLaporCount);
+            $data['desa_wisata_count'] = Desa::where('is_desa_wisata', true)->count();
+
             $data['recent_laporans'] = Laporan::with('desa')->latest()->take(5)->get();
+            $data['pending_verification'] = Laporan::with('desa')->where('status', 'pending')->latest()->take(3)->get();
+
             $data['desas'] = Desa::withCount('laporans')
                 ->orderByRaw("CASE WHEN kecamatan = 'Borong' THEN 0 ELSE 1 END")
                 ->orderBy('kecamatan', 'asc')
@@ -34,15 +47,19 @@ class DashboardController extends Controller
             $desa = Desa::where('user_id', $user->id)->first();
 
             if ($desa) {
+                $data['desa_id'] = $desa->id;
                 $data['desa_nama'] = $desa->nama_desa;
                 $data['total_laporan'] = $desa->laporans()->count();
                 $data['laporan_diterima'] = $desa->laporans()->where('status', 'diterima')->count();
                 $data['recent_laporans'] = $desa->laporans()->latest()->take(5)->get();
+                $data['potensis'] = $desa->potensis()->latest()->take(2)->get();
             } else {
+                $data['desa_id'] = 0;
                 $data['desa_nama'] = 'Desa Belum Terdaftar';
                 $data['total_laporan'] = 0;
                 $data['laporan_diterima'] = 0;
                 $data['recent_laporans'] = collect();
+                $data['potensis'] = collect();
             }
         }
 

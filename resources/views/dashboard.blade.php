@@ -1,285 +1,562 @@
+@php
+    $user = Auth::user();
+    $isDesa = $user->role === 'admin_desa';
+    $isDpmd = $user->role === 'admin_dpmd';
+@endphp
+
 <x-layouts.admin>
-    @if(Auth::user()->role === 'admin_desa')
-        <!-- Automatic Confirmation for Accepted Reports -->
-        @php
-            $hasAccepted = \App\Models\Laporan::whereHas('desa', function ($q) {
-                $q->where('user_id', Auth::id());
-            })->where('status', 'diterima')->where('updated_at', '>', now()->subMinutes(30))->exists();
-        @endphp
+    <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px)
+            }
 
-        @if($hasAccepted)
-            <div
-                class="mb-6 p-6 bg-white border-2 border-emerald-500 rounded-2xl flex items-center gap-4 shadow-lg shadow-emerald-500/10 animate-bounce-subtle">
-                <div class="p-3 bg-emerald-500 rounded-full text-white">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                    </svg>
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease both;
+        }
+
+        /* Global Dashboard Styles */
+        .welcome-banner {
+            border-radius: 16px;
+            padding: 26px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-card {
+            background: var(--putih);
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .sc-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .ic-g {
+            background: rgba(22, 163, 74, 0.1);
+        }
+
+        .ic-e {
+            background: rgba(217, 119, 6, 0.1);
+        }
+
+        .ic-b {
+            background: rgba(30, 64, 175, 0.1);
+        }
+
+        .ic-r {
+            background: rgba(153, 27, 27, 0.1);
+        }
+
+        .ic-p {
+            background: rgba(107, 33, 168, 0.1);
+        }
+
+        .sc-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 30px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .card {
+            background: var(--putih);
+            border-radius: 14px;
+            padding: 22px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* DPMD Specific */
+        .verif-item {
+            padding: 14px 16px;
+            border: 1px solid var(--abu2);
+            border-radius: 11px;
+            margin-bottom: 10px;
+            transition: all .2s;
+        }
+
+        .verif-item:hover {
+            border-color: var(--emas-muda);
+            background: #fdf9f3;
+        }
+
+        .btn-verif {
+            padding: 6px 14px;
+            border-radius: 7px;
+            font-size: 11px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 9px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .sp-e {
+            background: #fffbeb;
+            color: #d97706;
+        }
+
+        .sp-g {
+            background: #ecfdf5;
+            color: #166534;
+        }
+
+        .sp-r {
+            background: #fce8e8;
+            color: #c82222;
+        }
+
+        .sp-b {
+            background: #e8f0fe;
+            color: #1e64c8;
+        }
+
+        /* DARK MODE - DASHBOARD SPECIFIC */
+        .dark .ic-g {
+            background: rgba(16, 185, 129, 0.2);
+        }
+
+        .dark .ic-e {
+            background: rgba(245, 158, 11, 0.2);
+        }
+
+        .dark .ic-b {
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        .dark .ic-r {
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        .dark .ic-p {
+            background: rgba(168, 85, 247, 0.2);
+        }
+
+        .dark .verif-item {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .dark .verif-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--emas);
+        }
+
+        .dark .sp-e {
+            background: rgba(217, 119, 6, 0.2);
+            color: #f59e0b;
+        }
+
+        .dark .sp-g {
+            background: rgba(22, 163, 74, 0.2);
+            color: #34d399;
+        }
+
+        .dark .sp-r {
+            background: rgba(153, 27, 27, 0.2);
+            color: #f87171;
+        }
+
+        .dark .donut::after {
+            background: #064e3b;
+            color: var(--teks);
+        }
+
+        .dark .welcome-banner {
+            background: linear-gradient(135deg, #052e16 0%, #064e3b 60%, #14532d 100%) !important;
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Donut Chart Simulation */
+        .donut {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .donut::after {
+            content: attr(data-center);
+            position: absolute;
+            inset: 20px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Desa Specific */
+        .wisata-mini {
+            background: linear-gradient(135deg, #166534, #10b981);
+            border-radius: 12px;
+            padding: 16px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+        }
+
+        .wisata-mini:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 28px rgba(26, 107, 58, 0.3);
+        }
+
+        .wisata-mini::before {
+            content: '🌿';
+            position: absolute;
+            right: 12px;
+            bottom: 8px;
+            font-size: 42px;
+            opacity: .2;
+        }
+    </style>
+
+    @if($isDesa)
+        <!-- DESA VIEW (Already implemented, kept for consistency) -->
+        <div class="welcome-banner mb-8 animate-fade-in"
+            style="background: linear-gradient(135deg, #022c22 0%, #064e3b 100%);">
+            <div class="wb-text">
+                <h2 class="text-2xl font-black font-serif mb-1">Selamat Datang, {{ $data['desa_nama'] ?? 'Admin Desa' }}! 👋
+                </h2>
+                <p class="text-sm text-white/80 max-w-xl">Pantau perkembangan desa Anda melalui dashboard terpadu. Pastikan
+                    data profil dan potensi desa selalu diperbarui.</p>
+                <div class="flex flex-wrap gap-4 mt-6">
+                    <a href="{{ route('dashboard.laporan.buat') }}"
+                        class="px-6 py-3 bg-emerald-500 text-white font-bold rounded-xl text-sm hover:bg-emerald-600 transition-all shadow-lg shadow-emerald-900/20 flex items-center gap-2">
+                        <span>📝</span> Buat Laporan Baru
+                    </a>
+                    <a href="{{ route('dashboard.desa.edit') }}"
+                        class="px-6 py-3 bg-white/10 border border-white/20 text-white font-bold rounded-xl text-sm hover:bg-white/20 transition-all flex items-center gap-2">
+                        <span>⚙️</span> Edit Profil Desa
+                    </a>
                 </div>
+            </div>
+            <div class="hidden md:block text-7xl opacity-40">🏘️</div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div class="stat-card animate-fade-in">
+                <div class="sc-num">{{ $data['total_laporan'] }}</div>
+                <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">Laporan Dikirim</div>
+            </div>
+            <div class="stat-card animate-fade-in" style="animation-delay: 0.1s">
+                <div class="sc-num">{{ $data['laporan_diterima'] }}</div>
+                <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">Laporan Disetujui</div>
+            </div>
+            <div class="stat-card animate-fade-in" style="animation-delay: 0.2s">
+                <div class="sc-num">{{ \App\Models\Potensi::where('desa_id', $data['desa_id'] ?? 0)->count() }}</div>
+                <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">Potensi Desa</div>
+            </div>
+            <div class="stat-card animate-fade-in" style="animation-delay: 0.3s">
+                <div class="flex items-center gap-2">
+                    <div class="h-3 w-3 bg-emerald-500 rounded-full animate-pulse"></div>
+                    <div class="sc-num !text-2xl">Online</div>
+                </div>
+                <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">Sistem Aktif</div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <div class="card transition-all hover:shadow-lg">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <div class="card-title">📋 Laporan Terbaru</div>
+                        <p class="text-xs text-slate-500">Status 5 laporan terakhir</p>
+                    </div><a href="{{ route('dashboard.dokumen.index') }}"
+                        class="text-xs font-bold text-emerald-700 hover:text-emerald-800 hover:underline">Semua →</a>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <tbody class="divide-y divide-slate-100">@forelse($data['recent_laporans'] as $l)<tr>
+                            <td class="py-3 font-medium">{{ \Illuminate\Support\Str::limit($l->judul, 25) }}</td>
+                            <td class="py-3 text-xs text-slate-500">{{ ucfirst($l->kategori) }}</td>
+                            <td class="py-3 text-right"><span
+                                    class="px-2 py-0.5 rounded-full text-[10px] font-bold {{ $l->status === 'diterima' ? 'bg-emerald-100 text-emerald-700' : 'bg-orange-100 text-orange-700' }}">{{ strtoupper($l->status) }}</span>
+                            </td>
+                        </tr>@empty<tr>
+                                <td colspan="3" class="py-10 text-center italic text-slate-400">Belum ada laporan.</td>
+                            </tr>@endforelse</tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title mb-6">🏞️ Potensi Desa</div>
+                <div class="flex flex-col gap-3">
+                    @forelse($data['potensis'] as $p)
+                        <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-100 flex justify-between items-center">
+                            <div>
+                                <h4 class="font-bold text-emerald-900 text-sm">{{ $p->nama_potensi }}</h4>
+                                <p class="text-[10px] text-emerald-700">{{ \Illuminate\Support\Str::limit($p->deskripsi, 40) }}
+                                </p>
+                            </div>
+                            <span class="text-xl">🏞️</span>
+                        </div>
+                    @empty
+                        <!-- No potentials -->
+                    @endforelse
+                    <a href="{{ route('dashboard.potensi.index') }}"
+                        class="p-4 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-xl flex items-center justify-center gap-2 text-slate-500 dark:text-slate-400 hover:border-emerald-500 hover:text-emerald-600 transition-all">
+                        <span class="text-lg">+</span> <span class="text-xs font-bold">Tambah Potensi</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    @else
+        <!-- DPMD VIEW (New High-Fidelity Mockup) -->
+        <div class="welcome-banner mb-8 animate-fade-in"
+            style="background: linear-gradient(135deg, #022c22 0%, #064e3b 100%);">
+            <div class="wb-text">
+                <h2 class="text-2xl font-black font-serif mb-1">Selamat Datang, Admin DMPD! 🏛️</h2>
+                <p class="text-sm text-white/70 max-w-xl">Saat ini terdapat <strong
+                        style="color:var(--emas-muda)">{{ $data['laporan_pending'] }} laporan menunggu verifikasi</strong>.
+                    Segera tindaklanjuti agar data kabupaten tetap akurat dan terkini.</p>
+                <div class="flex flex-wrap gap-4 mt-6">
+                    <a href="#verif-queue"
+                        class="px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold rounded-xl text-sm hover:shadow-xl transition-all shadow-lg shadow-amber-900/20 flex items-center gap-2">
+                        <span>✅</span> Verifikasi Laporan
+                    </a>
+                    <a href="{{ route('dashboard.regulasi.index') }}"
+                        class="px-6 py-3 bg-white/10 border border-white/20 text-white font-bold rounded-xl text-sm hover:bg-white/20 transition-all flex items-center gap-2">
+                        <span>📁</span> Kelola Regulasi
+                    </a>
+                </div>
+            </div>
+            <div class="hidden md:block text-7xl opacity-40">🏛️</div>
+        </div>
+
+        @if($data['desa_belum_lapor'] > 0)
+            <div
+                class="mb-6 p-4 bg-[#fff9e6] dark:bg-amber-900/20 border border-[#f5e0a0] dark:border-amber-800/50 rounded-xl flex items-start gap-3 animate-fade-in">
+                <span class="text-xl">⚠️</span>
                 <div>
-                    <h4 class="font-bold text-slate-800 text-lg">Kabar Gembira!</h4>
-                    <p class="text-emerald-700 font-medium">Laporan Anda sudah diterima oleh Admin DPMD.</p>
+                    <h4 class="text-xs font-black text-[#8a6600] dark:text-amber-500 uppercase tracking-wider">Peringatan
+                        Kepatuhan</h4>
+                    <p class="text-xs text-[#8a6600]/80 dark:text-amber-400/80">{{ $data['desa_belum_lapor'] }} Desa belum
+                        mengirimkan laporan periode
+                        bulan ini. Kirim notifikasi pengingat via broadcast.</p>
                 </div>
             </div>
         @endif
-    @endif
 
-    <!-- Welcome Section -->
-    <div class="mb-8 p-8 bg-[#2b529a] rounded-3xl text-white shadow-xl shadow-blue-900/10 relative overflow-hidden">
-        <div class="relative z-10">
-            <h1 class="text-3xl font-bold mb-2">Selamat Datang, {{ Auth::user()->name }}! 👋</h1>
-            <p class="text-blue-100/80">
-                @if(Auth::user()->role === 'admin_dpmd')
-                    Panel Monitoring Pusat DPMD Kabupaten Manggarai Timur.
-                @else
-                    Ini adalah dashboard desa {{ $data['desa_nama'] ?? 'Anda' }}. Kelola profil dan pantau
-                    informasi terkini.
-                @endif
-            </p>
-        </div>
-        <div class="absolute top-0 right-0 -mt-12 -mr-12 w-64 h-64 bg-white/10 rounded-full blur-3xl">
-        </div>
-        <div class="absolute bottom-0 left-0 -mb-8 -ml-8 w-32 h-32 bg-blue-400/20 rounded-full blur-2xl">
-        </div>
-    </div>
-
-    @if(isset($data['pengumuman']) && $data['pengumuman'])
-        @php
-            $umum = $data['pengumuman'];
-            $bgClass = $umum->tipe == 'darurat' ? 'bg-red-50 border-red-200 text-red-800' :
-                ($umum->tipe == 'penting' ? 'bg-amber-50 border-amber-200 text-amber-800' : 'bg-blue-50 border-blue-200 text-blue-800');
-            $iconColor = $umum->tipe == 'darurat' ? 'text-red-500' :
-                ($umum->tipe == 'penting' ? 'text-amber-500' : 'text-blue-500');
-        @endphp
-        <div class="mb-8 p-6 {{ $bgClass }} border rounded-2xl flex items-start gap-4">
-            <div class="mt-1">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 {{ $iconColor }}" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
-                </svg>
+        <!-- STATS DPMD -->
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+            <div class="stat-card animate-fade-in" style="animation-delay: 0.1s">
+                <div class="sc-icon ic-b mb-3">🏘️</div>
+                <div class="sc-num">{{ $data['total_desa'] }}</div>
+                <div class="text-[11px] text-slate-700 dark:text-slate-300 uppercase font-bold tracking-tight mt-1">Total
+                    Wilayah</div>
             </div>
-            <div>
-                <h3 class="font-bold text-lg mb-1">{{ $umum->judul }}</h3>
-                <p class="leading-relaxed">{{ $umum->isi }}</p>
-                <p class="text-xs mt-3 opacity-70">Diposting: {{ $umum->created_at->format('d M Y H:i') }}</p>
+            <div class="stat-card animate-fade-in" style="animation-delay: 0.2s">
+                <div class="sc-icon ic-g mb-3">✅</div>
+                <div class="sc-num text-emerald-600">{{ $data['laporan_diterima'] }}</div>
+                <div class="text-[11px] text-slate-700 dark:text-slate-300 uppercase font-bold tracking-tight mt-1">Laporan
+                    Selesai</div>
+            </div>
+            <div class="stat-card animate-fade-in" style="animation-delay: 0.3s">
+                <div class="sc-icon ic-e mb-3">⏳</div>
+                <div class="sc-num text-amber-600">{{ $data['laporan_pending'] }}</div>
+                <div class="text-[11px] text-slate-700 dark:text-slate-300 uppercase font-bold tracking-tight mt-1">Menunggu
+                    Verif</div>
+            </div>
+            <div class="stat-card animate-fade-in" style="animation-delay: 0.4s">
+                <div class="sc-icon ic-r mb-3">❗</div>
+                <div class="sc-num text-red-600">{{ $data['desa_belum_lapor'] }}</div>
+                <div class="text-[11px] text-slate-700 dark:text-slate-300 uppercase font-bold tracking-tight mt-1">Belum
+                    Melapor</div>
+            </div>
+            <div class="stat-card animate-fade-in" style="animation-delay: 0.5s">
+                <div class="sc-icon ic-p mb-3">🏞️</div>
+                <div class="sc-num text-indigo-600">{{ $data['desa_wisata_count'] }}</div>
+                <div class="text-[11px] text-slate-700 dark:text-slate-300 uppercase font-bold tracking-tight mt-1">Desa
+                    Wisata</div>
             </div>
         </div>
-    @endif
 
-    <!-- Stats Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-        @if(Auth::user()->role === 'admin_dpmd')
-            <!-- DPMD Stats -->
-            <a href="#monitoring-desa"
-                class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg hover:border-blue-200 transition-all group relative overflow-hidden">
-                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-blue-600" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                    </svg>
-                </div>
-                <h3 class="text-slate-500 text-sm font-medium group-hover:text-blue-600 transition-colors">Total
-                    Desa/Kelurahan</h3>
-                <p class="text-3xl font-bold text-slate-800 mt-2 flex items-center justify-between">
-                    <span>{{ $data['total_desa'] }}</span>
-                    <span class="text-xs font-normal text-slate-400">Unit Kerja</span>
-                </p>
-            </a>
-            <a href="#laporan-terbaru"
-                class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg hover:border-emerald-200 transition-all group relative overflow-hidden">
-                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-emerald-600" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                </div>
-                <h3 class="text-slate-500 text-sm font-medium group-hover:text-emerald-600 transition-colors">Total Laporan
-                    Masuk</h3>
-                <p class="text-3xl font-bold text-slate-800 mt-2">
-                    {{ $data['total_laporan'] }}
-                </p>
-            </a>
-            <a href="#laporan-terbaru"
-                class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg hover:border-orange-200 transition-all group relative overflow-hidden">
-                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-orange-600" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </div>
-                <h3 class="text-slate-500 text-sm font-medium group-hover:text-orange-600 transition-colors">Menunggu Review
-                </h3>
-                <p class="text-3xl font-bold text-orange-600 mt-2">
-                    {{ $data['laporan_pending'] }}
-                </p>
-            </a>
-        @else
-            <!-- Desa Stats -->
-            <div
-                class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow relative overflow-hidden">
-                <div class="absolute top-0 right-0 p-4 opacity-5">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                </div>
-                <h3 class="text-slate-500 text-sm font-medium">Laporan Dikirim</h3>
-                <p class="text-3xl font-bold text-slate-800 mt-2">{{ $data['total_laporan'] }}</p>
-                <p class="text-[10px] text-slate-400 mt-1 italic">*Total semua kategori</p>
-            </div>
-            <div
-                class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow relative overflow-hidden">
-                <div class="absolute top-0 right-0 p-4 opacity-5">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-emerald-600" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </div>
-                <h3 class="text-slate-500 text-sm font-medium">Laporan Diterima</h3>
-                <p class="text-3xl font-bold text-emerald-600 mt-2">{{ $data['laporan_diterima'] }}</p>
-                <p class="text-[10px] text-emerald-500 mt-1 italic">*Telah disetujui DPMD</p>
-            </div>
-            <div
-                class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow relative overflow-hidden">
-                <div class="absolute top-0 right-0 p-4 opacity-5 text-blue-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                    </svg>
-                </div>
-                <h3 class="text-slate-500 text-sm font-medium">Status Akun</h3>
-                <div class="mt-2 flex items-center gap-2">
-                    <div class="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
-                    <span class="text-lg font-bold text-slate-800">Sistem Aktif</span>
-                </div>
-                <p class="text-[10px] text-slate-400 mt-1 italic">*Terhubung ke Server Pusat</p>
-            </div>
-        @endif
-    </div>
-
-    @if(Auth::user()->role === 'admin_desa')
-        <!-- Admin Desa Quick Actions -->
-        <div class="mb-8">
-            <h3 class="font-bold text-slate-800 mb-4 px-1">Akses Cepat Layanan</h3>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <a href="{{ route('dashboard.laporan.buat') }}"
-                    class="flex flex-col items-center justify-center p-6 bg-white border border-slate-100 rounded-3xl hover:border-blue-500 hover:shadow-xl hover:-translate-y-1 transition-all group">
-                    <div
-                        class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 mb-3 group-hover:bg-blue-600 group-hover:text-white transition-all">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                        </svg>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <!-- VERIFICATION QUEUE -->
+            <div id="verif-queue" class="lg:col-span-2 card">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <div class="card-title">✅ Antrian Verifikasi</div>
+                        <p class="text-xs text-slate-600 dark:text-slate-400">Tinjau laporan terbaru yang dikirim oleh desa
+                        </p>
                     </div>
-                    <span class="text-sm font-bold text-slate-700">Buat Laporan</span>
-                </a>
-                <a href="{{ route('dashboard.beritas.index') }}"
-                    class="flex flex-col items-center justify-center p-6 bg-white border border-slate-100 rounded-3xl hover:border-emerald-500 hover:shadow-xl hover:-translate-y-1 transition-all group">
-                    <div
-                        class="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 mb-3 group-hover:bg-emerald-600 group-hover:text-white transition-all">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                        </svg>
+                    <span class="status-pill sp-e">{{ $data['laporan_pending'] }} Tertunda</span>
+                </div>
+                <div class="flex flex-col gap-3">
+                    @forelse($data['pending_verification'] as $lp)
+                        <div class="verif-item">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <h4 class="text-sm font-bold text-slate-800 dark:text-slate-100">
+                                        {{ optional($lp->desa)->nama_desa ?? 'Desa Tidak Diketahui' }}</h4>
+                                    <p class="text-[10px] text-slate-500 dark:text-slate-400">📍
+                                        {{ optional($lp->desa)->kecamatan ?? '-' }} •
+                                        {{ $lp->created_at->format('d M H:i') }}
+                                    </p>
+                                </div>
+                                <span class="status-pill sp-b">{{ strtoupper($lp->kategori) }}</span>
+                            </div>
+                            <p class="text-xs font-medium text-slate-600 dark:text-slate-300 mb-3">{{ $lp->judul }}</p>
+                            <div class="flex gap-2">
+                                <a href="{{ route('dashboard.laporan.detail', $lp->id) }}"
+                                    class="btn-verif bg-[#1a6b3a] text-white">✅ Periksa</a>
+                                <form action="{{ route('dashboard.laporan.approve', $lp->id) }}" method="POST" class="inline">
+                                    @csrf<button class="btn-verif bg-emerald-100 text-emerald-700">Setujui</button></form>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="py-10 text-center italic text-slate-400">Tidak ada antrian verifikasi.</div>
+                    @endforelse
+                </div>
+            </div>
+
+            <!-- COMPLIANCE CHART -->
+            <div class="card flex flex-col items-center">
+                <div class="w-full">
+                    <div class="card-title">📊 Status Kepatuhan</div>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mb-6">Periode Bulan Ini</p>
+                </div>
+
+                @php
+                    $total = $data['total_desa'] ?: 1;
+                    $selesai = round(($data['total_desa'] - $data['desa_belum_lapor']) / $total * 100);
+                    $belum = 100 - $selesai;
+                @endphp
+
+                <div class="donut mb-6" data-center="{{ $selesai }}%"
+                    style="background: conic-gradient(var(--hijau) 0% {{ $selesai }}%, #fce8e8 {{ $selesai }}% 100%);">
+                </div>
+
+                <div class="w-full flex flex-col gap-3">
+                    <div class="flex justify-between items-center text-xs">
+                        <div class="flex items-center gap-2">
+                            <div class="w-3 h-3 rounded-sm bg-[#1a6b3a]"></div><span>Sudah Melapor</span>
+                        </div>
+                        <span class="font-bold">{{ $data['total_desa'] - $data['desa_belum_lapor'] }} Desa</span>
                     </div>
-                    <span class="text-sm font-bold text-slate-700">Kelola Berita</span>
-                </a>
-                <a href="{{ route('dashboard.desa.edit') }}"
-                    class="flex flex-col items-center justify-center p-6 bg-white border border-slate-100 rounded-3xl hover:border-indigo-500 hover:shadow-xl hover:-translate-y-1 transition-all group">
-                    <div
-                        class="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 mb-3 group-hover:bg-indigo-600 group-hover:text-white transition-all">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                        </svg>
+                    <div class="flex justify-between items-center text-xs">
+                        <div class="flex items-center gap-2">
+                            <div class="w-3 h-3 rounded-sm bg-[#fce8e8]"></div><span>Belum Melapor</span>
+                        </div>
+                        <span class="font-bold text-red-600">{{ $data['desa_belum_lapor'] }} Desa</span>
                     </div>
-                    <span class="text-sm font-bold text-slate-700">Edit Profil</span>
-                </a>
-                <a href="{{ route('dashboard.dokumen.index') }}"
-                    class="flex flex-col items-center justify-center p-6 bg-white border border-slate-100 rounded-3xl hover:border-blue-500 hover:shadow-xl hover:-translate-y-1 transition-all group">
-                    <div
-                        class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 mb-3 group-hover:bg-blue-600 group-hover:text-white transition-all">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-                        </svg>
+
+                    <div class="mt-4 pt-4 border-top border-slate-100">
+                        <div class="flex justify-between text-[11px] mb-1"><span>Target Kepatuhan</span><span>90%</span>
+                        </div>
+                        <div class="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                            <div class="h-full bg-amber-400" style="width:{{ $selesai }}%"></div>
+                        </div>
                     </div>
-                    <span class="text-sm font-bold text-slate-700">Kotak Berkas</span>
-                </a>
+                </div>
             </div>
         </div>
-    @endif
 
-    @if(Auth::user()->role === 'admin_dpmd')
-        <!-- DPMD MONITORING: List of Villages -->
-        <div id="monitoring-desa"
-            class="bg-white overflow-hidden shadow-sm rounded-2xl border border-slate-100 mb-8 scroll-mt-24">
-
-            <div class="p-6 border-b border-slate-50">
-                <h3 class="font-bold text-lg text-slate-800">Monitoring Data Desa</h3>
+        <!-- VILLAGE MONITORING TABLE -->
+        <div class="card animate-fade-in" style="animation-delay: 0.6s">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                <div>
+                    <div class="card-title">🏘️ Monitoring Data Desa</div>
+                    <p class="text-xs text-slate-500">Pantau keaktifan pelaporan seluruh wilayah</p>
+                </div>
+                <div class="relative w-full md:w-72">
+                    <input type="text" id="desaSearch" placeholder="Cari nama desa..."
+                        class="w-full text-xs border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded-xl py-2.5 pl-10 pr-4 focus:ring-2 focus:ring-[#c9900a]/20 outline-none dark:text-slate-200">
+                    <span class="absolute left-4 top-2.5 opacity-50">🔍</span>
+                </div>
             </div>
             <div class="overflow-x-auto">
-                <table class="w-full text-left text-sm">
-                    <thead class="bg-slate-50 text-slate-500 font-medium">
+                <table class="w-full text-sm text-left">
+                    <thead class="bg-slate-50 text-slate-600 font-bold uppercase text-[10px] tracking-wider">
                         <tr>
-                            <th colspan="4" class="px-6 py-3">
-                                <!-- Search Box v4.0 (Flexbox approach) -->
-                                <div
-                                    class="flex items-center max-w-md bg-white border border-slate-300 rounded-xl focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all overflow-hidden leading-none">
-                                    <div class="pl-4 pr-4 text-slate-400 flex items-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                        </svg>
-                                    </div>
-                                    <input type="text" id="desaSearch" placeholder="Cari desa atau kecamatan..."
-                                        class="w-full py-2.5 pr-4 text-sm bg-transparent border-none focus:ring-0 focus:outline-none placeholder-slate-400">
-                                </div>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th class="px-6 py-4">Nama Desa</th>
+                            <th class="px-6 py-4">Wilayah</th>
                             <th class="px-6 py-4">Kecamatan</th>
                             <th class="px-6 py-4">Laporan</th>
-                            <th class="px-6 py-4">Aksi</th>
+                            <th class="px-6 py-4">Status Wisata</th>
+                            <th class="px-6 py-4 text-right">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-50">
-                        @foreach($data['desas'] as $desa)
+                    <tbody class="divide-y divide-slate-100">
+                        @foreach($data['desas'] as $d)
                             <tr class="hover:bg-slate-50/50 transition-colors">
-                                <td class="px-6 py-4 font-semibold text-slate-700">{{ $desa->nama_desa }}</td>
-                                <td class="px-6 py-4 text-slate-500">{{ $desa->kecamatan }}</td>
+                                <td class="px-6 py-4 font-bold text-slate-800">{{ $d->nama_desa }}</td>
+                                <td class="px-6 py-4 text-slate-500">{{ $d->kecamatan }}</td>
+                                <td class="px-6 py-4"><span
+                                        class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-[10px] font-black">{{ $d->laporans_count ?? 0 }}
+                                        LAPORAN</span></td>
                                 <td class="px-6 py-4">
-                                    <span
-                                        class="bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-bold">{{ $desa->laporans_count }}
-                                        Laporan</span>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <form action="{{ route('dashboard.desa.toggle-wisata', $desa->id) }}" method="POST">
-                                        @csrf
-                                        <button type="submit"
-                                            class="px-3 py-1 rounded-full text-[10px] font-bold transition-all shadow-sm
-                                                                                                                                                                                {{ $desa->is_desa_wisata ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200' : 'bg-slate-100 text-slate-500 hover:bg-slate-200' }}">
-                                            {{ $desa->is_desa_wisata ? 'WISATA: AKTIF' : 'BUKAN WISATA' }}
+                                    <form action="{{ route('dashboard.desa.toggle-wisata', $d->id) }}" method="POST">@csrf
+                                        <button
+                                            class="text-[10px] font-black px-3 py-1 rounded-full border {{ $d->is_desa_wisata ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-slate-50 text-slate-400 border-slate-100' }}">
+                                            {{ $d->is_desa_wisata ? 'WISATA: AKTIF' : 'NON WISATA' }}
                                         </button>
                                     </form>
                                 </td>
-                                <td class="px-6 py-4">
-                                    <a href="{{ route('dashboard.desa.detail', $desa->id) }}"
-                                        class="text-indigo-600 hover:text-indigo-800 font-medium italic">Lihat
-                                        Detail →</a>
-                                </td>
+                                <td class="px-6 py-4 text-right"><a href="{{ route('dashboard.desa.detail', $d->id) }}"
+                                        class="text-[#c9900a] font-bold text-xs hover:underline">Monitor →</a></td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -288,87 +565,11 @@
         </div>
     @endif
 
-    <!-- Recent Activity Section -->
-    <div id="laporan-terbaru"
-        class="bg-white overflow-hidden shadow-sm rounded-2xl border border-slate-100 scroll-mt-24">
-
-        <div class="p-6 border-b border-slate-50">
-            <h3 class="font-bold text-lg text-slate-800">Aktivitas Laporan Terbaru</h3>
-        </div>
-        <div class="p-0">
-            @if($data['recent_laporans']->isEmpty())
-                <div class="p-8 text-center text-slate-400 italic">Belum ada aktivitas laporan.</div>
-            @else
-                <div class="divide-y divide-slate-50">
-                    @foreach($data['recent_laporans'] as $laporan)
-                        <div class="p-4 hover:bg-slate-50 transition-colors flex items-center justify-between gap-4">
-                            <div class="flex-1">
-                                <a href="{{ route('dashboard.laporan.detail', $laporan->id) }}">
-                                    <p class="font-bold text-slate-800 hover:text-blue-600 transition-colors">
-                                        {{ $laporan->judul }}
-                                    </p>
-                                    <p class="text-xs text-slate-500 mt-1">
-                                        @if(Auth::user()->role === 'admin_dpmd')
-                                            Oleh: {{ $laporan->desa->nama_desa }} |
-                                        @endif
-                                        Kategori: {{ ucfirst($laporan->kategori) }} |
-                                        {{ $laporan->tanggal_laporan }}
-                                    </p>
-                                </a>
-                            </div>
-                            <div class="flex items-center gap-3">
-                                <span
-                                    class="px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap {{ $laporan->status === 'pending' ? 'bg-orange-100 text-orange-700' : '' }} {{ $laporan->status === 'diterima' ? 'bg-green-100 text-green-700' : '' }} {{ $laporan->status === 'ditolak' ? 'bg-red-100 text-red-700' : '' }}">
-                                    {{ ucfirst($laporan->status) }}
-                                </span>
-                                @if(Auth::user()->role === 'admin_dpmd' && $laporan->desa)
-                                    <a href="{{ route('dashboard.desa.detail', $laporan->desa->id) }}"
-                                        class="px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-xs font-medium transition-colors flex items-center gap-1.5 whitespace-nowrap">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24"
-                                            stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        </svg>
-                                        Profil Desa
-                                    </a>
-                                    <form action="{{ route('dashboard.laporan.destroy', $laporan->id) }}" method="POST"
-                                        onsubmit="return confirm('Apakah Anda yakin ingin menghapus laporan ini? Tindakan ini tidak dapat dibatalkan.');"
-                                        class="inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                            class="p-1.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg transition-colors shadow-sm group-has-hover:scale-110"
-                                            title="Hapus Laporan">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                            </svg>
-                                        </button>
-                                    </form>
-                                @endif
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            @endif
-        </div>
-    </div>
     <script>
-        document.getElementById('desaSearch').addEventListener('input', function (e) {
-            const searchText = e.target.value.toLowerCase();
-            const rows = document.querySelectorAll('tbody tr');
-
-            rows.forEach(row => {
-                const cityName = row.querySelector('td:first-child').textContent.toLowerCase();
-                const kecamatan = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
-                if (cityName.includes(searchText) || kecamatan.includes(searchText)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
+        document.getElementById('desaSearch')?.addEventListener('input', function (e) {
+            const val = e.target.value.toLowerCase();
+            document.querySelectorAll('tbody tr').forEach(r => {
+                r.style.display = r.textContent.toLowerCase().includes(val) ? '' : 'none';
             });
         });
     </script>

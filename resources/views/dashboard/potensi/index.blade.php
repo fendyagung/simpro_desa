@@ -7,7 +7,7 @@
                     Anda.</p>
             </div>
             <a href="{{ route('dashboard.potensi.create') }}"
-                class="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-emerald-500/20">
+                class="inline-flex items-center gap-2 px-6 py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl transition-all shadow-lg shadow-emerald-500/20 dark:bg-emerald-600 dark:hover:bg-emerald-500">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -61,16 +61,18 @@
                                             <div class="font-bold text-slate-800 dark:text-white">{{ $item->nama_potensi }}
                                             </div>
                                             <div class="text-xs text-slate-500 truncate max-w-xs">
-                                                {{ Str::limit($item->deskripsi, 50) }}</div>
+                                                {{ Str::limit($item->deskripsi, 50) }}
+                                            </div>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm
-                                        @if($item->kategori === 'kuliner') bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400 
-                                        @elseif($item->kategori === 'kerajinan') bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-400
-                                        @elseif($item->kategori === 'event') bg-red-50 text-red-700 dark:bg-red-500/10 dark:text-red-400
-                                        @else bg-slate-50 text-slate-700 dark:bg-slate-500/10 dark:text-slate-400 @endif">
+                                    <span
+                                        class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm
+                                                @if($item->kategori === 'kuliner') bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400 
+                                                @elseif($item->kategori === 'kerajinan') bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400
+                                                @elseif($item->kategori === 'event') bg-red-50 text-red-700 dark:bg-red-500/10 dark:text-red-400
+                                                @else bg-slate-50 text-slate-700 dark:bg-slate-500/10 dark:text-slate-400 @endif">
                                         {{ $item->kategori }}
                                     </span>
                                 </td>
@@ -82,7 +84,7 @@
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-2">
                                         <a href="{{ route('dashboard.potensi.edit', $item->id) }}"
-                                            class="p-2 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-500/10 rounded-lg transition-all"
+                                            class="p-2 text-[#166534] hover:bg-emerald-50 dark:hover:bg-emerald-500/10 rounded-lg transition-all"
                                             title="Edit">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                                 viewBox="0 0 24 24" stroke="currentColor">

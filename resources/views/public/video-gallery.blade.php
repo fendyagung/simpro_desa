@@ -143,7 +143,7 @@
         <div class="max-w-4xl mx-auto px-4 text-center">
             <h2 class="text-3xl font-bold text-white mb-6">Punya Konten Video Desa Anda?</h2>
             <p class="text-slate-400 text-lg mb-10 leading-relaxed">
-                Hubungi Admin SIMPRO untuk mendaftarkan channel YouTube resmi desa Anda atau unggah langsung melalui
+                Hubungi Admin SID untuk mendaftarkan channel YouTube resmi desa Anda atau unggah langsung melalui
                 Dashboard Pengelola Desa.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">

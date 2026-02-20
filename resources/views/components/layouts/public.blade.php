@@ -12,7 +12,9 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lora:wght@400;500;600&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <script>
         // On page load or when changing themes, best to add inline in `head` to avoid FOUC
         if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -22,8 +24,30 @@
         }
     </script>
     <style>
+        :root {
+            --biru-navy: #0f172a;
+            --biru-muted: #1e293b;
+            --emas: #d97706;
+            --emas-muda: #f59e0b;
+            --emas-pale: #fffbeb;
+            --krem: #f8fafc;
+            --putih: #ffffff;
+            --abu: #f1f5f9;
+            --teks: #0f172a;
+            --teks-abu: #475569;
+        }
+
         body {
-            font-family: 'Outfit', sans-serif;
+            font-family: 'DM Sans', sans-serif;
+            background: var(--krem);
+            color: var(--teks);
+        }
+
+        h1,
+        h2,
+        h3,
+        .font-serif {
+            font-family: 'Playfair Display', serif;
         }
 
         @keyframes bounce-subtle {
@@ -51,7 +75,7 @@
 <body
     class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 antialiased transition-colors duration-300">
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 transition-all duration-300 bg-white dark:bg-slate-900/90 dark:backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm"
+    <nav class="fixed w-full z-50 transition-all duration-300 bg-[#fdf8f0]/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-[#e2e8f0] dark:border-slate-800 shadow-sm"
         id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
@@ -63,47 +87,49 @@
                                 class="h-12 w-auto object-contain">
                         @else
                             <div
-                                class="w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-emerald-500/30">
+                                class="w-10 h-10 bg-amber-600 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-amber-600/30">
                                 M
                             </div>
                         @endif
                         <div>
                             <span
-                                class="block font-bold text-lg tracking-tight text-slate-800 dark:text-white leading-none">SIMPRO</span>
+                                class="block font-bold text-lg tracking-tight text-slate-800 dark:text-white leading-none">SID</span>
                             <span class="block text-xs font-medium text-slate-500 tracking-wider">MANGGARAI TIMUR</span>
                         </div>
                     </a>
                 </div>
-                <div class="hidden md:flex h-20">
+                <div class="hidden md:flex items-center h-20">
                     @if(!Request::is('dashboard*'))
-                        <a href="{{ url('/') }}"
-                            class="px-3 flex items-center font-bold text-sm whitespace-nowrap transition-all duration-300 {{ Request::is('/') ? 'bg-[#2b529a] text-white shadow-inner' : 'text-slate-600 hover:text-[#2b529a] hover:bg-blue-50' }}">
-                            BERANDA
-                        </a>
-                        <a href="{{ route('public.profil') }}"
-                            class="px-3 flex items-center font-bold text-sm whitespace-nowrap transition-all duration-300 {{ Request::is('profil') ? 'bg-[#2b529a] text-white shadow-inner' : 'text-slate-600 hover:text-[#2b529a] hover:bg-blue-50' }}">
-                            PROFIL
-                        </a>
-                        <a href="{{ route('public.desa-wisata') }}"
-                            class="px-3 flex items-center font-bold text-sm whitespace-nowrap transition-all duration-300 {{ Request::is('jelajah/desa-wisata') ? 'bg-[#2b529a] text-white shadow-inner' : 'text-slate-600 hover:text-[#2b529a] hover:bg-blue-50' }}">
-                            DESA WISATA
-                        </a>
-                        <a href="{{ route('public.komoditi') }}"
-                            class="px-3 flex items-center font-bold text-sm whitespace-nowrap transition-all duration-300 {{ Request::is('jelajah/komoditi') ? 'bg-[#2b529a] text-white shadow-inner' : 'text-slate-600 hover:text-[#2b529a] hover:bg-blue-50' }}">
-                            KOMODITI
-                        </a>
-                        <a href="{{ route('public.laporan-desa') }}"
-                            class="px-3 flex items-center font-bold text-sm whitespace-nowrap transition-all duration-300 {{ Request::is('laporan-desa') ? 'bg-[#2b529a] text-white shadow-inner' : 'text-slate-600 hover:text-[#2b529a] hover:bg-blue-50' }}">
-                            LAPORAN DESA
-                        </a>
-                        <a href="{{ route('public.berita') }}"
-                            class="px-3 flex items-center font-bold text-sm whitespace-nowrap transition-all duration-300 {{ Request::is('berita') ? 'bg-[#2b529a] text-white shadow-inner' : 'text-slate-600 hover:text-[#2b529a] hover:bg-blue-50' }}">
-                            BERITA
-                        </a>
-                        <a href="{{ route('public.kontak') }}"
-                            class="px-3 flex items-center font-bold text-sm whitespace-nowrap transition-all duration-300 {{ Request::is('layanan/kontak') ? 'bg-[#2b529a] text-white shadow-inner' : 'text-slate-600 hover:text-[#2b529a] hover:bg-blue-50' }}">
-                            KONTAK
-                        </a>
+                        <div class="flex items-center gap-2">
+                            <a href="{{ url('/') }}"
+                                class="px-4 py-2 mx-0.5 flex items-center font-bold text-xs whitespace-nowrap transition-all duration-300 {{ Request::is('/') ? 'bg-[#064e3b] dark:bg-emerald-600 text-white shadow-md rounded-lg' : 'text-slate-600 dark:text-slate-300 hover:text-[#064e3b] dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-800 rounded-lg' }}">
+                                BERANDA
+                            </a>
+                            <a href="{{ route('public.profil') }}"
+                                class="px-4 py-2 mx-0.5 flex items-center font-bold text-xs whitespace-nowrap transition-all duration-300 {{ Request::is('profil') ? 'bg-[#064e3b] dark:bg-emerald-600 text-white shadow-md rounded-lg' : 'text-slate-600 dark:text-slate-300 hover:text-[#064e3b] dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-800 rounded-lg' }}">
+                                PROFIL
+                            </a>
+                            <a href="{{ route('public.desa-wisata') }}"
+                                class="px-4 py-2 mx-0.5 flex items-center font-bold text-xs whitespace-nowrap transition-all duration-300 {{ Request::is('jelajah/desa-wisata') ? 'bg-[#064e3b] dark:bg-emerald-600 text-white shadow-md rounded-lg' : 'text-slate-600 dark:text-slate-300 hover:text-[#064e3b] dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-800 rounded-lg' }}">
+                                DESA WISATA
+                            </a>
+                            <a href="{{ route('public.komoditi') }}"
+                                class="px-4 py-2 mx-0.5 flex items-center font-bold text-xs whitespace-nowrap transition-all duration-300 {{ Request::is('jelajah/komoditi') ? 'bg-[#064e3b] dark:bg-emerald-600 text-white shadow-md rounded-lg' : 'text-slate-600 dark:text-slate-300 hover:text-[#064e3b] dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-800 rounded-lg' }}">
+                                KOMODITI
+                            </a>
+                            <a href="{{ route('public.laporan-desa') }}"
+                                class="px-4 py-2 mx-0.5 flex items-center font-bold text-xs whitespace-nowrap transition-all duration-300 {{ Request::is('laporan-desa') ? 'bg-[#064e3b] dark:bg-emerald-600 text-white shadow-md rounded-lg' : 'text-slate-600 dark:text-slate-300 hover:text-[#064e3b] dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-800 rounded-lg' }}">
+                                LAPORAN DESA
+                            </a>
+                            <a href="{{ route('public.berita') }}"
+                                class="px-4 py-2 mx-0.5 flex items-center font-bold text-xs whitespace-nowrap transition-all duration-300 {{ Request::is('berita') ? 'bg-[#064e3b] dark:bg-emerald-600 text-white shadow-md rounded-lg' : 'text-slate-600 dark:text-slate-300 hover:text-[#064e3b] dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-800 rounded-lg' }}">
+                                BERITA
+                            </a>
+                            <a href="{{ route('public.kontak') }}"
+                                class="px-4 py-2 mx-0.5 flex items-center font-bold text-xs whitespace-nowrap transition-all duration-300 {{ Request::is('layanan/kontak') ? 'bg-[#064e3b] dark:bg-emerald-600 text-white shadow-md rounded-lg' : 'text-slate-600 dark:text-slate-300 hover:text-[#064e3b] dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-800 rounded-lg' }}">
+                                KONTAK
+                            </a>
+                        </div>
                     @else
                         <div class="px-6 flex items-center border-l border-slate-100">
                             <span class="text-xs font-bold text-slate-400 tracking-widest">PANEL ADMINISTRASI</span>
@@ -133,6 +159,9 @@
                                         d="M19 9l-7 7-7-7" />
                                 </svg>
                             </button>
+                            <div class="hidden md:block">
+                                <x-theme-switcher />
+                            </div>
                             <!-- Dropdown -->
                             <div
                                 class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl py-2 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all transform origin-top-right border border-gray-100 z-50">
@@ -151,12 +180,14 @@
                             </div>
                         </div>
                     @else
-                        <a href="{{ route('login') }}"
-                            class="hidden md:inline-flex items-center justify-center px-6 py-2 border border-transparent text-sm font-medium rounded-full text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 shadow-lg shadow-emerald-500/30 transition-all transform hover:-translate-y-0.5">
-                            Login Admin
-                        </a>
+                        <div class="flex items-center gap-4">
+                            <a href="{{ route('login') }}" style="background-color: #d97706; color: #ffffff;"
+                                class="px-4 py-2 text-xs font-bold rounded-full shadow-lg shadow-amber-600/20 hover:scale-105 transition-all">
+                                Login Admin
+                            </a>
+                            <x-theme-switcher />
+                        </div>
                     @endauth
-                    <x-theme-switcher />
                 </div>
             </div>
         </div>
@@ -183,44 +214,44 @@
                                     M
                                 </div>
                             @endif
-                            <span class="font-bold text-xl tracking-tight">SIMPRO MATIM</span>
+                            <span class="font-bold text-xl tracking-tight">SID Manggarai Timur</span>
                         </div>
-                        <p class="text-slate-400 text-sm leading-relaxed">
+                        <p class="text-slate-300 text-sm leading-relaxed">
                             Sistem Informasi Profil dan Pelaporan Desa Kabupaten Manggarai Timur. Mengintegrasikan potensi
                             wisata dan administrasi desa dalam satu platform modern.
                         </p>
                     </div>
                     <div>
                         <h3 class="font-bold text-lg mb-4">Jelajah</h3>
-                        <ul class="space-y-3 text-slate-400 text-sm">
+                        <ul class="space-y-3 text-slate-300 text-sm">
                             <li><a href="{{ route('public.desa-wisata') }}"
-                                    class="hover:text-emerald-400 transition-colors">Desa Wisata</a></li>
+                                    class="hover:text-amber-400 transition-colors">Desa Wisata</a></li>
                             <li><a href="{{ route('public.komoditi') }}"
-                                    class="hover:text-emerald-400 transition-colors">Komoditi Unggulan</a></li>
+                                    class="hover:text-amber-400 transition-colors">Komoditi Unggulan</a></li>
                             <li><a href="{{ route('public.kuliner') }}"
-                                    class="hover:text-emerald-400 transition-colors">Kuliner Khas</a></li>
+                                    class="hover:text-amber-400 transition-colors">Kuliner Khas</a></li>
                             <li><a href="{{ route('public.kerajinan') }}"
-                                    class="hover:text-emerald-400 transition-colors">Kerajinan Tangan</a></li>
-                            <li><a href="{{ route('public.event') }}" class="hover:text-emerald-400 transition-colors">Event
+                                    class="hover:text-amber-400 transition-colors">Kerajinan Tangan</a></li>
+                            <li><a href="{{ route('public.event') }}" class="hover:text-amber-400 transition-colors">Event
                                     Budaya</a></li>
                         </ul>
                     </div>
                     <div>
                         <h3 class="font-bold text-lg mb-4">Layanan</h3>
-                        <ul class="space-y-3 text-slate-400 text-sm">
-                            <li><a href="{{ route('login') }}" class="hover:text-emerald-400 transition-colors">Login Admin
+                        <ul class="space-y-3 text-slate-300 text-sm">
+                            <li><a href="{{ route('login') }}" class="hover:text-amber-500 transition-colors">Login Admin
                                     Desa</a></li>
-                            <li><a href="{{ route('login') }}" class="hover:text-emerald-400 transition-colors">Login Admin
+                            <li><a href="{{ route('login') }}" class="hover:text-amber-500 transition-colors">Login Admin
                                     DPMD</a></li>
                             <li><a href="{{ route('public.panduan') }}"
-                                    class="hover:text-emerald-400 transition-colors">Panduan Pelaporan</a></li>
-                            <li><a href="{{ route('public.kontak') }}"
-                                    class="hover:text-emerald-400 transition-colors">Kontak Bantuan</a></li>
+                                    class="hover:text-amber-500 transition-colors">Panduan Pelaporan</a></li>
+                            <li><a href="{{ route('public.kontak') }}" class="hover:text-amber-500 transition-colors">Kontak
+                                    Bantuan</a></li>
                         </ul>
                     </div>
                     <div>
                         <h3 class="font-bold text-lg mb-4">DPMD Manggarai Timur</h3>
-                        <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        <p class="text-slate-300 text-sm leading-relaxed mb-4">
                             {{ $dpmdProfile->alamat ?? 'Jl. Trans Flores, Borong, Kabupaten Manggarai Timur, Nusa Tenggara Timur.' }}
                             <br>
                             {{ $dpmdProfile->telepon ?? '(0385) 123456' }} • {{ $dpmdProfile->email ??

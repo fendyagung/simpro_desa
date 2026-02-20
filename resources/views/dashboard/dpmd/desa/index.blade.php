@@ -5,7 +5,7 @@
             <p class="text-slate-500 dark:text-slate-400">Kelola daftar desa di Kabupaten Manggarai Timur</p>
         </div>
         <a href="{{ route('dashboard.dpmd.desa.create') }}"
-            class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/30 transition-all flex items-center gap-2">
+            class="px-5 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl shadow-lg shadow-emerald-500/30 transition-all flex items-center gap-2 dark:bg-emerald-600 dark:hover:bg-emerald-500">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd"
                     d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
@@ -51,7 +51,7 @@
                             <td class="px-6 py-4 text-right">
                                 <div class="flex justify-end gap-2">
                                     <a href="{{ route('dashboard.dpmd.desa.edit', $desa->id) }}"
-                                        class="p-2 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-500/10 rounded-lg transition-all"
+                                        class="p-2 text-[#166534] hover:bg-emerald-50 dark:hover:bg-emerald-500/10 rounded-lg transition-all"
                                         title="Edit Desa">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                             viewBox="0 0 24 24" stroke="currentColor">

@@ -9,24 +9,41 @@ use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
     /**
+     * Show the login form.
+     */
+    public function showLoginForm()
+    {
+        $kecamatans = \App\Models\Kecamatan::orderBy('nama')->get();
+        return view('auth.login', compact('kecamatans'));
+    }
+
+    /**
      * Handle an authentication attempt.
      */
     public function authenticate(Request $request)
     {
+        $loginField = $request->input('login');
+        $loginType = filter_var($loginField, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
+            'login' => ['required'],
             'password' => ['required'],
         ]);
 
-        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+        $authCredentials = [
+            $loginType => $loginField,
+            'password' => $credentials['password'],
+        ];
+
+        if (Auth::attempt($authCredentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
 
             return redirect()->intended('dashboard');
         }
 
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->onlyInput('email');
+            'login' => 'Kredensial yang diberikan tidak cocok dengan catatan kami.',
+        ])->onlyInput('login');
     }
 
     /**

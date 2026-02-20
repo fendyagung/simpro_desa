@@ -49,13 +49,14 @@
     </section>
 
     <!-- Content Section -->
-    <section class="py-24 bg-white">
+    <section class="py-24 bg-white dark:bg-slate-900 transition-colors">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
                 <!-- Sidebar Info / Charts -->
                 <div class="lg:col-span-1 space-y-8">
-                    <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-                        <h3 class="text-lg font-bold text-slate-800 mb-4">Status Laporan Masuk</h3>
+                    <div
+                        class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm">
+                        <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-4">Status Laporan Masuk</h3>
                         <div class="relative h-64">
                             <canvas id="statusChart"></canvas>
                         </div>
@@ -63,8 +64,9 @@
                         </p>
                     </div>
 
-                    <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-                        <h3 class="text-lg font-bold text-slate-800 mb-4">Kategori Pembangunan</h3>
+                    <div
+                        class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm">
+                        <h3 class="text-lg font-bold text-slate-800 dark:text-white mb-4">Kategori Pembangunan</h3>
                         <div class="relative h-64">
                             <canvas id="categoryChart"></canvas>
                         </div>
@@ -75,8 +77,9 @@
                 <!-- Main Data View -->
                 <div class="lg:col-span-2">
                     <div class="mb-10">
-                        <h2 class="text-2xl font-bold text-slate-900 mb-2">Monitoring Real-Time</h2>
-                        <p class="text-slate-500 italic">Alur data laporan desa yang masuk ke sistem kami.</p>
+                        <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Monitoring Real-Time</h2>
+                        <p class="text-slate-500 dark:text-slate-400 italic">Alur data laporan desa yang masuk ke sistem
+                            kami.</p>
                     </div>
 
                     <!-- Simplified Tables or Lists for Public -->
@@ -87,7 +90,7 @@
 
                         @forelse($recentReports as $rep)
                             <div
-                                class="flex items-center justify-between p-6 bg-white border border-slate-100 rounded-2xl hover:shadow-lg transition-all group">
+                                class="flex items-center justify-between p-6 bg-white dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700/50 rounded-2xl hover:shadow-lg transition-all group">
                                 <div class="flex items-center gap-5">
                                     <div
                                         class="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center text-slate-400 group-hover:bg-emerald-100 group-hover:text-emerald-600 transition-colors">
@@ -97,8 +100,9 @@
                                         </svg>
                                     </div>
                                     <div>
-                                        <h4 class="font-bold text-slate-800">{{ $rep->judul }}</h4>
-                                        <p class="text-xs text-slate-400">oleh {{ $rep->desa->nama_desa }} •
+                                        <h4 class="font-bold text-slate-800 dark:text-white">{{ $rep->judul }}</h4>
+                                        <p class="text-xs text-slate-400 dark:text-slate-500">oleh
+                                            {{ $rep->desa->nama_desa }} •
                                             @if($rep->tanggal_laporan instanceof \Carbon\Carbon)
                                                 {{ $rep->tanggal_laporan->format('d M Y') }}
                                             @else
@@ -108,7 +112,7 @@
                                     </div>
                                 </div>
                                 <span
-                                    class="text-[10px] font-bold uppercase tracking-widest px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full border border-emerald-100">
+                                    class="text-[10px] font-bold uppercase tracking-widest px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 rounded-full border border-emerald-100 dark:border-emerald-800/50">
                                     TERVERIFIKASI
                                 </span>
                             </div>
@@ -119,11 +123,14 @@
                         @endforelse
                     </div>
 
-                    <div class="mt-12 p-8 bg-blue-50 rounded-3xl border border-blue-100 text-center">
-                        <h4 class="font-bold text-blue-900 mb-2">Butuh Data Lebih Lengkap?</h4>
-                        <p class="text-blue-700/70 text-sm mb-6">Masyarakat dapat mengajukan permintaan informasi publik
+                    <div
+                        class="mt-12 p-8 bg-blue-50 dark:bg-blue-900/20 rounded-3xl border border-blue-100 dark:border-blue-800/50 text-center">
+                        <h4 class="font-bold text-blue-900 dark:text-blue-300 mb-2">Butuh Data Lebih Lengkap?</h4>
+                        <p class="text-blue-700/70 dark:text-blue-400/70 text-sm mb-6">Masyarakat dapat mengajukan
+                            permintaan informasi publik
                             secara resmi melalui portal Pejabat Pengelola Informasi dan Dokumentasi (PPID).</p>
-                        <a href="#" class="inline-flex items-center text-blue-700 font-bold hover:underline">
+                        <a href="#"
+                            class="inline-flex items-center text-blue-700 dark:text-blue-400 font-bold hover:underline">
                             Kunjungi Portal PPID →
                         </a>
                     </div>

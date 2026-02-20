@@ -39,7 +39,7 @@
                             <label class="block text-sm font-bold text-slate-700 dark:text-slate-300">Nama Potensi /
                                 Produk</label>
                             <input type="text" name="nama_potensi" required placeholder="Contoh: Kopi Colol"
-                                class="w-full px-5 py-3 rounded-2xl border border-slate-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all outline-none">
+                                class="w-full px-5 py-3 rounded-2xl border border-slate-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:ring-emerald-50 focus:border-[#064e3b] transition-all outline-none">
                             @error('nama_potensi') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                         </div>
 
@@ -63,7 +63,7 @@
                         <label class="block text-sm font-bold text-slate-700 dark:text-slate-300">Lokasi / Desa
                             (Opsional)</label>
                         <input type="text" name="lokasi" placeholder="Misal: Dusun A, Desa B"
-                            class="w-full px-5 py-3 rounded-2xl border border-slate-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all outline-none">
+                            class="w-full px-5 py-3 rounded-2xl border border-slate-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:ring-emerald-50 focus:border-[#064e3b] transition-all outline-none">
                         @error('lokasi') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
 
@@ -71,7 +71,7 @@
                         <label class="block text-sm font-bold text-slate-700 dark:text-slate-300">Deskripsi
                             Ringkas</label>
                         <textarea name="deskripsi" rows="4" required placeholder="Jelaskan keunikan potensi ini..."
-                            class="w-full px-5 py-3 rounded-2xl border border-slate-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all outline-none"></textarea>
+                            class="w-full px-5 py-3 rounded-2xl border border-slate-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:ring-emerald-50 focus:border-[#064e3b] transition-all outline-none"></textarea>
                         @error('deskripsi') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
 
@@ -120,7 +120,7 @@
                         Batal
                     </a>
                     <button type="submit"
-                        class="px-10 py-3 bg-emerald-600 text-white font-bold rounded-2xl shadow-lg shadow-emerald-500/20 hover:bg-emerald-700 hover:-translate-y-1 transition-all">
+                        class="px-10 py-3 bg-[#166534] text-white font-bold rounded-2xl shadow-lg shadow-emerald-500/20 hover:bg-[#15803d] hover:-translate-y-1 transition-all">
                         Simpan Potensi
                     </button>
                 </div>

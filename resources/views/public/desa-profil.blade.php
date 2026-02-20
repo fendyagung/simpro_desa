@@ -50,16 +50,16 @@
     </div>
 
     <!-- Content -->
-    <div class="py-16 bg-white">
+    <div class="py-16 bg-white dark:bg-slate-900 transition-colors">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
                 <!-- Main Desc -->
                 <div class="lg:col-span-2">
-                    <h2 class="text-3xl font-bold text-slate-800 mb-6 flex items-center gap-3">
+                    <h2 class="text-3xl font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-3">
                         <span class="w-2 h-8 bg-emerald-500 rounded-full"></span>
                         Tentang Desa
                     </h2>
-                    <div class="text-slate-600 text-lg leading-relaxed space-y-6">
+                    <div class="text-slate-600 dark:text-slate-400 text-lg leading-relaxed space-y-6">
                         @if($desa->deskripsi)
                             {!! nl2br(e($desa->deskripsi)) !!}
                         @else
@@ -77,7 +77,7 @@
 
                         @if($videoId)
                             <div class="mt-12">
-                                <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                                <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2">
                                     <svg class="w-6 h-6 text-red-600" fill="currentColor" viewBox="0 0 24 24">
                                         <path
                                             d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
@@ -85,7 +85,7 @@
                                     Video Profil & Promosi Desa
                                 </h3>
                                 <div
-                                    class="relative w-full rounded-[3rem] overflow-hidden shadow-2xl bg-black aspect-video border-8 border-slate-100">
+                                    class="relative w-full rounded-[3rem] overflow-hidden shadow-2xl bg-black aspect-video border-8 border-slate-100 dark:border-slate-800">
                                     <iframe class="absolute inset-0 w-full h-full"
                                         src="https://www.youtube.com/embed/{{ $videoId }}" title="YouTube video player"
                                         frameborder="0"
@@ -98,7 +98,7 @@
 
                     <!-- Statistics & Data -->
                     <div class="mt-12">
-                        <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+                        <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2">
                             <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -108,7 +108,8 @@
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <!-- Demographics Card -->
-                            <div class="p-6 bg-slate-50 rounded-[2rem] border border-slate-100">
+                            <div
+                                class="p-6 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-[2rem]">
                                 <h4
                                     class="font-bold text-slate-700 mb-4 flex items-center gap-2 text-sm uppercase tracking-wider">
                                     <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor"
@@ -119,23 +120,25 @@
                                     Demografi
                                 </h4>
                                 <div class="space-y-4">
-                                    <div class="flex justify-between items-center pb-3 border-b border-slate-200/60">
-                                        <span class="text-slate-500 text-sm">Jumlah Penduduk</span>
+                                    <div
+                                        class="flex justify-between items-center pb-3 border-b border-slate-200/60 dark:border-slate-700/60">
+                                        <span class="text-slate-500 dark:text-slate-400 text-sm">Jumlah Penduduk</span>
                                         <span
-                                            class="font-bold text-slate-800">{{ $desa->jumlah_penduduk ? number_format($desa->jumlah_penduduk) . ' Jiwa' : '-' }}</span>
+                                            class="font-bold text-slate-800 dark:text-slate-100">{{ $desa->jumlah_penduduk ? number_format($desa->jumlah_penduduk) . ' Jiwa' : '-' }}</span>
                                     </div>
                                     <div class="flex justify-between items-center">
-                                        <span class="text-slate-500 text-sm">Jumlah KK</span>
+                                        <span class="text-slate-500 dark:text-slate-400 text-sm">Jumlah KK</span>
                                         <span
-                                            class="font-bold text-slate-800">{{ $desa->jumlah_kk ? number_format($desa->jumlah_kk) . ' KK' : '-' }}</span>
+                                            class="font-bold text-slate-800 dark:text-slate-100">{{ $desa->jumlah_kk ? number_format($desa->jumlah_kk) . ' KK' : '-' }}</span>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Geography Card -->
-                            <div class="p-6 bg-slate-50 rounded-[2rem] border border-slate-100">
+                            <div
+                                class="p-6 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-[2rem]">
                                 <h4
-                                    class="font-bold text-slate-700 mb-4 flex items-center gap-2 text-sm uppercase tracking-wider">
+                                    class="font-bold text-slate-700 dark:text-slate-300 mb-4 flex items-center gap-2 text-sm uppercase tracking-wider">
                                     <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -144,13 +147,17 @@
                                     Geografis
                                 </h4>
                                 <div class="space-y-4">
-                                    <div class="flex justify-between items-center pb-3 border-b border-slate-200/60">
-                                        <span class="text-slate-500 text-sm">Luas Wilayah</span>
-                                        <span class="font-bold text-slate-800">{{ $desa->luas_wilayah ?? '-' }}</span>
+                                    <div
+                                        class="flex justify-between items-center pb-3 border-b border-slate-200/60 dark:border-slate-700/60">
+                                        <span class="text-slate-500 dark:text-slate-400 text-sm">Luas Wilayah</span>
+                                        <span
+                                            class="font-bold text-slate-800 dark:text-slate-100">{{ $desa->luas_wilayah ?? '-' }}</span>
                                     </div>
                                     <div>
-                                        <span class="text-slate-500 text-sm block mb-1">Batas Wilayah</span>
-                                        <p class="font-medium text-slate-800 text-sm leading-relaxed">
+                                        <span class="text-slate-500 dark:text-slate-400 text-sm block mb-1">Batas
+                                            Wilayah</span>
+                                        <p
+                                            class="font-medium text-slate-800 dark:text-slate-100 text-sm leading-relaxed">
                                             {{ $desa->deskripsi_batas ?? '-' }}
                                         </p>
                                     </div>
@@ -158,7 +165,8 @@
                             </div>
 
                             <!-- Economy Card -->
-                            <div class="md:col-span-2 p-6 bg-amber-50 rounded-[2rem] border border-amber-100">
+                            <div
+                                class="md:col-span-2 p-6 bg-amber-50 dark:bg-amber-900/10 rounded-[2rem] border border-amber-100 dark:border-amber-800/30">
                                 <h4
                                     class="font-bold text-amber-800 mb-3 flex items-center gap-2 text-sm uppercase tracking-wider">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -167,7 +175,7 @@
                                     </svg>
                                     Potensi Ekonomi
                                 </h4>
-                                <p class="text-amber-900/80 leading-relaxed">
+                                <p class="text-amber-900/80 dark:text-amber-400/80 leading-relaxed">
                                     {{ $desa->potensi_ekonomi ?? 'Belum ada data potensi ekonomi.' }}
                                 </p>
                             </div>

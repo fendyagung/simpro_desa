@@ -1,9 +1,8 @@
 <x-layouts.admin>
     <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100">
-        <div class="p-8 bg-[#2b529a] text-white">
-            <h1 class="text-2xl font-bold text-white">Edit Profil Resmi DPMD</h1>
-            <p class="text-blue-100/80">Kelola informasi instansi, sambutan pimpinan, dan struktur organisasi.
-            </p>
+        <div class="p-8 bg-[#022c22] text-white transition-colors">
+            <h1 class="text-2xl font-bold">Pengaturan Profil DPMD</h1>
+            <p class="text-emerald-100/80">Perbarui informasi profil dan sambutan Kepala Dinas.</p>
         </div>
 
         <form action="{{ route('dashboard.dpmd.update-profil') }}" method="POST" enctype="multipart/form-data"
@@ -12,90 +11,105 @@
 
             <!-- Kadis Section -->
             <div>
-                <h3 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
+                <h3
+                    class="text-lg font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2 transition-colors">
                     <span class="w-2 h-6 bg-emerald-500 rounded-full"></span>
                     Informasi Kepala Dinas & Sambutan
                 </h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
                     <div>
-                        <label for="nama_kadis" class="block text-sm font-semibold text-slate-700 mb-2">Nama
+                        <label for="nama_kadis"
+                            class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 transition-colors">Nama
                             Kepala Dinas</label>
                         <input type="text" name="nama_kadis" id="nama_kadis"
                             value="{{ old('nama_kadis', $profile->nama_kadis) }}"
-                            class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none">
+                            class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-emerald-500 outline-none dark:text-white transition-all">
                     </div>
                     <div>
-                        <label for="foto_kadis" class="block text-sm font-semibold text-slate-700 mb-2">Foto
+                        <label for="foto_kadis"
+                            class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 transition-colors">Foto
                             Kepala Dinas</label>
                         <input type="file" name="foto_kadis" id="foto_kadis"
-                            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 dark:file:bg-emerald-900/30 file:text-emerald-700 dark:file:text-emerald-400 hover:file:bg-emerald-100 dark:hover:file:bg-emerald-900/50 transition-all outline-none dark:text-slate-300">
                     </div>
 
-                    <div class="md:col-span-2 space-y-6 pt-6 border-t border-slate-100">
+                    <div
+                        class="md:col-span-2 space-y-6 pt-6 border-t border-slate-100 dark:border-slate-700 transition-colors">
                         <div class="space-y-6">
                             <h4
-                                class="text-sm font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2">
+                                class="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center gap-2 transition-colors">
                                 Kata Sambutan Pimpinan
                             </h4>
                             <div>
                                 <label for="sambutan_judul"
-                                    class="block text-sm font-semibold text-slate-700 mb-2">Judul
+                                    class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 transition-colors">Judul
                                     Sambutan (Slogan)</label>
                                 <input type="text" name="sambutan_judul" id="sambutan_judul"
                                     value="{{ old('sambutan_judul', $profile->sambutan_judul) }}"
-                                    class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none"
-                                    placeholder="Contoh: Membangun Desa, Sejahterakan Rakyat">
+                                    class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-emerald-500 outline-none dark:text-white transition-all"
+                                    placeholder="Contoh: Membangun Desa, Sejahteraan Rakyat">
                             </div>
                             <div>
-                                <label for="sambutan_teks" class="block text-sm font-semibold text-slate-700 mb-2">Teks
+                                <label for="sambutan_teks"
+                                    class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 transition-colors">Teks
                                     Sambutan</label>
                                 <textarea name="sambutan_teks" id="sambutan_teks" rows="5"
-                                    class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none">{{ old('sambutan_teks', $profile->sambutan_teks) }}</textarea>
+                                    class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-emerald-500 outline-none dark:text-white transition-all">{{ old('sambutan_teks', $profile->sambutan_teks) }}</textarea>
                             </div>
                         </div>
 
-                        <div class="pt-6 border-t border-slate-100 space-y-6">
+                        <div class="pt-6 border-t border-slate-100 dark:border-slate-700 space-y-6 transition-colors">
                             <h4
-                                class="text-sm font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2">
+                                class="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center gap-2 transition-colors">
                                 Visi & Misi Instansi
                             </h4>
                             <div>
-                                <label for="visi" class="block text-sm font-semibold text-slate-700 mb-2">Visi</label>
+                                <label for="visi"
+                                    class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 transition-colors">Visi</label>
                                 <textarea name="visi" id="visi" rows="3"
-                                    class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none">{{ old('visi', $profile->visi) }}</textarea>
+                                    class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-emerald-500 outline-none dark:text-white transition-all">{{ old('visi', $profile->visi) }}</textarea>
                             </div>
                             <div>
-                                <label for="misi" class="block text-sm font-semibold text-slate-700 mb-2">Misi (Gunakan
+                                <label for="misi"
+                                    class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 transition-colors">Misi
+                                    (Gunakan
                                     baris baru untuk setiap poin)</label>
                                 <textarea name="misi" id="misi" rows="6"
-                                    class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none">{{ old('misi', $profile->misi) }}</textarea>
+                                    class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-emerald-500 outline-none dark:text-white transition-all">{{ old('misi', $profile->misi) }}</textarea>
                             </div>
                         </div>
                     </div>
 
-                    <div class="md:col-span-2 pt-6 border-t border-slate-100">
-                        <label for="logo_website" class="block text-sm font-semibold text-slate-700 mb-2">Logo
+                    <div class="md:col-span-2 pt-6 border-t border-slate-100 dark:border-slate-700 transition-colors">
+                        <label for="logo_website"
+                            class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 transition-colors">Logo
                             Website (Logo Manggarai Timur)</label>
                         <input type="file" name="logo_website" id="logo_website"
-                            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">
-                        <p class="text-[10px] text-slate-500 mt-2">Format: PNG/JPG. Disarankan logo dengan latar
+                            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 dark:file:bg-emerald-900/30 file:text-emerald-700 dark:file:text-emerald-400 hover:file:bg-emerald-100 dark:hover:file:bg-emerald-900/50 transition-all outline-none dark:text-slate-300">
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-2 transition-colors">Format:
+                            PNG/JPG. Disarankan logo dengan latar
                             belakang transparan.</p>
                     </div>
 
                     <!-- MULTI-GALLERY DPMD (Photos & Videos) -->
-                    <div class="md:col-span-2 pt-10 border-t-2 border-dashed border-slate-100">
+                    <div
+                        class="md:col-span-2 pt-10 border-t-2 border-dashed border-slate-100 dark:border-slate-800 transition-colors">
                         <div class="flex items-center gap-3 mb-8">
                             <div
-                                class="w-12 h-12 bg-rose-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-rose-200">
+                                class="w-12 h-12 bg-rose-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-rose-200 transition-all">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                 </svg>
                             </div>
                             <div>
-                                <h3 class="text-xl font-black text-slate-800 uppercase tracking-tight">Galeri Digital
+                                <h3
+                                    class="text-xl font-black text-slate-800 dark:text-white uppercase tracking-tight transition-colors">
+                                    Galeri Digital
                                     DPMD</h3>
-                                <p class="text-xs text-rose-500 font-bold uppercase tracking-widest">Unggah Foto & Video
+                                <p
+                                    class="text-xs text-rose-500 dark:text-rose-400 font-bold uppercase tracking-widest transition-colors">
+                                    Unggah Foto & Video
                                     Kegiatan</p>
                             </div>
                         </div>

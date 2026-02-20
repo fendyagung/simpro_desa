@@ -1,293 +1,628 @@
-<script>
-    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
-    } else {
-        document.documentElement.classList.remove('dark')
-    }
-</script>
-<x-layouts.public>
-    <div class="py-24 min-h-screen transition-colors duration-300" style="background-color: #f8fafc;">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col lg:flex-row gap-8">
-                <!-- Sidebar -->
-                <aside class="w-full lg:w-64 flex-shrink-0">
-                    <div class="rounded-2xl shadow-sm overflow-hidden sticky top-28 transition-all duration-300 border border-slate-200"
-                        style="background-color: #ffffff;">
+<!DOCTYPE html>
+<html lang="id">
 
-                        <!-- User Profile Section -->
-                        <div class="p-6 flex items-center gap-3 border-b border-slate-100">
-                            <div
-                                class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center overflow-hidden border border-slate-200">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-slate-400"
-                                    fill="currentColor" viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                                </svg>
-                            </div>
-                            <div class="overflow-hidden">
-                                <p class="text-sm font-bold truncate text-slate-800">{{ Auth::user()->name }}</p>
-                            </div>
-                        </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Panel Admin - {{ config('app.name') }}</title>
 
-                        <div class="p-4">
-                            <nav class="space-y-4">
-                                @php
-                                    $userId = Auth::id();
-                                    $newRegulasiCount = \App\Models\Regulasi::where('created_at', '>=', now()->subDays(7))
-                                        ->whereDoesntHave('downloads', function ($query) use ($userId) {
-                                            $query->where('user_id', $userId);
-                                        })
-                                        ->count();
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
-                                    $isProfilActive = Request::is('dashboard/dpmd/edit-profil', 'dashboard/profil-desa/edit', 'dashboard/dpmd/desa*');
-                                    $isKontenActive = Request::is('dashboard/beritas*', 'dashboard/potensi*', 'layanan/galeri-video*');
-                                    $isAdminActive = Request::is('dashboard/regulasi*', 'dashboard/dokumen*', 'dashboard/laporan/buat', 'dashboard/pengumuman*');
-                                @endphp
-
-                                <!-- Grup 1: Utama -->
-                                <div>
-                                    <a href="{{ route('dashboard') }}"
-                                        class="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all"
-                                        style="{{ Request::is('dashboard') ? 'background-color: #2b529a; color: #ffffff; font-weight: 700;' : 'color: #64748b;' }}"
-                                        onmouseover="if(!{{ Request::is('dashboard') ? 1 : 0 }}) { this.style.backgroundColor='#f1f5f9'; this.style.color='#2b529a'; }"
-                                        onmouseout="if(!{{ Request::is('dashboard') ? 1 : 0 }}) { this.style.backgroundColor='transparent'; this.style.color='#64748b'; }">
-                                        <div class="w-5 flex justify-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                                            </svg>
-                                        </div>
-                                        <span class="text-sm">Dashboard</span>
-                                    </a>
-                                </div>
-
-                                <!-- Grup 2: Profil & Instansi -->
-                                <div>
-                                    <button type="button"
-                                        class="flex items-center justify-between w-full px-4 py-2.5 rounded-xl transition-all text-left"
-                                        style="{{ $isProfilActive ? 'color: #2b529a; font-weight: 700;' : 'color: #64748b;' }}"
-                                        onclick="toggleAccordion('profil-menu', this)">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-5 flex justify-center">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                                                </svg>
-                                            </div>
-                                            <span class="text-sm">Profil & Instansi</span>
-                                        </div>
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                            class="h-4 w-4 transition-transform duration-200 {{ $isProfilActive ? 'rotate-180' : '' }}"
-                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M19 9l-7 7-7-7" />
-                                        </svg>
-                                    </button>
-                                    <div id="profil-menu"
-                                        class="mt-1 space-y-1 pl-12 {{ $isProfilActive ? '' : 'hidden' }}">
-                                        @if(Auth::user()->role === 'admin_dpmd')
-                                            <a href="{{ route('dashboard.dpmd.edit-profil') }}"
-                                                class="block py-2 text-xs transition-colors {{ Request::is('dashboard/dpmd/edit-profil') ? 'text-[#2b529a] font-bold' : 'text-slate-500 hover:text-[#2b529a]' }}">Profil
-                                                Website</a>
-                                            <a href="{{ route('dashboard.dpmd.desa.index') }}"
-                                                class="block py-2 text-xs transition-colors {{ Request::is('dashboard/dpmd/desa*') ? 'text-[#2b529a] font-bold' : 'text-slate-500 hover:text-[#2b529a]' }}">Data
-                                                Desa</a>
-                                        @endif
-                                        @if(Auth::user()->role === 'admin_desa')
-                                            <a href="{{ route('dashboard.desa.edit') }}"
-                                                class="block py-2 text-xs transition-colors {{ Request::is('dashboard/profil-desa/edit') ? 'text-[#2b529a] font-bold' : 'text-slate-500 hover:text-[#2b529a]' }}">Profil
-                                                Desa</a>
-                                        @endif
-                                    </div>
-                                </div>
-
-                                <!-- Grup 3: Kelola Konten -->
-                                <div>
-                                    <button type="button"
-                                        class="flex items-center justify-between w-full px-4 py-2.5 rounded-xl transition-all text-left"
-                                        style="{{ $isKontenActive ? 'color: #2b529a; font-weight: 700;' : 'color: #64748b;' }}"
-                                        onclick="toggleAccordion('konten-menu', this)">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-5 flex justify-center">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                                                </svg>
-                                            </div>
-                                            <span class="text-sm">Kelola Konten</span>
-                                        </div>
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                            class="h-4 w-4 transition-transform duration-200 {{ $isKontenActive ? 'rotate-180' : '' }}"
-                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M19 9l-7 7-7-7" />
-                                        </svg>
-                                    </button>
-                                    <div id="konten-menu"
-                                        class="mt-1 space-y-1 pl-12 {{ $isKontenActive ? '' : 'hidden' }}">
-                                        <a href="{{ route('dashboard.beritas.index') }}"
-                                            class="block py-2 text-xs transition-colors {{ Request::is('dashboard/beritas*') ? 'text-[#2b529a] font-bold' : 'text-slate-500 hover:text-[#2b529a]' }}">Kelola
-                                            Berita</a>
-                                        <a href="{{ route('dashboard.potensi.index') }}"
-                                            class="block py-2 text-xs transition-colors {{ Request::is('dashboard/potensi*') ? 'text-[#2b529a] font-bold' : 'text-slate-500 hover:text-[#2b529a]' }}">Potensi
-                                            Wisata</a>
-                                        <a href="{{ route('public.video-gallery') }}"
-                                            class="block py-2 text-xs transition-colors {{ Request::is('layanan/galeri-video') ? 'text-[#2b529a] font-bold' : 'text-slate-500 hover:text-[#2b529a]' }}">Galeri
-                                            Video</a>
-                                    </div>
-                                </div>
-
-                                <!-- Grup 4: Administrasi & Surat -->
-                                <div>
-                                    <button type="button"
-                                        class="flex items-center justify-between w-full px-4 py-2.5 rounded-xl transition-all text-left"
-                                        style="{{ $isAdminActive ? 'color: #2b529a; font-weight: 700;' : 'color: #64748b;' }}"
-                                        onclick="toggleAccordion('admin-menu', this)">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-5 flex justify-center">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
-                                                </svg>
-                                            </div>
-                                            <span class="text-sm">Administrasi & Surat</span>
-                                        </div>
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                            class="h-4 w-4 transition-transform duration-200 {{ $isAdminActive ? 'rotate-180' : '' }}"
-                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M19 9l-7 7-7-7" />
-                                        </svg>
-                                    </button>
-                                    <div id="admin-menu"
-                                        class="mt-1 space-y-1 pl-12 {{ $isAdminActive ? '' : 'hidden' }}">
-                                        <a href="{{ route('dashboard.regulasi.index') }}"
-                                            class="flex justify-between items-center py-2 text-xs transition-colors {{ Request::is('dashboard/regulasi*') ? 'text-[#2b529a] font-bold' : 'text-slate-500 hover:text-[#2b529a]' }}">
-                                            <span>Surat & Regulasi</span>
-                                            @if($newRegulasiCount > 0 && Auth::user()->role === 'admin_desa')
-                                                <span
-                                                    class="bg-red-500 text-white text-[9px] px-1.5 py-0.5 rounded-full">{{ $newRegulasiCount }}</span>
-                                            @endif
-                                        </a>
-                                        <a href="{{ route('dashboard.dokumen.index') }}"
-                                            class="flex justify-between items-center py-2 text-xs transition-colors {{ Request::is('dashboard/dokumen*') ? 'text-[#2b529a] font-bold' : 'text-slate-500 hover:text-[#2b529a]' }}">
-                                            <span>Kotak Berkas</span>
-                                            @php
-                                                if (Auth::user()->role === 'admin_dpmd') {
-                                                    $unreadCount = \App\Models\Dokumen::where('is_read', false)
-                                                        ->where(function ($q) {
-                                                            $q->whereHas('receiverUser', function ($inner) {
-                                                                $inner->where('role', 'admin_dpmd');
-                                                            })->orWhere('receiver_user_id', Auth::id());
-                                                        })
-                                                        ->where('sender_id', '!=', Auth::id())
-                                                        ->count();
-                                                } else {
-                                                    $unreadCount = \App\Models\Dokumen::where('is_read', false)
-                                                        ->where('receiver_desa_id', function ($q) {
-                                                            $q->select('id')->from('desas')->where('user_id', Auth::id())->limit(1);
-                                                        })
-                                                        ->count();
-                                                }
-                                            @endphp
-                                            @if($unreadCount > 0)
-                                                <span
-                                                    class="bg-blue-500 text-white text-[9px] px-1.5 py-0.5 rounded-full">{{ $unreadCount }}</span>
-                                            @endif
-                                        </a>
-                                        @if(Auth::user()->role === 'admin_desa')
-                                            <a href="{{ route('dashboard.laporan.buat') }}"
-                                                class="block py-2 text-xs transition-colors {{ Request::is('dashboard/laporan/buat') ? 'text-[#2b529a] font-bold' : 'text-slate-500 hover:text-[#2b529a]' }}">Buat
-                                                Laporan</a>
-                                        @endif
-                                        @if(Auth::user()->role === 'admin_dpmd')
-                                            <a href="{{ route('pengumuman.index') }}"
-                                                class="block py-2 text-xs transition-colors {{ Request::is('dashboard/pengumuman*') ? 'text-[#2b529a] font-bold' : 'text-slate-500 hover:text-[#2b529a]' }}">Broadcast
-                                                Info</a>
-                                        @endif
-                                    </div>
-                                </div>
-
-                                <div class="pt-4 mt-4 border-t border-slate-100">
-                                    <form method="POST" action="{{ route('logout') }}">
-                                        @csrf
-                                        <button type="submit"
-                                            class="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all text-left group"
-                                            style="color: #ef4444;" onmouseover="this.style.backgroundColor='#fef2f2';"
-                                            onmouseout="this.style.backgroundColor='transparent';">
-                                            <div class="w-5 flex justify-center">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                                                </svg>
-                                            </div>
-                                            <span class="text-sm">Logout</span>
-                                        </button>
-                                    </form>
-                                </div>
-                            </nav>
-                        </div>
-                    </div>
-                </aside>
-
-                <!-- Main Content Area -->
-                <div class="flex-1">
-                    <!-- Session Alerts -->
-                    @if(session('success'))
-                        <div class="mb-6 p-4 border rounded-2xl flex items-center gap-3 shadow-sm"
-                            style="background-color: #f0fdf4; border-color: #dcfce7; color: #166534;">
-                            <div class="p-2 rounded-lg" style="background-color: #dcfce7;">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
-                            <p class="font-semibold text-sm">{{ session('success') }}</p>
-                        </div>
-                    @endif
-
-                    @if(session('warning'))
-                        <div class="mb-6 p-4 border rounded-2xl flex items-center gap-3 shadow-sm"
-                            style="background-color: #fff1f2; border-color: #ffe4e6; color: #9d174d;">
-                            <div class="p-2 rounded-lg" style="background-color: #ffe4e6;">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                                </svg>
-                            </div>
-                            <p class="font-semibold text-sm">{{ session('warning') }}</p>
-                        </div>
-                    @endif
-
-                    {{ $slot }}
-                </div>
-            </div>
-        </div>
-    </div>
     <script>
-        function toggleAccordion(menuId, button) {
-            const menu = document.getElementById(menuId);
-            const icon = button.querySelector('svg:last-child');
-
-            if (menu.classList.contains('hidden')) {
-                menu.classList.remove('hidden');
-                icon.classList.add('rotate-180');
-            } else {
-                menu.classList.add('hidden');
-                icon.classList.remove('rotate-180');
-            }
+        // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark')
         }
     </script>
+
+    @php
+        $user = Auth::user();
+        $desa = $user->role === 'admin_desa' ? \App\Models\Desa::where('user_id', $user->id)->first() : null;
+    @endphp
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <style>
+        :root {
+            --hijau: #166534;
+            --hijau-muda: #10b981;
+            --hijau-gelap: #064e3b;
+            --hijau-pale: #ecfdf5;
+            --emas: #d97706;
+            --emas-muda: #f59e0b;
+            --krem: #fdf8f0;
+            --putih: #ffffff;
+            --abu: #f3f4f1;
+            --abu2: #e2e8f0;
+            --teks: #064e3b;
+            --teks-abu: #475569;
+            --sidebar-w: 260px;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #fdf8f0;
+            color: var(--teks);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .verif-item:hover {
+            border-color: var(--emas-muda);
+            background: #fdf8f0;
+        }
+
+        .sidebar {
+            width: var(--sidebar-w);
+            background: #022c22;
+            /* Very dark emerald to match the request */
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 100;
+            box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .sidebar-logo {
+            padding: 22px 20px 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .s-logo-icon {
+            width: 44px;
+            height: 44px;
+            background:
+                {{ $user->role === 'admin_dpmd' ? 'var(--putih)' : 'var(--putih)' }}
+            ;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 4px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .s-logo-text h2 {
+            font-size: 13px;
+            font-weight: 700;
+            color: white;
+            line-height: 1.2;
+        }
+
+        .s-logo-text p {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 2px;
+        }
+
+        .desa-profile {
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.06);
+            margin: 14px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .desa-profile .dp-label {
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .desa-profile .dp-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .desa-profile .dp-kec {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.85);
+            margin-top: 2px;
+        }
+
+        .desa-profile .dp-badge {
+            display: inline-block;
+            margin-top: 8px;
+            background: rgba(217, 119, 6, 0.2);
+            border: 1px solid rgba(217, 119, 6, 0.3);
+            color: var(--emas-muda);
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .sidebar-nav {
+            padding: 8px 12px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .nav-section-label {
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.35);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 10px 8px 6px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 9px;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 2px;
+            text-decoration: none;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            font-weight: 600;
+        }
+
+        .nav-item .ni-icon {
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .nav-item .ni-badge {
+            margin-left: auto;
+            background: var(--emas);
+            color: white;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 1px 7px;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-footer {
+            padding: 14px 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logout-btn-wrap form button {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 9px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: rgba(255, 255, 255, 0.05);
+            border: none;
+            text-align: left;
+        }
+
+        .logout-btn-wrap form button:hover {
+            background: rgba(255, 80, 80, 0.15);
+            color: #ff8080;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: var(--sidebar-w);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* TOPBAR */
+        .topbar {
+            background: rgba(253, 248, 240, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 14px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--abu2);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+        }
+
+        .topbar-left h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .topbar-left p {
+            font-size: 12px;
+            color: var(--teks-abu);
+            margin-top: 1px;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .notif-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: var(--abu);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 17px;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .notif-btn:hover {
+            background: var(--hijau-pale);
+        }
+
+        .notif-dot {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 8px;
+            height: 8px;
+            background: #e53e3e;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            background: var(--abu);
+            padding: 6px 14px 6px 6px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .user-chip:hover {
+            background: var(--hijau-pale);
+        }
+
+        .user-avatar {
+            width: 30px;
+            height: 30px;
+            background: var(--hijau);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: white;
+        }
+
+        .user-chip span {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--teks);
+        }
+
+        .content {
+            padding: 26px 28px;
+            flex: 1;
+        }
+
+        .pattern-strip {
+            height: 4px;
+            background: repeating-linear-gradient(90deg, var(--hijau) 0, var(--hijau) 20px, var(--emas) 20px, var(--emas) 40px, var(--emas-muda) 40px, var(--emas-muda) 60px);
+        }
+
+        /* DARK MODE OVERRIDES */
+        .dark {
+            --krem: #022c22;
+            --putih: #064e3b;
+            --abu: rgba(255, 255, 255, 0.03);
+            --abu2: rgba(255, 255, 255, 0.1);
+            --teks: #f0fdf4;
+            --teks-abu: #94a3b8;
+        }
+
+        .dark body {
+            background: var(--krem);
+        }
+
+        .dark .topbar {
+            background: rgba(2, 44, 34, 0.9);
+            border-bottom-color: var(--abu2);
+        }
+
+        .dark .topbar-left h1 {
+            color: var(--teks);
+        }
+
+        .dark .notif-btn {
+            background: var(--abu2);
+            color: var(--teks);
+        }
+
+        .dark .user-chip {
+            background: var(--abu2);
+        }
+
+        .dark .user-chip span {
+            color: var(--teks);
+        }
+
+        .dark .stat-card,
+        .dark .card {
+            background: #064e3b;
+            border-color: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .dark .sc-num {
+            color: #f0fdf4 !important;
+        }
+
+        .dark .card-title {
+            color: var(--teks);
+        }
+
+        .dark .sidebar-logo {
+            border-bottom-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .dark .sidebar-footer {
+            border-top-color: rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+
+<body>
+
+    @php
+        // Count logic from old layout
+        $userId = Auth::id();
+        $newRegulasiCount = \App\Models\Regulasi::where('created_at', '>=', now()->subDays(7))
+            ->whereDoesntHave('downloads', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+            ->count();
+
+        if ($user->role === 'admin_dpmd') {
+            $unreadCount = \App\Models\Dokumen::where('is_read', false)
+                ->where(function ($q) {
+                    $q->whereHas('receiverUser', function ($inner) {
+                        $inner->where('role', 'admin_dpmd');
+                    })->orWhere('receiver_user_id', Auth::id());
+                })
+                ->where('sender_id', '!=', Auth::id())
+                ->count();
+        } else {
+            $unreadCount = \App\Models\Dokumen::where('is_read', false)
+                ->where('receiver_desa_id', $desa->id ?? 0)
+                ->count();
+        }
+    @endphp
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            @php $profile = \App\Models\DpmdProfile::first(); @endphp
+            <div class="s-logo-icon">
+                @if($profile && $profile->logo_website)
+                    <img src="{{ asset('storage/' . $profile->logo_website) }}" alt="Logo"
+                        class="w-full h-full object-contain">
+                @else
+                    🏛️
+                @endif
+            </div>
+            <div class="s-logo-text">
+                <h2>SID Manggarai Timur</h2>
+                <p>Admin {{ $user->role === 'admin_dpmd' ? 'DPMD' : 'Desa' }} Panel</p>
+            </div>
+        </div>
+
+        <div class="desa-profile">
+            <div class="dp-label">Akun Masuk sebagai</div>
+            <div class="dp-name">{{ $desa->nama_desa ?? $user->name }}</div>
+            <div class="dp-kec">📍 {{ $desa ? 'Kec. ' . $desa->kecamatan : 'Pusat Pemerintahan' }}</div>
+            <div class="dp-badge">{{ $user->role === 'admin_dpmd' ? '🏢 Admin DPMD' : '🏘️ Admin Desa' }}</div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">Menu Utama</div>
+            <a href="{{ route('dashboard') }}" class="nav-item {{ Request::is('dashboard') ? 'active' : '' }}">
+                <span class="ni-icon">🏠</span> Dashboard
+            </a>
+
+            @if($user->role === 'admin_desa')
+                <a href="{{ route('dashboard.laporan.buat') }}"
+                    class="nav-item {{ Request::is('dashboard/laporan/buat') ? 'active' : '' }}">
+                    <span class="ni-icon">📝</span> Input Laporan
+                </a>
+            @endif
+
+            <a href="{{ route('dashboard.dokumen.index') }}"
+                class="nav-item {{ Request::is('dashboard/dokumen*') ? 'active' : '' }}">
+                <span class="ni-icon">📂</span> Kotak Berkas
+                @if($unreadCount > 0)
+                    <span class="ni-badge">{{ $unreadCount }}</span>
+                @endif
+            </a>
+
+            <a href="{{ route('dashboard.regulasi.index') }}"
+                class="nav-item {{ Request::is('dashboard/regulasi*') ? 'active' : '' }}">
+                <span class="ni-icon">📜</span> Surat & Regulasi
+                @if($newRegulasiCount > 0 && $user->role === 'admin_desa')
+                    <span class="ni-badge">{{ $newRegulasiCount }}</span>
+                @endif
+            </a>
+
+            <div class="nav-section-label" style="margin-top:8px;">Konten Publik</div>
+            <a href="{{ route('dashboard.beritas.index') }}"
+                class="nav-item {{ Request::is('dashboard/beritas*') ? 'active' : '' }}">
+                <span class="ni-icon">📰</span> Kelola Berita
+            </a>
+            <a href="{{ route('dashboard.potensi.index') }}"
+                class="nav-item {{ Request::is('dashboard/potensi*') ? 'active' : '' }}">
+                <span class="ni-icon">🏞️</span> Potensi Wisata
+            </a>
+
+            @if($user->role === 'admin_dpmd')
+                <div class="nav-section-label" style="margin-top:8px;">Master Data</div>
+                <a href="{{ route('dashboard.dpmd.desa.index') }}"
+                    class="nav-item {{ Request::is('dashboard/dpmd/desa*') ? 'active' : '' }}">
+                    <span class="ni-icon">🏘️</span> Data Seluruh Desa
+                </a>
+                <a href="{{ route('pengumuman.index') }}"
+                    class="nav-item {{ Request::is('dashboard/pengumuman*') ? 'active' : '' }}">
+                    <span class="ni-icon">📢</span> Broadcast Info
+                </a>
+            @endif
+
+            <div class="nav-section-label" style="margin-top:8px;">Akun</div>
+            @if($user->role === 'admin_desa')
+                <a href="{{ route('dashboard.desa.edit') }}"
+                    class="nav-item {{ Request::is('dashboard/profil-desa/edit') ? 'active' : '' }}">
+                    <span class="ni-icon">⚙️</span> Pengaturan Desa
+                </a>
+            @else
+                <a href="{{ route('dashboard.dpmd.edit-profil') }}"
+                    class="nav-item {{ Request::is('dashboard/dpmd/edit-profil') ? 'active' : '' }}">
+                    <span class="ni-icon">⚙️</span> Pengaturan Profil
+                </a>
+            @endif
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="logout-btn-wrap">
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit">
+                        <span class="ni-icon">🚪</span> Logout
+                    </button>
+                </form>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main">
+        <div class="pattern-strip"></div>
+
+        <!-- TOPBAR -->
+        <div class="topbar">
+            <div class="topbar-left flex items-center h-full">
+                <div class="mr-16">
+                    <h1>{{ $title ?? 'Dashboard' }}</h1>
+                    <p>{{ now()->isoFormat('dddd, D MMMM Y') }}</p>
+                </div>
+
+                <!-- Navigation Links from Public Layout -->
+                <div
+                    class="flex flex-wrap items-center gap-1 border-l border-slate-200 dark:border-slate-700 pl-10 h-full">
+                    <a href="{{ url('/') }}"
+                        class="px-2 py-1.5 text-[10px] md:text-[11px] font-bold tracking-tight rounded-lg transition-all {{ Request::is('/') ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-300' }}">
+                        BERANDA
+                    </a>
+                    <a href="{{ route('public.profil') }}"
+                        class="px-2 py-1.5 text-[10px] md:text-[11px] font-bold tracking-tight rounded-lg transition-all {{ Request::is('profil') ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-300' }}">
+                        PROFIL
+                    </a>
+                    <a href="{{ route('public.desa-wisata') }}"
+                        class="px-2 py-1.5 text-[10px] md:text-[11px] font-bold tracking-tight rounded-lg transition-all {{ Request::is('jelajah/desa-wisata') ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-300' }}">
+                        WISATA
+                    </a>
+                    <a href="{{ route('public.komoditi') }}"
+                        class="px-2 py-1.5 text-[10px] md:text-[11px] font-bold tracking-tight rounded-lg transition-all {{ Request::is('jelajah/komoditi') ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-300' }}">
+                        KOMODITI
+                    </a>
+                    <a href="{{ route('public.laporan-desa') }}"
+                        class="px-2 py-1.5 text-[10px] md:text-[11px] font-bold tracking-tight rounded-lg transition-all {{ Request::is('laporan-desa') ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-300' }}">
+                        LAPORAN
+                    </a>
+                    <a href="{{ route('public.berita') }}"
+                        class="px-2 py-1.5 text-[10px] md:text-[11px] font-bold tracking-tight rounded-lg transition-all {{ Request::is('berita') ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-300' }}">
+                        BERITA
+                    </a>
+                    <a href="{{ route('public.kontak') }}"
+                        class="px-2 py-1.5 text-[10px] md:text-[11px] font-bold tracking-tight rounded-lg transition-all {{ Request::is('layanan/kontak') ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-500 dark:text-slate-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 hover:text-emerald-700 dark:hover:text-emerald-300' }}">
+                        KONTAK
+                    </a>
+                </div>
+            </div>
+            <div class="topbar-right">
+                <x-theme-switcher />
+                <div class="notif-btn">
+                    🔔
+                    @if($unreadCount > 0)
+                        <div class="notif-dot"></div>
+                    @endif
+                </div>
+                <a href="{{ $user->role === 'admin_desa' ? route('dashboard.desa.edit') : route('dashboard.dpmd.edit-profil') }}"
+                    class="user-chip">
+                    <div class="user-avatar">{{ substr($user->name, 0, 1) }}</div>
+                    <span>{{ $user->name }}</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="content">
+            <!-- Flash Messages -->
+            @if(session('success'))
+                <div class="mb-6 p-4 bg-green-50 border border-green-200 text-green-800 rounded-xl flex items-center gap-3">
+                    <span class="text-xl">✅</span>
+                    <p class="font-bold text-sm">{{ session('success') }}</p>
+                </div>
+            @endif
+            @if(session('warning'))
+                <div class="mb-6 p-4 bg-red-50 border border-red-200 text-red-800 rounded-xl flex items-center gap-3">
+                    <span class="text-xl">⚠️</span>
+                    <p class="font-bold text-sm">{{ session('warning') }}</p>
+                </div>
+            @endif
+
+            {{ $slot }}
+        </div>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fslightbox/3.0.9/index.js"></script>
-</x-layouts.public>
+</body>
+
+</html>

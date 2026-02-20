@@ -1,17 +1,18 @@
 <x-layouts.public>
-    <div class="py-24">
+    <div class="py-24 bg-white dark:bg-slate-900 transition-colors">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Breadcrumbs -->
             <nav class="flex mb-8 text-sm font-medium text-slate-500">
                 <a href="{{ route('dashboard') }}" class="hover:text-emerald-600">Dashboard</a>
                 <span class="mx-2">/</span>
-                <span class="text-slate-800">Monitoring Desa</span>
+                <span class="text-slate-800 dark:text-slate-100">Monitoring Desa</span>
             </nav>
 
             <div class="flex flex-col lg:flex-row gap-8">
                 <!-- Village Profile Card -->
                 <aside class="w-full lg:w-80 flex-shrink-0">
-                    <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 sticky top-28">
+                    <div
+                        class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl overflow-hidden border border-slate-100 dark:border-slate-700 sticky top-28">
                         <div class="h-32 bg-[#2b529a] relative">
                             <div
                                 class="absolute -bottom-10 left-1/2 -translate-x-1/2 w-20 h-20 bg-white rounded-2xl shadow-lg flex items-center justify-center text-[#2b529a] border border-slate-50">
@@ -23,14 +24,16 @@
                             </div>
                         </div>
                         <div class="pt-14 p-6 text-center">
-                            <h2 class="text-xl font-bold text-slate-800">{{ $desa->nama_desa }}</h2>
-                            <p class="text-slate-500 text-sm mb-6">{{ $desa->kecamatan }}</p>
+                            <h2 class="text-xl font-bold text-slate-800 dark:text-white">{{ $desa->nama_desa }}</h2>
+                            <p class="text-slate-500 dark:text-slate-400 text-sm mb-6">{{ $desa->kecamatan }}</p>
 
                             <div class="space-y-4 text-left border-t border-slate-50 pt-6">
                                 <div>
-                                    <span class="block text-slate-400 text-[10px] uppercase font-bold mb-1">Kepala
+                                    <span
+                                        class="block text-slate-400 dark:text-slate-500 text-[10px] uppercase font-bold mb-1">Kepala
                                         Desa</span>
-                                    <span class="font-bold text-slate-700">{{ $desa->kepala_desa ?? '-' }}</span>
+                                    <span
+                                        class="font-bold text-slate-700 dark:text-slate-200">{{ $desa->kepala_desa ?? '-' }}</span>
                                 </div>
                                 <div>
                                     <span class="block text-slate-400 text-[10px] uppercase font-bold mb-1">Kode
@@ -57,8 +60,9 @@
                 <div class="flex-1 space-y-8">
                     <!-- Gallery Photos -->
                     @if($desa->galleries->where('type', 'foto')->count() > 0)
-                        <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 p-8">
-                            <h3 class="font-bold text-xl text-slate-800 mb-6 flex items-center gap-2">
+                        <div
+                            class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl overflow-hidden border border-slate-100 dark:border-slate-700 p-8">
+                            <h3 class="font-bold text-xl text-slate-800 dark:text-white mb-6 flex items-center gap-2">
                                 <span class="w-2 h-6 bg-emerald-500 rounded-full"></span>
                                 Galeri Foto Desa
                             </h3>
@@ -76,8 +80,9 @@
 
                     <!-- Gallery Videos -->
                     @if($desa->galleries->where('type', 'video')->count() > 0)
-                        <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 p-8">
-                            <h3 class="font-bold text-xl text-slate-800 mb-6 flex items-center gap-2">
+                        <div
+                            class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl overflow-hidden border border-slate-100 dark:border-slate-700 p-8">
+                            <h3 class="font-bold text-xl text-slate-800 dark:text-white mb-6 flex items-center gap-2">
                                 <span class="w-2 h-6 bg-red-500 rounded-full"></span>
                                 Video Terkait
                             </h3>
@@ -135,10 +140,10 @@
                                                     <div class="flex items-center gap-3 mb-1">
                                                         <span
                                                             class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider
-                                                                                    {{ $laporan->kategori === 'keuangan' ? 'bg-indigo-100 text-indigo-700' : '' }}
-                                                                                    {{ $laporan->kategori === 'penduduk' ? 'bg-teal-100 text-teal-700' : '' }}
-                                                                                    {{ $laporan->kategori === 'kejadian' ? 'bg-red-100 text-red-700' : '' }}
-                                                                                    {{ $laporan->kategori === 'lainnya' ? 'bg-slate-100 text-slate-700' : '' }}">
+                                                                                            {{ $laporan->kategori === 'keuangan' ? 'bg-indigo-100 text-indigo-700' : '' }}
+                                                                                            {{ $laporan->kategori === 'penduduk' ? 'bg-teal-100 text-teal-700' : '' }}
+                                                                                            {{ $laporan->kategori === 'kejadian' ? 'bg-red-100 text-red-700' : '' }}
+                                                                                            {{ $laporan->kategori === 'lainnya' ? 'bg-slate-100 text-slate-700' : '' }}">
                                                             {{ $laporan->kategori }}
                                                         </span>
                                                         <span
@@ -163,9 +168,9 @@
                                             <div class="flex items-center gap-4">
                                                 <span
                                                     class="px-3 py-1 rounded-full text-xs font-bold 
-                                                                            {{ $laporan->status === 'pending' ? 'bg-orange-100 text-orange-700' : '' }}
-                                                                            {{ $laporan->status === 'diterima' ? 'bg-green-100 text-green-700' : '' }}
-                                                                            {{ $laporan->status === 'ditolak' ? 'bg-red-100 text-red-700' : '' }}">
+                                                                                    {{ $laporan->status === 'pending' ? 'bg-orange-100 text-orange-700' : '' }}
+                                                                                    {{ $laporan->status === 'diterima' ? 'bg-green-100 text-green-700' : '' }}
+                                                                                    {{ $laporan->status === 'ditolak' ? 'bg-red-100 text-red-700' : '' }}">
                                                     {{ ucfirst($laporan->status) }}
                                                 </span>
                                                 <form action="{{ route('dashboard.laporan.destroy', $laporan->id) }}"

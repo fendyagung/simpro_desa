@@ -1,9 +1,9 @@
 <x-layouts.admin>
     <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100">
-        <div class="p-8 bg-[#2b529a] text-white">
-            <h1 class="text-2xl font-bold">Kelola Profil Promosi Desa</h1>
-            <p class="text-blue-100/80">Perbarui informasi desa Anda untuk meningkatkan daya tarik bagi wisatawan dan
-                publik.</p>
+        <div class="p-8 bg-[#022c22] text-white transition-colors">
+            <h1 class="text-2xl font-bold text-center">Profil {{ $desa->nama_desa }}</h1>
+            <p class="text-emerald-100/80 text-center">Perbarui informasi profil, lokasi, dan data statistik desa Anda.
+            </p>
         </div>
 
         <form action="{{ route('dashboard.desa.update') }}" method="POST" enctype="multipart/form-data"
@@ -12,51 +12,63 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
-                    <label for="nama_desa" class="block text-sm font-semibold text-slate-700 mb-2">Nama Desa</label>
+                    <label for="nama_desa"
+                        class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 transition-colors">Nama
+                        Desa</label>
                     <input type="text" name="nama_desa" id="nama_desa" value="{{ old('nama_desa', $desa->nama_desa) }}"
                         required
-                        class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none">
+                        class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-emerald-500 transition-all outline-none dark:text-white">
                 </div>
                 <div>
-                    <label for="kecamatan" class="block text-sm font-semibold text-slate-700 mb-2">Kecamatan</label>
+                    <label for="kecamatan"
+                        class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 transition-colors">Kecamatan</label>
                     <input type="text" name="kecamatan" id="kecamatan" value="{{ old('kecamatan', $desa->kecamatan) }}"
                         required
-                        class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none">
+                        class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-emerald-500 transition-all outline-none dark:text-white">
                 </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
-                    <label for="kepala_desa" class="block text-sm font-semibold text-slate-700 mb-2">Nama Kepala
+                    <label for="kepala_desa"
+                        class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 transition-colors">Nama
+                        Kepala
                         Desa</label>
                     <input type="text" name="kepala_desa" id="kepala_desa"
                         value="{{ old('kepala_desa', $desa->kepala_desa) }}"
-                        class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none">
+                        class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-emerald-500 transition-all outline-none dark:text-white">
                 </div>
                 <div>
-                    <label for="foto_profil" class="block text-sm font-semibold text-slate-700 mb-2">Foto Utama / Banner
+                    <label for="foto_profil"
+                        class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 transition-colors">Foto
+                        Utama / Banner
                         Desa</label>
                     <input type="file" name="foto_profil" id="foto_profil"
-                        class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-                    <p class="text-[10px] text-slate-400 mt-2 italic">Format: JPG, JPEG, PNG (Maks 5MB)</p>
+                        class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 dark:file:bg-emerald-900/30 file:text-emerald-700 dark:file:text-emerald-400 hover:file:bg-emerald-100 dark:hover:file:bg-emerald-900/50 transition-all outline-none dark:text-slate-300">
+                    <p class="text-[10px] text-slate-400 dark:text-slate-500 mt-2 italic">Format: JPG, JPEG, PNG (Maks
+                        5MB)</p>
                 </div>
             </div>
 
             <div>
-                <label for="video_youtube" class="block text-sm font-semibold text-slate-700 mb-2">Link Video Promosi
-                    (YouTube URL) - <span class="text-slate-400 font-normal">Opsional</span></label>
+                <label for="video_youtube"
+                    class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 transition-colors">Link
+                    Video Promosi
+                    (YouTube URL) - <span class="text-slate-400 dark:text-slate-500 font-normal">Opsional</span></label>
                 <input type="url" name="video_youtube" id="video_youtube"
                     value="{{ old('video_youtube', $desa->video_youtube) }}"
-                    class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all outline-none"
+                    class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-emerald-500 transition-all outline-none dark:text-white"
                     placeholder="Contoh: https://www.youtube.com/watch?v=...">
-                <p class="text-[10px] text-slate-400 mt-2 italic">Bagikan keindahan desa Anda melalui video YouTube yang
+                <p class="text-[10px] text-slate-400 dark:text-slate-500 mt-2 italic">Bagikan keindahan desa Anda
+                    melalui video YouTube yang
                     menarik.</p>
             </div>
 
             <!-- Multi Gallery Section -->
-            <div class="border-t border-slate-100 pt-8 space-y-8">
+            <div class="border-t border-slate-100 dark:border-slate-700 pt-8 space-y-8 transition-colors">
                 <div>
-                    <h3 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
+                    <h3
+                        class="text-lg font-bold text-slate-800 dark:text-white mb-6 flex items-center gap-2 transition-colors">
                         <span class="w-2 h-6 bg-emerald-500 rounded-full"></span>
                         Galeri Foto Tambahan
                     </h3>

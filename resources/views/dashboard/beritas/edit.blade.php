@@ -1,9 +1,8 @@
 <x-layouts.admin>
     <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100">
-        <div class="p-8 bg-[#2b529a] text-white">
-            <h1 class="text-2xl font-bold">Edit Berita & Kegiatan</h1>
-            <p class="text-blue-100/80">Perbarui informasi yang telah Anda publikasikan agar tetap akurat dan relevan.
-            </p>
+        <div class="p-8 bg-[#064e3b] text-white">
+            <h1 class="text-2xl font-bold">Edit Berita</h1>
+            <p class="text-emerald-100/80">Perbarui informasi berita atau kegiatan yang telah dipublikasikan.</p>
         </div>
 
         <form action="{{ route('dashboard.beritas.update', $berita->id) }}" method="POST" enctype="multipart/form-data"

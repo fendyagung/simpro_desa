@@ -6,12 +6,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
+Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
 
 Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'authenticate']);
 Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+Route::get('/api/desas/{kecamatan}', function ($kecamatan) {
+    return \App\Models\Desa::where('kecamatan', $kecamatan)->orderBy('nama_desa')->get(['id', 'nama_desa', 'kode_desa']);
+});
 
 Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'create'])->name('register');
 Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'store']);
