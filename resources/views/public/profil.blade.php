@@ -33,28 +33,19 @@
                                 @endif
                                 
                                 <!-- Modern Badge Overlay -->
-                                <div class="absolute inset-x-0 bottom-0 p-8 bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent">
+                                <div class="absolute inset-x-0 bottom-0 p-8 bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent text-center">
                                     <h3 class="text-2xl font-black text-white tracking-tight leading-tight">
                                         {{ $profile->nama_kadis ?? 'Nama Kepala Dinas' }}
                                     </h3>
-                                    <div class="flex items-center gap-2 mt-2">
-                                        <span class="w-8 h-px bg-emerald-500"></span>
-                                        <p class="text-emerald-400 text-xs font-black uppercase tracking-widest">Kepala Dinas PMD</p>
+                                    <div class="flex items-center justify-center gap-3 mt-3">
+                                        <span class="w-6 h-px bg-emerald-500/50"></span>
+                                        <p class="text-emerald-400 text-[10px] font-black uppercase tracking-[0.2em]">Kepala Dinas PMD</p>
+                                        <span class="w-6 h-px bg-emerald-500/50"></span>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Floating Micro-Card -->
-                        <div class="absolute -right-6 top-1/2 -translate-y-1/2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border border-white dark:border-slate-800 p-4 rounded-2xl shadow-xl hidden md:block">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center text-white text-xl">✨</div>
-                                <div>
-                                    <p class="text-[10px] text-slate-400 font-black uppercase tracking-tighter">Visi Kami</p>
-                                    <p class="text-xs font-bold text-slate-800 dark:text-white">Membangun dari Desa</p>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
