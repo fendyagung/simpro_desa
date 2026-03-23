@@ -5,8 +5,8 @@
     <!-- Combined Hero & Greeting Section -->
     <section class="relative min-h-[90vh] flex items-center pt-32 pb-24 bg-white dark:bg-[#020617] overflow-hidden">
         <!-- Decoration Background (Matching Homepage) -->
-        <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-emerald-500/10 rounded-full blur-[120px] -mr-64 -mt-64 animate-pulse"></div>
-        <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-[100px] -ml-32 -mb-32 animate-pulse" style="animation-delay: 2s"></div>
+        <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-emerald-500/10 rounded-full blur-[120px] -mr-64 -mt-64"></div>
+        <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-[100px] -ml-32 -mb-32" style="animation-delay: 2s"></div>
         
         <!-- Decorative Floating Dots -->
         <div class="absolute inset-0 z-0 pointer-events-none opacity-20">
@@ -57,38 +57,59 @@
                                 <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
                                 Profil Instansi dpmd
                             </span>
-                            <h1 class="text-5xl md:text-7xl font-serif font-black mt-6 leading-tight text-slate-900 dark:text-white">
-                                @if($profile->sambutan_judul)
-                                    {{ $profile->sambutan_judul }}
-                                @else
-                                    Membangun <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500">Desa</span>, <br>
-                                    Sejahterakan <span class="italic font-normal">Rakyat</span>
-                                @endif
+                            <h1 class="font-serif leading-tight text-slate-900 dark:text-white">
+                                <span class="block text-2xl md:text-3xl font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-2">Membangun Desa</span>
+                                <span class="block text-4xl md:text-6xl font-black">Membangun <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-emerald-500 to-blue-600">Indonesia</span></span>
+                                <span class="block text-xl md:text-2xl font-medium italic text-slate-500 dark:text-slate-400 mt-4">"Desa Maju, Rakyat Sejahtera"</span>
                             </h1>
                         </div>
 
                         <div class="relative">
                             <div class="absolute -left-6 top-0 bottom-0 w-1 bg-gradient-to-b from-emerald-500 to-transparent opacity-30"></div>
-                            <div class="text-slate-600 dark:text-slate-300 text-xl leading-relaxed italic font-medium font-serif pl-0 md:pl-4">
-                                @if($profile->sambutan_teks)
-                                    "{!! nl2br(e($profile->sambutan_teks)) !!}"
-                                @else
-                                    <p>"Selamat datang di Portal SID Manggarai Timur. Kami terus berinovasi untuk mendorong transparansi dan kemandirian tata kelola pemerintahan desa di seluruh wilayah."</p>
-                                @endif
+                            <div class="text-slate-600 dark:text-slate-300 text-lg leading-relaxed font-serif pl-0 md:pl-4 border-l-4 border-emerald-500/20">
+                                @php
+                                    $teks = $profile->sambutan_teks;
+                                    // Hilangkan kalimat branding dari teks sambutan jika ada untuk dipindah ke section khusus
+                                    $teksClean = preg_replace('/Branding Dinas PMD:.*?\./s', '', $teks);
+                                    $teksClean = trim($teksClean);
+                                @endphp
+                                {!! nl2br(e($teksClean)) !!}
+                            </div>
+
+                            <!-- HEPI Branding Section - Styled Neatly -->
+                            <div class="pt-8">
+                                <div class="bg-gradient-to-br from-emerald-50 to-blue-50 dark:from-emerald-900/10 dark:to-blue-900/10 p-8 rounded-[2rem] border border-emerald-100/50 dark:border-emerald-500/10">
+                                    <div class="flex items-center gap-3 mb-6">
+                                        <div class="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-emerald-500/20">
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-xs font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">Branding Dinas PMD</h3>
+                                            <p class="text-lg font-bold text-slate-800 dark:text-white">Desa Melayani dengan <span class="text-emerald-600">"HEPI"</span></p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                                        @foreach([
+                                            ['H', 'Humanis', 'bg-white border border-emerald-500/20 text-emerald-600'],
+                                            ['E', 'Edukatif', 'bg-blue-500 text-white'],
+                                            ['P', 'Profesional', 'bg-emerald-500 text-white'],
+                                            ['I', 'Inovatif', 'bg-amber-500 text-white']
+                                        ] as $item)
+                                            <div class="text-center group">
+                                                <div class="w-12 h-12 {{ $item[2] }} mx-auto rounded-xl flex items-center justify-center font-black text-xl mb-2 shadow-lg group-hover:scale-110 transition-transform">
+                                                    {{ $item[0] }}
+                                                </div>
+                                                <span class="text-[10px] font-black uppercase text-slate-500 tracking-tighter">{{ $item[1] }}</span>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="flex flex-wrap gap-4 pt-4">
-                            <div class="flex flex-col">
-                                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Kabupaten</span>
-                                <span class="text-sm font-bold text-slate-800 dark:text-white">Manggarai Timur</span>
-                            </div>
-                            <div class="w-px h-10 bg-slate-200 dark:bg-slate-800"></div>
-                            <div class="flex flex-col">
-                                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Status</span>
-                                <span class="text-sm font-bold text-emerald-600">Terverifikasi SIPD</span>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -99,7 +120,7 @@
     <section class="py-24 bg-slate-50 dark:bg-slate-950 relative transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-20">
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">Visi & Misi</h2>
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">Visi & Misi Bupati & Wakil Bupati</h2>
                 <div class="w-20 h-1.5 bg-emerald-500 mx-auto rounded-full"></div>
             </div>
 
@@ -117,7 +138,7 @@
                                 d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                         </svg>
                     </div>
-                    <h3 class="text-2xl font-bold text-slate-800 dark:text-white mb-6">Visi DPMD</h3>
+                    <h3 class="text-2xl font-bold text-slate-800 dark:text-white mb-6">Visi</h3>
                     <p class="text-slate-600 dark:text-slate-300 text-xl leading-relaxed font-medium italic">
                         "{{ $profile->visi ?? 'Terwujudnya Desa yang Mandiri dan Sejahtera.' }}"
                     </p>
@@ -162,6 +183,22 @@
                 <h2 class="text-3xl md:text-5xl font-serif font-black text-slate-900 dark:text-white mt-4">Organisasi DPMD</h2>
                 <div class="w-16 h-1 bg-gradient-to-r from-emerald-500 to-blue-500 mx-auto rounded-full mt-6"></div>
             </div>
+
+            <!-- Organizational Chart (Bagan) if exists -->
+            @if($profile->foto_struktur)
+                <div class="mb-16 reveal">
+                    <div class="relative p-2 bg-white/40 dark:bg-white/5 backdrop-blur-xl border border-white/60 dark:border-white/10 rounded-[3rem] shadow-2xl overflow-hidden max-w-5xl mx-auto">
+                        <div class="rounded-[2.5rem] overflow-hidden">
+                            <img src="{{ asset('storage/' . $profile->foto_struktur) }}" alt="Bagan Struktur Organisasi DPMD"
+                                class="w-full h-auto cursor-zoom-in hover:scale-[1.02] transition-transform duration-500"
+                                onclick="window.open(this.src, '_blank')">
+                        </div>
+                        <div class="absolute bottom-6 right-8 bg-slate-900/80 backdrop-blur-md text-white text-[10px] font-bold px-4 py-2 rounded-full uppercase tracking-widest border border-white/20">
+                            Ketuk untuk Memperbesar
+                        </div>
+                    </div>
+                </div>
+            @endif
 
             <!-- Team Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 px-4">

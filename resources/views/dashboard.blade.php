@@ -552,7 +552,12 @@
                     <tbody class="divide-y divide-slate-100">
                         @foreach($data['desas'] as $d)
                             <tr class="hover:bg-slate-50/50 transition-colors">
-                                <td class="px-6 py-4 font-bold text-slate-800">{{ $d->nama_desa }}</td>
+                                <td class="px-6 py-4 font-bold text-slate-800">
+                                    <span class="text-[10px] font-black {{ $d->jenis === 'kelurahan' ? 'text-amber-600 bg-amber-50' : 'text-slate-400 bg-slate-50' }} px-1.5 py-0.5 rounded mr-1">
+                                        {{ strtoupper($d->jenis) }}
+                                    </span>
+                                    {{ $d->nama_desa }}
+                                </td>
                                 <td class="px-6 py-4 text-slate-500">{{ $d->kecamatan }}</td>
                                 <td class="px-6 py-4"><span
                                         class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-[10px] font-black">{{ $d->laporans_count ?? 0 }}

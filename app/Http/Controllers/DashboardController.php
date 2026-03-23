@@ -55,7 +55,7 @@ class DashboardController extends Controller
             $data['desas'] = (clone $desaQuery)->withCount('laporans')
                 ->orderByRaw("CASE WHEN kecamatan = 'Borong' THEN 0 ELSE 1 END")
                 ->orderBy('kecamatan', 'asc')
-                ->orderByRaw("CASE WHEN nama_desa LIKE 'Kelurahan%' THEN 0 ELSE 1 END")
+                ->orderByRaw("CASE WHEN jenis = 'kelurahan' THEN 0 ELSE 1 END")
                 ->orderBy('nama_desa', 'asc')
                 ->get();
         } else {
@@ -377,6 +377,7 @@ class DashboardController extends Controller
         $request->validate([
             'nama_kadis' => 'nullable|string|max:255',
             'foto_kadis' => 'nullable|image|max:5120',
+            'foto_struktur' => 'nullable|image|max:5120',
             'logo_website' => 'nullable|image|max:2048',
             'sambutan_judul' => 'nullable|string|max:255',
             'sambutan_teks' => 'nullable|string',
@@ -404,6 +405,10 @@ class DashboardController extends Controller
 
         if ($request->hasFile('foto_kadis')) {
             $data['foto_kadis'] = $request->file('foto_kadis')->store('dpmd-profile', 'public');
+        }
+
+        if ($request->hasFile('foto_struktur')) {
+            $data['foto_struktur'] = $request->file('foto_struktur')->store('dpmd-profile', 'public');
         }
 
         if ($request->hasFile('logo_website')) {

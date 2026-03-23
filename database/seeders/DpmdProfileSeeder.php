@@ -13,11 +13,11 @@ class DpmdProfileSeeder extends Seeder
     public function run(): void
     {
         \App\Models\DpmdProfile::updateOrCreate(['id' => 1], [
-            'nama_kadis' => 'Nama Kepala Dinas',
-            'sambutan_judul' => 'Membangun Desa, Sejahterakan Rakyat',
-            'sambutan_teks' => "Selamat datang di Portal SID Manggarai Timur. Kami berkomitmen untuk terus mendorong transparansi dan inovasi di setiap desa di Kabupaten Manggarai Timur.\n\nMelalui platform ini, kami mengintegrasikan keindahan pariwisata dengan akuntabilitas laporan desa, demi menciptakan pemerintahan desa yang mandiri dan berdaya saing.",
-            'visi' => 'Terwujudnya Desa yang Mandiri, Sejahtera, dan Berdaya Saing melalui Tata Kelola Pemerintahan yang Profesional.',
-            'misi' => "Pemberdayaan Ekonomi: Meningkatkan kapasitas Badan Usaha Milik Desa (BUMDes) dan potensi ekonomi lokal.\nModernisasi Layanan: Mendorong digitalisasi desa untuk efisiensi pelaporan dan pelayanan masyarakat.\nPengembangan Wisata: Optimasi potensi desa wisata sebagai lokomotif ekonomi baru di Manggarai Timur.",
+            'nama_kadis' => 'GASPAR NANGGAR, S.ST.',
+            'sambutan_judul' => 'MEMBANGUN DESA MEMBANGUN INDONESIA. DESA MAJU RAKYAT SEJAHTERA.',
+            'sambutan_teks' => "Selamat datang di Portal SID Manggarai Timur. Kami berkomitmen untuk terus mendorong transparansi dan inovasi di setiap desa di Kabupaten Manggarai Timur.\n\nBranding Dinas PMD: Desa Melayani dengan \"HEPI\" (HUMANIS, EDUKATIF, PROFESIONAL DAN INOVATIF). Melalui platform ini, kami mengintegrasikan tata kelola yang akuntabel demi menciptakan pemerintahan desa yang mandiri dan berdaya saing.",
+            'visi' => 'Manggarai Timur Maju, Sejahtera, Berbudaya dan Berkelanjutan (MAMA SEBER)',
+            'misi' => "Mewujudkan Sumber Daya Manusia Manggarai Timur yang maju dan berkualitas serta adaptif terhadap perkembangan ilmu pengetahuan dan teknologi.\nPenguatan ekonomi kerakyatan yang berbasis potensi daerah dan kearifan lokal untuk pertumbuhan ekonomi inklusif guna mewujudkan pusat pusat pertumbuhan ekonomi baru yang produktif.\nMelanjutkan pembangunan infrastruktur dasar yang berwawasan lingkungan yang merata di berbagai sektor untuk mendorong kesinambungan pembangunan.\nMemperkuat desa membangun menuju desa sebagai basis penghidupan dan kehidupan masyarakat secara berkelanjutan serta menjadikan desa sebagai entitas yang mandiri.\nMewujudkan pembangunan yang dilandasi budaya dan kesetaraan gender serta penguatan peran perempuan dan perlindungan anak.\nMewujudkan tata kelola pemerintahan dan pelayanan publik yang beritegritas, transparan dan reponsif.",
             'nama_sekretaris' => 'Sekretaris Dinas',
             'nama_kabid_pemberdayaan' => 'Bidang Pemberdayaan',
             'nama_kabid_pemerintahan' => 'Bidang Pemerintahan',

@@ -36,6 +36,21 @@
                             Kepala Dinas</p>
                     </div>
 
+                    <div class="md:col-span-2">
+                        <label for="foto_struktur"
+                            class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 transition-colors">Foto Bagan Struktur Organisasi (Opsional)</label>
+                        <input type="file" name="foto_struktur" id="foto_struktur"
+                            onchange="showFileName(this, 'struktur-photo-name')"
+                            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 dark:file:bg-blue-900/30 file:text-blue-700 dark:file:text-blue-400 hover:file:bg-blue-100 dark:hover:file:bg-blue-900/50 transition-all outline-none dark:text-slate-300">
+                        <p class="text-[10px] text-slate-400 mt-2 font-bold italic" id="struktur-photo-name">
+                            @if($profile->foto_struktur)
+                                <span class="text-emerald-600">Terunggah: {{ basename($profile->foto_struktur) }}</span> (Pilih lagi untuk mengganti)
+                            @else
+                                Pilih foto bagan struktur organisasi
+                            @endif
+                        </p>
+                    </div>
+
                     <div
                         class="md:col-span-2 space-y-6 pt-6 border-t border-slate-100 dark:border-slate-700 transition-colors">
                         <div class="space-y-6">
@@ -50,7 +65,7 @@
                                 <input type="text" name="sambutan_judul" id="sambutan_judul"
                                     value="{{ old('sambutan_judul', $profile->sambutan_judul) }}"
                                     class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-emerald-500 outline-none dark:text-white transition-all"
-                                    placeholder="Contoh: Membangun Desa, Sejahteraan Rakyat">
+                                    placeholder="Contoh: MEMBANGUN DESA MEMBANGUN INDONESIA. DESA MAJU RAKYAT SEJAHTERA.">
                             </div>
                             <div>
                                 <label for="sambutan_teks"
@@ -64,19 +79,18 @@
                         <div class="pt-6 border-t border-slate-100 dark:border-slate-700 space-y-6 transition-colors">
                             <h4
                                 class="text-sm font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center gap-2 transition-colors">
-                                Visi & Misi Instansi
+                                Visi & Misi Bupati & Wakil Bupati
                             </h4>
                             <div>
                                 <label for="visi"
-                                    class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 transition-colors">Visi</label>
+                                    class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 transition-colors">Visi (Bupati & Wakil Bupati)</label>
                                 <textarea name="visi" id="visi" rows="3"
                                     class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-emerald-500 outline-none dark:text-white transition-all">{{ old('visi', $profile->visi) }}</textarea>
                             </div>
                             <div>
                                 <label for="misi"
-                                    class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 transition-colors">Misi
-                                    (Gunakan
-                                    baris baru untuk setiap poin)</label>
+                                    class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 transition-colors">Misi (Bupati & Wakil Bupati) - Gunakan
+                                    baris baru untuk setiap poin</label>
                                 <textarea name="misi" id="misi" rows="6"
                                     class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-emerald-500 outline-none dark:text-white transition-all">{{ old('misi', $profile->misi) }}</textarea>
                             </div>
