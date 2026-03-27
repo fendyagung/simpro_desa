@@ -85,6 +85,14 @@ Route::middleware(['auth'])->prefix('dashboard/dpmd/desa')->name('dashboard.dpmd
     Route::delete('/{id}', [\App\Http\Controllers\Dashboard\DesaManagementController::class, 'destroy'])->name('destroy');
 });
 
+// Kecamatan Management for DPMD
+Route::middleware(['auth'])->prefix('dashboard/dpmd/kecamatan')->name('dashboard.dpmd.kecamatan.')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Dashboard\KecamatanManagementController::class, 'index'])->name('index');
+    Route::post('/store', [\App\Http\Controllers\Dashboard\KecamatanManagementController::class, 'store'])->name('store');
+    Route::post('/{id}/update', [\App\Http\Controllers\Dashboard\KecamatanManagementController::class, 'update'])->name('update');
+    Route::delete('/{id}', [\App\Http\Controllers\Dashboard\KecamatanManagementController::class, 'destroy'])->name('destroy');
+});
+
 // Public Pages Routes
 Route::prefix('jelajah')->group(function () {
     Route::get('/desa-wisata', [App\Http\Controllers\Public\DesaController::class, 'desaWisata'])->name('public.desa-wisata');

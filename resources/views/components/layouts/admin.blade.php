@@ -603,6 +603,12 @@
                     <span class="ni-icon">🏘️</span> Data {{ $user->role === 'admin_kecamatan' ? 'Desa Kecamatan' : 'Seluruh Desa' }}
                 </a>
                 @if($user->role === 'admin_dpmd')
+                    <a href="{{ route('dashboard.dpmd.kecamatan.index') }}"
+                        class="nav-item {{ Request::is('dashboard/dpmd/kecamatan*') ? 'active' : '' }}">
+                        <span class="ni-icon">📍</span> Data Kecamatan
+                    </a>
+                @endif
+                @if($user->role === 'admin_dpmd')
                     <a href="{{ route('pengumuman.index') }}"
                         class="nav-item {{ Request::is('dashboard/pengumuman*') ? 'active' : '' }}">
                         <span class="ni-icon">📢</span> Berita Utama
