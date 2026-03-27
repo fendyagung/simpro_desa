@@ -388,16 +388,13 @@ class DashboardController extends Controller
 
         $request->validate([
             'nama_kadis' => 'nullable|string|max:255',
+            'foto_kadis' => 'nullable|image|max:5120',
             'foto_struktur' => 'nullable|image|max:5120',
             'logo_website' => 'nullable|image|max:2048',
             'sambutan_judul' => 'nullable|string|max:255',
             'sambutan_teks' => 'nullable|string',
             'visi' => 'nullable|string',
             'misi' => 'nullable|string',
-            'nama_sekretaris' => 'nullable|string|max:255',
-            'nama_kabid_pemberdayaan' => 'nullable|string|max:255',
-            'nama_kabid_pemerintahan' => 'nullable|string|max:255',
-            'nama_kabid_ekonomi' => 'nullable|string|max:255',
             'stat_total_desa' => 'nullable|integer',
             'stat_desa_wisata' => 'nullable|integer',
             'stat_spot_wisata' => 'nullable|integer',
@@ -412,7 +409,11 @@ class DashboardController extends Controller
         ]);
 
 
-        $data = $request->except(['gallery_photos', 'gallery_videos']);
+        $data = $request->except(['gallery_photos', 'gallery_videos', 'nama_sekretaris', 'nama_kabid_pemberdayaan', 'nama_kabid_pemerintahan', 'nama_kabid_ekonomi']);
+
+        if ($request->hasFile('foto_kadis')) {
+            $data['foto_kadis'] = $request->file('foto_kadis')->store('dpmd-profile', 'public');
+        }
 
         if ($request->hasFile('foto_struktur')) {
             $data['foto_struktur'] = $request->file('foto_struktur')->store('dpmd-profile', 'public');

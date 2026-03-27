@@ -24,7 +24,22 @@
                         <input type="text" name="nama_kadis" id="nama_kadis"
                             value="{{ old('nama_kadis', $profile->nama_kadis) }}"
                             class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-emerald-500 outline-none dark:text-white transition-all">
-                    </div>                    <div class="md:col-span-2">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label for="foto_kadis"
+                            class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 transition-colors">Foto Resmi Kepala Dinas</label>
+                        <input type="file" name="foto_kadis" id="foto_kadis"
+                            onchange="showFileName(this, 'kadis-photo-name')"
+                            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 dark:file:bg-emerald-900/30 file:text-emerald-700 dark:file:text-emerald-400 hover:file:bg-emerald-100 dark:hover:file:bg-emerald-900/50 transition-all outline-none dark:text-slate-300">
+                        <p class="text-[10px] text-slate-400 mt-2 font-bold italic" id="kadis-photo-name">
+                            @if($profile->foto_kadis)
+                                <span class="text-emerald-600">Terunggah: {{ basename($profile->foto_kadis) }}</span> (Pilih lagi untuk mengganti)
+                            @else
+                                Pilih foto resmi Kepala Dinas (Format: JPG, PNG. Rekomendasi 4:5)
+                            @endif
+                        </p>
+                    </div>
+                    <div class="md:col-span-2">
                         <label for="foto_struktur"
                             class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 transition-colors">Foto Bagan Struktur Organisasi (Opsional)</label>
                         <input type="file" name="foto_struktur" id="foto_struktur"
@@ -228,25 +243,25 @@
                 </h3>
                 <div class="grid grid-cols-2 md:grid-cols-5 gap-8">
                     <div>
-                        <label for="stat_total_desa" class="block text-sm font-semibold text-slate-700 mb-2">Total
-                            Desa/Kelurahan</label>
-                        <input type="number" name="stat_total_desa" id="stat_total_desa"
-                            value="{{ old('stat_total_desa', $profile->stat_total_desa) }}"
-                            class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none">
+                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Total Desa/Kelurahan (Sistem)</label>
+                        <div class="px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-bold text-slate-600 dark:text-slate-400">
+                            {{ \App\Models\Desa::count() }}
+                        </div>
+                        <input type="hidden" name="stat_total_desa" value="{{ \App\Models\Desa::count() }}">
                     </div>
                     <div>
-                        <label for="stat_kecamatan"
-                            class="block text-sm font-semibold text-slate-700 mb-2">Kecamatan</label>
-                        <input type="number" name="stat_kecamatan" id="stat_kecamatan"
-                            value="{{ old('stat_kecamatan', $profile->stat_kecamatan) }}"
-                            class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none">
+                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Kecamatan (Sistem)</label>
+                        <div class="px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-bold text-slate-600 dark:text-slate-400">
+                            {{ \App\Models\Kecamatan::count() }}
+                        </div>
+                        <input type="hidden" name="stat_kecamatan" value="{{ \App\Models\Kecamatan::count() }}">
                     </div>
                     <div>
-                        <label for="stat_desa_wisata" class="block text-sm font-semibold text-slate-700 mb-2">Desa
-                            Wisata</label>
-                        <input type="number" name="stat_desa_wisata" id="stat_desa_wisata"
-                            value="{{ old('stat_desa_wisata', $profile->stat_desa_wisata) }}"
-                            class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none">
+                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Desa Wisata (Sistem)</label>
+                        <div class="px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-bold text-slate-600 dark:text-slate-400">
+                            {{ \App\Models\Desa::where('is_desa_wisata', true)->count() }}
+                        </div>
+                        <input type="hidden" name="stat_desa_wisata" value="{{ \App\Models\Desa::where('is_desa_wisata', true)->count() }}">
                     </div>
                     <div>
                         <label for="stat_spot_wisata" class="block text-sm font-semibold text-slate-700 mb-2">Spot

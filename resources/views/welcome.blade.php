@@ -3,9 +3,12 @@
 
     // Dynamic Stats
     // Dynamic Stats (Prioritaskan hitungan sistem jika input manual kosong/0)
-    $totalDesa = ($dpmdProfile->stat_total_desa > 0) ? $dpmdProfile->stat_total_desa : \App\Models\Desa::count();
-    $totalKecamatan = ($dpmdProfile->stat_kecamatan > 0) ? $dpmdProfile->stat_kecamatan : \DB::table('kecamatans')->count();
-    $desaWisataCount = ($dpmdProfile->stat_desa_wisata > 0) ? $dpmdProfile->stat_desa_wisata : \App\Models\Desa::where('is_desa_wisata', true)->count();
+-     $totalDesa = ($dpmdProfile->stat_total_desa > 0) ? $dpmdProfile->stat_total_desa : \App\Models\Desa::count();
+-     $totalKecamatan = ($dpmdProfile->stat_kecamatan > 0) ? $dpmdProfile->stat_kecamatan : \DB::table('kecamatans')->count();
++     $totalDesa = \App\Models\Desa::count();
++     $totalKecamatan = \App\Models\Kecamatan::count();
+-     $desaWisataCount = ($dpmdProfile->stat_desa_wisata > 0) ? $dpmdProfile->stat_desa_wisata : \App\Models\Desa::where('is_desa_wisata', true)->count();
++     $desaWisataCount = \App\Models\Desa::where('is_desa_wisata', true)->count();
     $spotWisataCount = $dpmdProfile->stat_spot_wisata ?? 0;
     $wisatawanCount = $dpmdProfile->stat_wisatawan ?? '0';
 
@@ -949,36 +952,6 @@
         </div>
     </section>
 
-    <!-- CTA SECTION -->
-    <section class="py-24 text-center relative overflow-hidden"
-        style="background: linear-gradient(135deg, #059669 0%, #064e3b 100%);">
-        <div class="absolute inset-0 opacity-20 pointer-events-none">
-            <div
-                class="absolute top-0 left-0 w-64 h-64 bg-white/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2">
-            </div>
-            <div
-                class="absolute bottom-0 right-0 w-96 h-96 bg-[#d97706]/20 rounded-full blur-3xl translate-x-1/2 translate-y-1/2">
-            </div>
-        </div>
-
-        <div class="relative z-10 max-w-2xl mx-auto px-6">
-            <h2 class="text-4xl font-black text-white font-serif">Siap Menggunakan <span style="color: #f59e0b;">Sistem
-                    Ini?</span></h2>
-            <p class="text-white/80 mt-6 text-lg leading-relaxed">Login sekarang untuk mengakses dashboard pelaporan
-                desa Anda atau pantau perkembangan seluruh desa se-Kabupaten Manggarai Timur.</p>
-            <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="{{ route('login') }}" style="background-color: #d97706; color: #ffffff;"
-                    class="px-10 py-4 font-black uppercase tracking-widest rounded-xl shadow-2xl transition-all">🏘️
-                    Login Admin Desa</a>
-                <a href="{{ route('login') }}"
-                    style="background-color: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); color: #ffffff;"
-                    class="px-10 py-4 font-black uppercase tracking-widest rounded-xl hover:bg-white/20 transition-all">🏛️
-                    Login Admin DMPD</a>
-            </div>
-            <div class="mt-12 text-[10px] text-white/40 uppercase tracking-[0.2em]">Pusat Bantuan:
-                dmpd@manggaraitimur.go.id</div>
-        </div>
-    </section>
 
     <script>
         // Scroll reveal animation
